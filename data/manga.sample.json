@@ -1,0 +1,83 @@
+[
+  {
+    "id": "one-piece",
+    "title": "One Piece",
+    "author": "Eiichiro Oda",
+    "genres": ["Action", "Adventure", "Shounen"],
+    "status": "ongoing",
+    "total_chapters": 1112,
+    "description": "A young pirate sets out to become the Pirate King and find the legendary treasure known as One Piece.",
+    "cover_url": "https://example.com/covers/one-piece.jpg"
+  },
+  {
+    "id": "naruto",
+    "title": "Naruto",
+    "author": "Masashi Kishimoto",
+    "genres": ["Action", "Adventure", "Shounen"],
+    "status": "completed",
+    "total_chapters": 700,
+    "description": "A loud but determined ninja dreams of becoming Hokage and earning his village's respect.",
+    "cover_url": "https://example.com/covers/naruto.jpg"
+  },
+  {
+    "id": "bleach",
+    "title": "Bleach",
+    "author": "Tite Kubo",
+    "genres": ["Action", "Supernatural", "Shounen"],
+    "status": "completed",
+    "total_chapters": 686,
+    "description": "Ichigo Kurosaki gains Soul Reaper powers and is drawn into a hidden world of spirits and battles.",
+    "cover_url": "https://example.com/covers/bleach.jpg"
+  },
+  {
+    "id": "berserk",
+    "title": "Berserk",
+    "author": "Kentaro Miura",
+    "genres": ["Dark Fantasy", "Action", "Seinen"],
+    "status": "ongoing",
+    "total_chapters": 376,
+    "description": "A wandering swordsman fights through a brutal world shaped by ambition, tragedy, and fate.",
+    "cover_url": "https://example.com/covers/berserk.jpg"
+  },
+  {
+    "id": "monster",
+    "title": "Monster",
+    "author": "Naoki Urasawa",
+    "genres": ["Mystery", "Psychological", "Seinen"],
+    "status": "completed",
+    "total_chapters": 162,
+    "description": "A brilliant surgeon faces the consequences of saving a boy who grows into a terrifying serial killer.",
+    "cover_url": "https://example.com/covers/monster.jpg"
+  },
+  {
+    "id": "nana",
+    "title": "Nana",
+    "author": "Ai Yazawa",
+    "genres": ["Drama", "Romance", "Josei"],
+    "status": "hiatus",
+    "total_chapters": 84,
+    "description": "Two women named Nana build a complex friendship while navigating love, music, and adulthood.",
+    "cover_url": "https://example.com/covers/nana.jpg"
+  },
+  {
+    "id": "fruits-basket",
+    "title": "Fruits Basket",
+    "author": "Natsuki Takaya",
+    "genres": ["Romance", "Drama", "Shoujo"],
+    "status": "completed",
+    "total_chapters": 136,
+    "description": "A kind-hearted girl becomes involved with a family carrying a supernatural zodiac curse.",
+    "cover_url": "https://example.com/covers/fruits-basket.jpg"
+  },
+  {
+    "id": "yona-of-the-dawn",
+    "title": "Yona of the Dawn",
+    "author": "Mizuho Kusanagi",
+    "genres": ["Adventure", "Fantasy", "Shoujo"],
+    "status": "ongoing",
+    "total_chapters": 260,
+    "description": "A sheltered princess is forced to grow into a determined leader after losing her kingdom overnight.",
+    "cover_url": "https://example.com/covers/yona-of-the-dawn.jpg"
+  }
+]
+
