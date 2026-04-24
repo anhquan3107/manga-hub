@@ -1,83 +1,2989 @@
 [
   {
-    "id": "one-piece",
-    "title": "One Piece",
-    "author": "Eiichiro Oda",
-    "genres": ["Action", "Adventure", "Shounen"],
+    "id": "jikan-3",
+    "title": "20th Century Boys",
+    "author": "Urasawa, Naoki",
+    "genres": [
+      "Award Winning",
+      "Drama",
+      "Mystery",
+      "Sci-Fi",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 249,
+    "description": "As the 20th century approaches its end, people all over the world are anxious that the world is changing. And probably not for the better.\n\nKenji Endou is a normal convenience store manager who is just trying to get by. But when he learns that one of his old friends going by t...",
+    "cover_url": ""
+  },
+  {
+    "id": "20th-century-boys",
+    "title": "20th Century Boys",
+    "author": "Naoki Urasawa",
+    "genres": [
+      "Mystery",
+      "Sci-Fi",
+      "Thriller",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 249,
+    "description": "20th Century Boys is a popular Seinen manga series by Naoki Urasawa.",
+    "cover_url": "https://example.com/covers/20th-century-boys.jpg"
+  },
+  {
+    "id": "jikan-103851",
+    "title": "5-toubun no Hanayome",
+    "author": "Haruba, Negi",
+    "genres": [
+      "Award Winning",
+      "Comedy",
+      "Romance",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 122,
+    "description": "Considered a genius, high school student Fuutarou Uesugi excels at studying and obtains a perfect score on every test. Due to his intense focus in that regard, he is a reclusive person with no friends. Additionally, he lives in a tight financial state as a result of family deb...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-126146",
+    "title": "[Oshi no Ko]",
+    "author": "Akasaka, Aka",
+    "genres": [
+      "Drama",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 168,
+    "description": "Sixteen-year-old Ai Hoshino is a talented and beautiful idol who is adored by her fans. She is the personification of a pure, young maiden. But all that glitters is not gold.\n\nGorou Amemiya is a countryside gynecologist and a big fan of Ai. So when the pregnant idol shows up a...",
+    "cover_url": ""
+  },
+  {
+    "id": "a-sign-of-affection",
+    "title": "A Sign of Affection",
+    "author": "Suu Morishita",
+    "genres": [
+      "Romance",
+      "Slice of Life",
+      "Drama",
+      "Shoujo"
+    ],
     "status": "ongoing",
-    "total_chapters": 1112,
-    "description": "A young pirate sets out to become the Pirate King and find the legendary treasure known as One Piece.",
-    "cover_url": "https://example.com/covers/one-piece.jpg"
+    "total_chapters": 50,
+    "description": "A Sign of Affection is a popular Shoujo manga series by Suu Morishita.",
+    "cover_url": "https://example.com/covers/a-sign-of-affection.jpg"
   },
   {
-    "id": "naruto",
-    "title": "Naruto",
-    "author": "Masashi Kishimoto",
-    "genres": ["Action", "Adventure", "Shounen"],
-    "status": "completed",
-    "total_chapters": 700,
-    "description": "A loud but determined ninja dreams of becoming Hokage and earning his village's respect.",
-    "cover_url": "https://example.com/covers/naruto.jpg"
+    "id": "jikan-49865",
+    "title": "Ajin",
+    "author": "Sakurai, Gamon",
+    "genres": [
+      "Action",
+      "Horror",
+      "Mystery",
+      "Supernatural",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 84,
+    "description": "Seventeen years ago, mysterious immortal soldiers known as divine warriors appeared on the battlefields of Africa. These life forms later became known as Ajin, or demi-humans, and were considered to be one of the greatest discoveries of mankind. The government declared their e...",
+    "cover_url": ""
   },
   {
-    "id": "bleach",
-    "title": "Bleach",
-    "author": "Tite Kubo",
-    "genres": ["Action", "Supernatural", "Shounen"],
+    "id": "ajin-demi-human",
+    "title": "Ajin: Demi-Human",
+    "author": "Gamon Sakurai",
+    "genres": [
+      "Action",
+      "Horror",
+      "Supernatural",
+      "Seinen"
+    ],
     "status": "completed",
-    "total_chapters": 686,
-    "description": "Ichigo Kurosaki gains Soul Reaper powers and is drawn into a hidden world of spirits and battles.",
-    "cover_url": "https://example.com/covers/bleach.jpg"
+    "total_chapters": 86,
+    "description": "Ajin: Demi-Human is a popular Seinen manga series by Gamon Sakurai.",
+    "cover_url": "https://example.com/covers/ajin-demi-human.jpg"
+  },
+  {
+    "id": "jikan-25132",
+    "title": "Akame ga Kill!",
+    "author": "Tashiro, Tetsuya",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 80,
+    "description": "The ruthless Minister Honest exploits the ignorance of a new young Emperor and deviously rules the country from the shadows with twisted morals and no regard for human life. As a result of this, an epidemic of crime and corruption has spread throughout the country's capital ci...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-21525",
+    "title": "Akatsuki no Yona",
+    "author": "Kusanagi, Mizuho",
+    "genres": [
+      "Adventure",
+      "Fantasy",
+      "Romance",
+      "Shoujo"
+    ],
+    "status": "finished",
+    "total_chapters": 292,
+    "description": "Once upon a time, the kingdom of Kouka was ruled by a red dragon in human form. By his side, four warriors imbued with dragon blood helped him lead the kingdom to prosperity. Time passed, and this tale became a legend to tell children.\n\nAs the sole princess of Kouka, Yona live...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-664",
+    "title": "Akira",
+    "author": "Otomo, Katsuhiro",
+    "genres": [
+      "Action",
+      "Award Winning",
+      "Sci-Fi",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 120,
+    "description": "1988: It is World War III. Tokyo is decimated by a mysterious black explosion, unmatched in magnitude.\n\n2019: Fast forward 31 years. Neo-Tokyo, hastily built on the ruins of old Tokyo, is a sprawling cityscape of neon extravaganza. It is a fusion of towering skyscrapers and cu...",
+    "cover_url": ""
+  },
+  {
+    "id": "akira",
+    "title": "Akira",
+    "author": "Katsuhiro Otomo",
+    "genres": [
+      "Sci-Fi",
+      "Action",
+      "Cyberpunk",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 120,
+    "description": "Akira is a popular Seinen manga series by Katsuhiro Otomo.",
+    "cover_url": "https://example.com/covers/akira.jpg"
+  },
+  {
+    "id": "jikan-24705",
+    "title": "Aku no Hana",
+    "author": "Oshimi, Shuuzou",
+    "genres": [
+      "Drama",
+      "Romance",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 58,
+    "description": "Takao Kasuga is an unsociable middle school student who bears a love for books—in particular, Charles Baudelaire's Les Fleurs du Mal. He also has a crush on his class' idol, the sweet Nanako Saeki. In stark contrast to her, Sawa Nakamura is an insolent and unpleasant girl wh...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-62887",
+    "title": "All You Need Is Kill",
+    "author": "Obata, Takeshi",
+    "genres": [
+      "Action",
+      "Sci-Fi",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 17,
+    "description": "Strange creatures known as \"Mimics\" have invaded Earth, sparking a global war that has humanity fighting for survival. In response, mankind forms the United Defense Force, a joint organization whose purpose is to overcome this new threat. Dedicated to the extermination of the ...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-39883",
+    "title": "Ansatsu Kyoushitsu",
+    "author": "Matsui, Yuusei",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 187,
+    "description": "In the blink of an eye, the night sky is forever changed when, with a great explosion, the moon is blasted into a permanent crescent. Confronting the governments of the world, a yellow tentacled monster boasts that it was the one responsible for the catastrophe, and in a year'...",
+    "cover_url": ""
+  },
+  {
+    "id": "ao-haru-ride",
+    "title": "Ao Haru Ride",
+    "author": "Io Sakisaka",
+    "genres": [
+      "Romance",
+      "School",
+      "Drama",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 53,
+    "description": "Ao Haru Ride is a popular Shoujo manga series by Io Sakisaka.",
+    "cover_url": "https://example.com/covers/ao-haru-ride.jpg"
+  },
+  {
+    "id": "jikan-24294",
+    "title": "Ao Haru Ride",
+    "author": "Sakisaka, Io",
+    "genres": [
+      "Romance",
+      "Shoujo"
+    ],
+    "status": "finished",
+    "total_chapters": 53,
+    "description": "While most girls desire popularity among boys, Futaba Yoshioka wants the exact opposite. After attracting many admirers back in middle school which resulted in her being shunned by her female classmates, she decided that high school will be her chance to revamp her image. Ther...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-13492",
+    "title": "Ao no Exorcist",
+    "author": "Katou, Kazue",
+    "genres": [
+      "Action",
+      "Supernatural",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "After a fight with his foster father Shirou Fujimoto, Rin Okumura's life is transformed overnight when Rin is revealed to be the son of the demon lord Satan, king of the demonic realm of Gehenna. Soon after, his foster father becomes possessed and dies at the hands of Satan, l...",
+    "cover_url": ""
+  },
+  {
+    "id": "assassination-classroom",
+    "title": "Assassination Classroom",
+    "author": "Yusei Matsui",
+    "genres": [
+      "Action",
+      "Comedy",
+      "School",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 180,
+    "description": "Assassination Classroom is a popular Shounen manga series by Yusei Matsui.",
+    "cover_url": "https://example.com/covers/assassination-classroom.jpg"
+  },
+  {
+    "id": "attack-on-titan",
+    "title": "Attack on Titan",
+    "author": "Hajime Isayama",
+    "genres": [
+      "Action",
+      "Drama",
+      "Dark Fantasy",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 139,
+    "description": "Attack on Titan is a popular Shounen manga series by Hajime Isayama.",
+    "cover_url": "https://example.com/covers/attack-on-titan.jpg"
+  },
+  {
+    "id": "jikan-9711",
+    "title": "Bakuman.",
+    "author": "Obata, Takeshi",
+    "genres": [
+      "Comedy",
+      "Drama",
+      "Romance",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 176,
+    "description": "Despite being a talented artist, middle school student Moritaka Mashiro is unsure about his future, accepting that he will simply lead a normal life. After seeing one of Mashiro's drawings in class, Akito Takagi—an aspiring writer—insists that they write a manga together. ...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-111213",
+    "title": "Bastard",
+    "author": "Kim, Carnby",
+    "genres": [
+      "Drama",
+      "Horror",
+      "Mystery",
+      "Romance"
+    ],
+    "status": "finished",
+    "total_chapters": 94,
+    "description": "There is nowhere that Seon Jin can find solace. At school, he is ruthlessly bullied due to his unsettlingly quiet nature and weak appearance. However, this is not the source of Jin's insurmountable terror: the thing that he fears more than anything else is his own father.\n\nTo ...",
+    "cover_url": ""
+  },
+  {
+    "id": "beauty-pop",
+    "title": "Beauty Pop",
+    "author": "Kiyoko Arai",
+    "genres": [
+      "Comedy",
+      "School",
+      "Romance",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 57,
+    "description": "Beauty Pop is a popular Shoujo manga series by Kiyoko Arai.",
+    "cover_url": "https://example.com/covers/beauty-pop.jpg"
   },
   {
     "id": "berserk",
     "title": "Berserk",
     "author": "Kentaro Miura",
-    "genres": ["Dark Fantasy", "Action", "Seinen"],
+    "genres": [
+      "Dark Fantasy",
+      "Action",
+      "Drama",
+      "Seinen"
+    ],
     "status": "ongoing",
     "total_chapters": 376,
-    "description": "A wandering swordsman fights through a brutal world shaped by ambition, tragedy, and fate.",
+    "description": "Berserk is a popular Seinen manga series by Kentaro Miura.",
     "cover_url": "https://example.com/covers/berserk.jpg"
   },
   {
-    "id": "monster",
-    "title": "Monster",
-    "author": "Naoki Urasawa",
-    "genres": ["Mystery", "Psychological", "Seinen"],
-    "status": "completed",
-    "total_chapters": 162,
-    "description": "A brilliant surgeon faces the consequences of saving a boy who grows into a terrifying serial killer.",
-    "cover_url": "https://example.com/covers/monster.jpg"
+    "id": "jikan-2",
+    "title": "Berserk",
+    "author": "Miura, Kentarou",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Award Winning",
+      "Drama",
+      "Fantasy",
+      "Horror",
+      "Seinen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Guts, a former mercenary now known as the Black Swordsman, is out for revenge. After a tumultuous childhood, he finally finds someone he respects and believes he can trust, only to have everything fall apart when this person takes away everything important to Guts for the purp...",
+    "cover_url": ""
   },
   {
-    "id": "nana",
-    "title": "Nana",
-    "author": "Ai Yazawa",
-    "genres": ["Drama", "Romance", "Josei"],
-    "status": "hiatus",
-    "total_chapters": 84,
-    "description": "Two women named Nana build a complex friendship while navigating love, music, and adulthood.",
-    "cover_url": "https://example.com/covers/nana.jpg"
+    "id": "jikan-86337",
+    "title": "Black Clover",
+    "author": "Tabata, Yuuki",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "In a world full of magic, Asta—an orphan who is overly loud and energetic—possesses none whatsoever. Despite this, he dreams of becoming the Wizard King, a title bestowed upon the strongest mage in the Clover Kingdom. Possessing the same aspiration, Asta's childhood friend...",
+    "cover_url": ""
+  },
+  {
+    "id": "black-clover",
+    "title": "Black Clover",
+    "author": "Yuki Tabata",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Magic",
+      "Shounen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 370,
+    "description": "Black Clover is a popular Shounen manga series by Yuki Tabata.",
+    "cover_url": "https://example.com/covers/black-clover.jpg"
+  },
+  {
+    "id": "blame",
+    "title": "Blame!",
+    "author": "Tsutomu Nihei",
+    "genres": [
+      "Sci-Fi",
+      "Cyberpunk",
+      "Action",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 66,
+    "description": "Blame! is a popular Seinen manga series by Tsutomu Nihei.",
+    "cover_url": "https://example.com/covers/blame.jpg"
+  },
+  {
+    "id": "jikan-149",
+    "title": "Blame!",
+    "author": "Nihei, Tsutomu",
+    "genres": [
+      "Action",
+      "Drama",
+      "Horror",
+      "Sci-Fi",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 66,
+    "description": "In an enormous steel labyrinth riddled with horrifying creatures, humanity is forced to isolate itself in small enclaves while living in constant fear of its annihilation. In this dystopia, only a strange young man known as Killy is brave enough to traverse its unforgiving ter...",
+    "cover_url": ""
+  },
+  {
+    "id": "blank-canvas",
+    "title": "Blank Canvas",
+    "author": "Akiko Higashimura",
+    "genres": [
+      "Biography",
+      "Drama",
+      "Slice of Life",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 40,
+    "description": "Blank Canvas is a popular Josei manga series by Akiko Higashimura.",
+    "cover_url": "https://example.com/covers/blank-canvas.jpg"
+  },
+  {
+    "id": "bleach",
+    "title": "Bleach",
+    "author": "Tite Kubo",
+    "genres": [
+      "Action",
+      "Supernatural",
+      "Swordplay",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 686,
+    "description": "Bleach is a popular Shounen manga series by Tite Kubo.",
+    "cover_url": "https://example.com/covers/bleach.jpg"
+  },
+  {
+    "id": "jikan-12",
+    "title": "Bleach",
+    "author": "Kubo, Tite",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Award Winning",
+      "Supernatural",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 705,
+    "description": "For as long as he can remember, high school student Ichigo Kurosaki has been able to see the spirits of the dead, but that has not stopped him from leading an ordinary life. One day, Ichigo returns home to find an intruder in his room who introduces herself as Rukia Kuchiki, a...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-114745",
+    "title": "Blue Lock",
+    "author": "Kaneshiro, Muneyuki",
+    "genres": [
+      "Award Winning",
+      "Sports",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "After reflecting on the current state of Japanese soccer, the Japanese Football Association decides to hire the enigmatic and eccentric coach Jinpachi Ego to achieve their dream of winning the World Cup. Believing that Japan has lacked an egoistic striker hungry for goals, Jin...",
+    "cover_url": ""
+  },
+  {
+    "id": "blue-lock",
+    "title": "Blue Lock",
+    "author": "Muneyuki Kaneshiro",
+    "genres": [
+      "Sports",
+      "Psychological",
+      "Drama",
+      "Shounen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 300,
+    "description": "Blue Lock is a popular Shounen manga series by Muneyuki Kaneshiro.",
+    "cover_url": "https://example.com/covers/blue-lock.jpg"
+  },
+  {
+    "id": "jikan-107931",
+    "title": "Blue Period",
+    "author": "Yamaguchi, Tsubasa",
+    "genres": [
+      "Award Winning",
+      "Drama",
+      "Seinen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Second-year high school student Yatora Yaguchi is bored with his normal life. He studies well and plays around with his friends, but in truth, he does not enjoy either of those activities. Bound by norms, he secretly envies those who do things differently.\n\nThat is until he di...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-75989",
+    "title": "Boku no Hero Academia",
+    "author": "Horikoshi, Kouhei",
+    "genres": [
+      "Action",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 432,
+    "description": "One day, a four-year-old boy came to a sudden realization: the world is not fair. Eighty percent of the world's population wield special abilities, known as \"quirks,\" which have given many the power to make their childhood dreams of becoming a superhero a reality. Unfortunatel...",
+    "cover_url": ""
+  },
+  {
+    "id": "boys-over-flowers",
+    "title": "Boys Over Flowers",
+    "author": "Yoko Kamio",
+    "genres": [
+      "Romance",
+      "Drama",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 244,
+    "description": "Boys Over Flowers is a popular Shoujo manga series by Yoko Kamio.",
+    "cover_url": "https://example.com/covers/boys-over-flowers.jpg"
+  },
+  {
+    "id": "btooom",
+    "title": "Btooom!",
+    "author": "Junya Inoue",
+    "genres": [
+      "Action",
+      "Psychological",
+      "Survival",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 118,
+    "description": "Btooom! is a popular Seinen manga series by Junya Inoue.",
+    "cover_url": "https://example.com/covers/btooom.jpg"
+  },
+  {
+    "id": "cardcaptor-sakura",
+    "title": "Cardcaptor Sakura",
+    "author": "CLAMP",
+    "genres": [
+      "Fantasy",
+      "Romance",
+      "Magical Girl",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 50,
+    "description": "Cardcaptor Sakura is a popular Shoujo manga series by CLAMP.",
+    "cover_url": "https://example.com/covers/cardcaptor-sakura.jpg"
+  },
+  {
+    "id": "jikan-116778",
+    "title": "Chainsaw Man",
+    "author": "Fujimoto, Tatsuki",
+    "genres": [
+      "Action",
+      "Award Winning",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 0,
+    "description": "Denji has a simple dream—to live a happy and peaceful life, spending time with a girl he likes. This is a far cry from reality, however, as Denji is forced by the yakuza into killing devils in order to pay off his crushing debts. Using his pet devil Pochita as a weapon, he i...",
+    "cover_url": ""
+  },
+  {
+    "id": "chainsaw-man",
+    "title": "Chainsaw Man",
+    "author": "Tatsuki Fujimoto",
+    "genres": [
+      "Action",
+      "Horror",
+      "Dark Fantasy",
+      "Shounen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 190,
+    "description": "Chainsaw Man is a popular Shounen manga series by Tatsuki Fujimoto.",
+    "cover_url": "https://example.com/covers/chainsaw-man.jpg"
+  },
+  {
+    "id": "chihayafuru",
+    "title": "Chihayafuru",
+    "author": "Yuki Suetsugu",
+    "genres": [
+      "Drama",
+      "Sports",
+      "Romance",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 247,
+    "description": "Chihayafuru is a popular Josei manga series by Yuki Suetsugu.",
+    "cover_url": "https://example.com/covers/chihayafuru.jpg"
+  },
+  {
+    "id": "jikan-583",
+    "title": "Claymore",
+    "author": "Yagi, Norihiro",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Horror",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 159,
+    "description": "It is the Middle Ages, and the remnants of mankind are plagued by paranoia and death. Spoken in fearful whispers, the word \"Yoma\" cuts a clear image into the minds of all: monstrous beings with an insatiable hunger for human flesh. But fear of their gruesome appetite is dwarfe...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-24",
+    "title": "D.Gray-man",
+    "author": "Hoshino, Katsura",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Thousands of years ago, there existed those gifted with the power of God. Their mission: to destroy the ominous evils that lurk in the darkness known as \"Akuma.\" Led by the Milenium Earl, Akuma seek to destroy fragments of \"Innocence,\" the only weapons capable of harming the E...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-135496",
+    "title": "Dandadan",
+    "author": "Tatsu, Yukinobu",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Supernatural",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "After being aggressively rejected, Momo Ayase finds herself sulking when she stumbles across a boy being bullied. Saved by her rash kindness, the occult-obsessed boy attempts to speak to her about supernatural interests he believes they share. Rejecting his claims, Ayase procl...",
+    "cover_url": ""
+  },
+  {
+    "id": "dawn-of-the-arcana",
+    "title": "Dawn of the Arcana",
+    "author": "Rei Toma",
+    "genres": [
+      "Fantasy",
+      "Romance",
+      "Drama",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 53,
+    "description": "Dawn of the Arcana is a popular Shoujo manga series by Rei Toma.",
+    "cover_url": "https://example.com/covers/dawn-of-the-arcana.jpg"
+  },
+  {
+    "id": "jikan-3986",
+    "title": "Deadman Wonderland",
+    "author": "Kondou, Kazuma",
+    "genres": [
+      "Action",
+      "Sci-Fi",
+      "Supernatural",
+      "Suspense",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 58,
+    "description": "After a powerful earthquake nearly destroyed all of Tokyo, a prison known as Deadman Wonderland rose from what was left of the city. Privately-run through the guise and functions of a theme park, Deadman Wonderland takes in prisoners from all over Japan, using them as attracti...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-21",
+    "title": "Death Note",
+    "author": "Obata, Takeshi",
+    "genres": [
+      "Supernatural",
+      "Suspense",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 108,
+    "description": "Ryuk, a god of death, drops his Death Note into the human world for personal pleasure. In Japan, prodigious high school student Light Yagami stumbles upon it. Inside the notebook, he finds a chilling message: those whose names are written in it shall die. Its nonsensical natur...",
+    "cover_url": ""
+  },
+  {
+    "id": "demon-slayer",
+    "title": "Demon Slayer",
+    "author": "Koyoharu Gotouge",
+    "genres": [
+      "Action",
+      "Historical",
+      "Supernatural",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 205,
+    "description": "Demon Slayer is a popular Shounen manga series by Koyoharu Gotouge.",
+    "cover_url": "https://example.com/covers/demon-slayer.jpg"
+  },
+  {
+    "id": "dorohedoro",
+    "title": "Dorohedoro",
+    "author": "Q Hayashida",
+    "genres": [
+      "Dark Fantasy",
+      "Action",
+      "Comedy",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 190,
+    "description": "Dorohedoro is a popular Seinen manga series by Q Hayashida.",
+    "cover_url": "https://example.com/covers/dorohedoro.jpg"
+  },
+  {
+    "id": "jikan-1133",
+    "title": "Dorohedoro",
+    "author": "Hayashida, Q",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Fantasy",
+      "Horror",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 190,
+    "description": "Hole—a dark, decrepit, and disorderly district where the strong prey on the weak and death is an ordinary occurrence—is all but befitting of the name given to it. A realm separated from law and ethics, it is a testing ground to the magic users who dominate it. As a race oc...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-103897",
+    "title": "Dr. Stone",
+    "author": "Inagaki, Riichiro",
+    "genres": [
+      "Adventure",
+      "Award Winning",
+      "Suspense",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 237,
+    "description": "When a mysterious light suddenly engulfs Earth, humanity is left petrified, frozen in stone. Thousands of years later, the world is teeming with vegetation, and forests have taken the places of cities that once stood proudly. One of the very first to emerge from their stone pr...",
+    "cover_url": ""
+  },
+  {
+    "id": "dr-stone",
+    "title": "Dr. Stone",
+    "author": "Riichiro Inagaki",
+    "genres": [
+      "Sci-Fi",
+      "Adventure",
+      "Survival",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 232,
+    "description": "Dr. Stone is a popular Shounen manga series by Riichiro Inagaki.",
+    "cover_url": "https://example.com/covers/dr-stone.jpg"
+  },
+  {
+    "id": "jikan-42",
+    "title": "Dragon Ball",
+    "author": "Toriyama, Akira",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 520,
+    "description": "Bulma, a headstrong 16-year-old girl, is on a quest to find the mythical Dragon Balls—seven scattered magic orbs that grant the finder a single wish. She has but one desire in mind: a perfect boyfriend. On her journey, Bulma stumbles upon Gokuu Son, a powerful orphan who has...",
+    "cover_url": ""
+  },
+  {
+    "id": "dragon-ball",
+    "title": "Dragon Ball",
+    "author": "Akira Toriyama",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Martial Arts",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 519,
+    "description": "Dragon Ball is a popular Shounen manga series by Akira Toriyama.",
+    "cover_url": "https://example.com/covers/dragon-ball.jpg"
+  },
+  {
+    "id": "even-though-we-re-adults",
+    "title": "Even Though We're Adults",
+    "author": "Takako Shimura",
+    "genres": [
+      "Romance",
+      "Drama",
+      "Slice of Life",
+      "Josei"
+    ],
+    "status": "ongoing",
+    "total_chapters": 70,
+    "description": "Even Though We're Adults is a popular Josei manga series by Takako Shimura.",
+    "cover_url": "https://example.com/covers/even-though-we-re-adults.jpg"
+  },
+  {
+    "id": "jikan-598",
+    "title": "Fairy Tail",
+    "author": "Mashima, Hiro",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Award Winning",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 549,
+    "description": "In the mystical realm of Earth Land, magic exists at the core of everyday life for its inhabitants, from transportation to utilities and everything in between. However, even with all its benefits, magic can also be used for great evil; therefore, to prevent dark forces from up...",
+    "cover_url": ""
+  },
+  {
+    "id": "fairy-tail",
+    "title": "Fairy Tail",
+    "author": "Hiro Mashima",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Adventure",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 545,
+    "description": "Fairy Tail is a popular Shounen manga series by Hiro Mashima.",
+    "cover_url": "https://example.com/covers/fairy-tail.jpg"
+  },
+  {
+    "id": "fire-force",
+    "title": "Fire Force",
+    "author": "Atsushi Ohkubo",
+    "genres": [
+      "Action",
+      "Supernatural",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 304,
+    "description": "Fire Force is a popular Shounen manga series by Atsushi Ohkubo.",
+    "cover_url": "https://example.com/covers/fire-force.jpg"
+  },
+  {
+    "id": "jikan-98270",
+    "title": "Fire Punch",
+    "author": "Fujimoto, Tatsuki",
+    "genres": [
+      "Action",
+      "Mystery",
+      "Supernatural",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 83,
+    "description": "In a world ravaged by ice and snow, civilization is on the brink of collapse thanks to the elusive Ice Witch. Fighting against the cold has brought out the worst in humanity, leading to cults, violence, and the persecution of the Blessed—those born with supernatural powers.\n...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-102",
+    "title": "Fruits Basket",
+    "author": "Takaya, Natsuki",
+    "genres": [
+      "Award Winning",
+      "Drama",
+      "Romance",
+      "Supernatural",
+      "Shoujo"
+    ],
+    "status": "finished",
+    "total_chapters": 136,
+    "description": "Tooru Honda is an orphan with nowhere to go but a tent in the woods, until the Souma family takes her in. However, the Souma family is no ordinary family, and they hide a grave secret: when they are hugged by someone of the opposite gender, they turn into animals from the Chin...",
+    "cover_url": ""
   },
   {
     "id": "fruits-basket",
     "title": "Fruits Basket",
     "author": "Natsuki Takaya",
-    "genres": ["Romance", "Drama", "Shoujo"],
+    "genres": [
+      "Romance",
+      "Drama",
+      "Slice of Life",
+      "Shoujo"
+    ],
     "status": "completed",
     "total_chapters": 136,
-    "description": "A kind-hearted girl becomes involved with a family carrying a supernatural zodiac curse.",
+    "description": "Fruits Basket is a popular Shoujo manga series by Natsuki Takaya.",
     "cover_url": "https://example.com/covers/fruits-basket.jpg"
+  },
+  {
+    "id": "fullmetal-alchemist",
+    "title": "Fullmetal Alchemist",
+    "author": "Hiromu Arakawa",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Steampunk",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 116,
+    "description": "Fullmetal Alchemist is a popular Shounen manga series by Hiromu Arakawa.",
+    "cover_url": "https://example.com/covers/fullmetal-alchemist.jpg"
+  },
+  {
+    "id": "jikan-25",
+    "title": "Fullmetal Alchemist",
+    "author": "Arakawa, Hiromu",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Award Winning",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 116,
+    "description": "Alchemists are knowledgeable and naturally talented individuals who can manipulate and modify matter due to their art. Yet despite the wide range of possibilities, alchemy is not as all-powerful as most would believe. Human transmutation is strictly forbidden, and whoever atte...",
+    "cover_url": ""
+  },
+  {
+    "id": "fushigi-yuugi",
+    "title": "Fushigi Yuugi",
+    "author": "Yuu Watase",
+    "genres": [
+      "Fantasy",
+      "Romance",
+      "Adventure",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 113,
+    "description": "Fushigi Yuugi is a popular Shoujo manga series by Yuu Watase.",
+    "cover_url": "https://example.com/covers/fushigi-yuugi.jpg"
+  },
+  {
+    "id": "jikan-564",
+    "title": "Gantz",
+    "author": "Oku, Hiroya",
+    "genres": [
+      "Action",
+      "Drama",
+      "Horror",
+      "Sci-Fi",
+      "Supernatural",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 383,
+    "description": "Lonely high school student Kei Kurono isolates himself out of a growing cynicism toward his fellow man and the cruelty they are capable of enacting. One day, while waiting to take the subway to school, Kei's classmate Masaru Katou leaps onto the tracks in an effort to save a d...",
+    "cover_url": ""
+  },
+  {
+    "id": "gantz",
+    "title": "Gantz",
+    "author": "Hiroya Oku",
+    "genres": [
+      "Sci-Fi",
+      "Action",
+      "Horror",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 383,
+    "description": "Gantz is a popular Seinen manga series by Hiroya Oku.",
+    "cover_url": "https://example.com/covers/gantz.jpg"
+  },
+  {
+    "id": "ghost-in-the-shell",
+    "title": "Ghost in the Shell",
+    "author": "Masamune Shirow",
+    "genres": [
+      "Sci-Fi",
+      "Cyberpunk",
+      "Action",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 70,
+    "description": "Ghost in the Shell is a popular Seinen manga series by Masamune Shirow.",
+    "cover_url": "https://example.com/covers/ghost-in-the-shell.jpg"
+  },
+  {
+    "id": "gintama",
+    "title": "Gintama",
+    "author": "Hideaki Sorachi",
+    "genres": [
+      "Comedy",
+      "Action",
+      "Sci-Fi",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 704,
+    "description": "Gintama is a popular Shounen manga series by Hideaki Sorachi.",
+    "cover_url": "https://example.com/covers/gintama.jpg"
+  },
+  {
+    "id": "gokusen",
+    "title": "Gokusen",
+    "author": "Kozueko Morimoto",
+    "genres": [
+      "Comedy",
+      "School",
+      "Yakuza",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 156,
+    "description": "Gokusen is a popular Josei manga series by Kozueko Morimoto.",
+    "cover_url": "https://example.com/covers/gokusen.jpg"
+  },
+  {
+    "id": "golden-kamuy",
+    "title": "Golden Kamuy",
+    "author": "Satoru Noda",
+    "genres": [
+      "Adventure",
+      "Historical",
+      "Action",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 314,
+    "description": "Golden Kamuy is a popular Seinen manga series by Satoru Noda.",
+    "cover_url": "https://example.com/covers/golden-kamuy.jpg"
+  },
+  {
+    "id": "jikan-70345",
+    "title": "Grand Blue",
+    "author": "Inoue, Kenji",
+    "genres": [
+      "Comedy",
+      "Seinen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Among the seaside town of Izu's ocean waves and rays of shining sun, Iori Kitahara is just beginning his freshman year at Izu University. As he moves into his uncle's scuba diving shop, Grand Blue, he eagerly anticipates his dream college life, filled with beautiful girls and ...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-336",
+    "title": "GTO",
+    "author": "Fujisawa, Tooru",
+    "genres": [
+      "Action",
+      "Award Winning",
+      "Comedy",
+      "Drama",
+      "Ecchi",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 208,
+    "description": "22-year-old Eikichi Onizuka: pervert, former gang member... and teacher?\n\nGreat Teacher Onizuka follows the incredible, though often ridiculous, antics of the titular teacher as he attempts to outwit and win over the cunning Class 3-4 that is determined to have him removed fro...",
+    "cover_url": ""
+  },
+  {
+    "id": "haikyu",
+    "title": "Haikyu!!",
+    "author": "Haruichi Furudate",
+    "genres": [
+      "Sports",
+      "School",
+      "Drama",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 402,
+    "description": "Haikyu!! is a popular Shounen manga series by Haruichi Furudate.",
+    "cover_url": "https://example.com/covers/haikyu.jpg"
+  },
+  {
+    "id": "jikan-35243",
+    "title": "Haikyuu!!",
+    "author": "Furudate, Haruichi",
+    "genres": [
+      "Award Winning",
+      "Sports",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 407,
+    "description": "The whistle blows. The ball is up. A dig. A set. A spike.\n\nVolleyball. A sport where two teams face off, separated by a formidable, wall-like net.\n\nThe \"Little Giant,\" standing at only 170 centimeters, overcomes the towering net and the wall of blockers. The awe-inspired Shouy...",
+    "cover_url": ""
+  },
+  {
+    "id": "happy-mania",
+    "title": "Happy Mania",
+    "author": "Moyoco Anno",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "Drama",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 66,
+    "description": "Happy Mania is a popular Josei manga series by Moyoco Anno.",
+    "cover_url": "https://example.com/covers/happy-mania.jpg"
+  },
+  {
+    "id": "hellsing",
+    "title": "Hellsing",
+    "author": "Kouta Hirano",
+    "genres": [
+      "Action",
+      "Horror",
+      "Supernatural",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 95,
+    "description": "Hellsing is a popular Seinen manga series by Kouta Hirano.",
+    "cover_url": "https://example.com/covers/hellsing.jpg"
+  },
+  {
+    "id": "helter-skelter",
+    "title": "Helter Skelter",
+    "author": "Kyoko Okazaki",
+    "genres": [
+      "Psychological",
+      "Drama",
+      "Fashion",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 9,
+    "description": "Helter Skelter is a popular Josei manga series by Kyoko Okazaki.",
+    "cover_url": "https://example.com/covers/helter-skelter.jpg"
+  },
+  {
+    "id": "jikan-936",
+    "title": "Homunculus",
+    "author": "Yamamoto, Hideo",
+    "genres": [
+      "Drama",
+      "Horror",
+      "Mystery",
+      "Supernatural",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 166,
+    "description": "Susumu Nakoshi is a middle-aged man who spends his days between a lavish first-class hotel and a park full of homeless people. One day, an eccentric young man approaches Nakoshi in search of subjects willing to partake in trepanation—the procedure of drilling a hole in the s...",
+    "cover_url": ""
+  },
+  {
+    "id": "honey-and-clover",
+    "title": "Honey and Clover",
+    "author": "Chica Umino",
+    "genres": [
+      "Drama",
+      "Romance",
+      "Slice of Life",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 64,
+    "description": "Honey and Clover is a popular Josei manga series by Chica Umino.",
+    "cover_url": "https://example.com/covers/honey-and-clover.jpg"
+  },
+  {
+    "id": "honey-lemon-soda",
+    "title": "Honey Lemon Soda",
+    "author": "Mayu Murata",
+    "genres": [
+      "Romance",
+      "School",
+      "Slice of Life",
+      "Shoujo"
+    ],
+    "status": "ongoing",
+    "total_chapters": 120,
+    "description": "Honey Lemon Soda is a popular Shoujo manga series by Mayu Murata.",
+    "cover_url": "https://example.com/covers/honey-lemon-soda.jpg"
+  },
+  {
+    "id": "jikan-42451",
+    "title": "Horimiya",
+    "author": "Hagiwara, Daisuke",
+    "genres": [
+      "Romance",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 139,
+    "description": "Although admired at school for her amiability and academic prowess, high school student Kyouko Hori has been hiding another side of her. With her parents often away from home due to work, Hori has to look after her younger brother and do the housework, leaving no chance to soc...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-44489",
+    "title": "Houseki no Kuni",
+    "author": "Ichikawa, Haruko",
+    "genres": [
+      "Action",
+      "Drama",
+      "Fantasy",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 108,
+    "description": "Long ago, Earth was struck by six meteorites, creating six moons and leaving a lone island in their wake. Those who could not make it to the island sank to the bottom of the ocean, where, over time, they slowly turned to crystal. As countless millennia passed, 28 of these crys...",
+    "cover_url": ""
+  },
+  {
+    "id": "hunter-x-hunter",
+    "title": "Hunter x Hunter",
+    "author": "Yoshihiro Togashi",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "hiatus",
+    "total_chapters": 400,
+    "description": "Hunter x Hunter is a popular Shounen manga series by Yoshihiro Togashi.",
+    "cover_url": "https://example.com/covers/hunter-x-hunter.jpg"
+  },
+  {
+    "id": "jikan-26",
+    "title": "Hunter x Hunter",
+    "author": "Togashi, Yoshihiro",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "\"Secret treasure hoards, undiscovered wealth... mystical places, unexplored frontiers... 'The mysterious unknown.' There's magic in such words for those captivated by its spell. They are called 'Hunters'!\"\n\nGon Freecss wants to become a Hunter so he can find his father, a man ...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-110737",
+    "title": "Ijiranaide, Nagatoro-san",
+    "author": "774",
+    "genres": [
+      "Comedy",
+      "Romance"
+    ],
+    "status": "finished",
+    "total_chapters": 174,
+    "description": "High schooler Hayase Nagatoro loves to spend her free time doing one thing, and that is to bully her Senpai! After Nagatoro and her friends stumble upon the aspiring artist's drawings, they find enjoyment in mercilessly bullying the timid Senpai. Nagatoro resolves to continue ...",
+    "cover_url": ""
+  },
+  {
+    "id": "initial-d",
+    "title": "Initial D",
+    "author": "Shuichi Shigeno",
+    "genres": [
+      "Sports",
+      "Racing",
+      "Drama",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 719,
+    "description": "Initial D is a popular Seinen manga series by Shuichi Shigeno.",
+    "cover_url": "https://example.com/covers/initial-d.jpg"
+  },
+  {
+    "id": "itazura-na-kiss",
+    "title": "Itazura na Kiss",
+    "author": "Kaoru Tada",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 100,
+    "description": "Itazura na Kiss is a popular Shoujo manga series by Kaoru Tada.",
+    "cover_url": "https://example.com/covers/itazura-na-kiss.jpg"
+  },
+  {
+    "id": "jikan-112318",
+    "title": "Jigokuraku",
+    "author": "Kaku, Yuuji",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 128,
+    "description": "Gabimaru the Hollow, a ninja of Iwagakure Village known for being cold and emotionless, was set up by his fellow ninja and is now on death row. Tired of killing and betrayal, he wants to die. However, no method of execution works on him because as much as the seemingly apathet...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-1517",
+    "title": "JoJo no Kimyou na Bouken Part 1: Phantom Blood",
+    "author": "Araki, Hirohiko",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Horror",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 44,
+    "description": "While the gold rush takes Europe by storm, a young Jonathan Joestar lives a life of luxury with his father at their estate in Liverpool, England. Jonathan, known by his peers as JoJo, spends his days playing the part of a gentleman and living a carefree life. However, those pe...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-3009",
+    "title": "JoJo no Kimyou na Bouken Part 6: Stone Ocean",
+    "author": "Araki, Hirohiko",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 158,
+    "description": "In Florida, 2011, Jolyne Kuujou sits in a jail cell like her father, Joutarou, once did; yet this situation is not of her own choice. Framed for a crime she did not commit and manipulated into serving a longer sentence, Jolyne is ready to resign to a dire fate as a prisoner of...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-1706",
+    "title": "JoJo no Kimyou na Bouken Part 7: Steel Ball Run",
+    "author": "Araki, Hirohiko",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Mystery",
+      "Supernatural",
+      "Seinen",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 96,
+    "description": "In the American Old West, the world's greatest race is about to begin. Thousands line up in San Diego to travel over six thousand kilometers for a chance to win the grand prize of fifty million dollars. With the era of the horse reaching its end, contestants are allowed to use...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-25515",
+    "title": "JoJo no Kimyou na Bouken Part 8: JoJolion",
+    "author": "Araki, Hirohiko",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Award Winning",
+      "Mystery",
+      "Supernatural",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 110,
+    "description": "In 2011, childhood friends Yasuho Hirose and Joushuu Higashikata discover a naked man buried in the ground just outside the town of Morioh. The man has no memory of his name or previous life; the only thing he remembers about himself is how to use his Stand, a supernatural abi...",
+    "cover_url": ""
+  },
+  {
+    "id": "jojo-s-bizarre-adventure",
+    "title": "JoJo's Bizarre Adventure",
+    "author": "Hirohiko Araki",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Supernatural",
+      "Seinen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 950,
+    "description": "JoJo's Bizarre Adventure is a popular Seinen manga series by Hirohiko Araki.",
+    "cover_url": "https://example.com/covers/jojo-s-bizarre-adventure.jpg"
+  },
+  {
+    "id": "jujutsu-kaisen",
+    "title": "Jujutsu Kaisen",
+    "author": "Gege Akutami",
+    "genres": [
+      "Action",
+      "Supernatural",
+      "Dark Fantasy",
+      "Shounen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 260,
+    "description": "Jujutsu Kaisen is a popular Shounen manga series by Gege Akutami.",
+    "cover_url": "https://example.com/covers/jujutsu-kaisen.jpg"
+  },
+  {
+    "id": "jikan-113138",
+    "title": "Jujutsu Kaisen",
+    "author": "Akutami, Gege",
+    "genres": [
+      "Action",
+      "Supernatural",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 272,
+    "description": "Hidden in plain sight, an age-old conflict rages on. Supernatural monsters known as Curses terrorize humanity from the shadows, and powerful humans known as Jujutsu sorcerers use mystical arts to exterminate them. When high school student Yuuji Itadori finds a dried-up finger ...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-100448",
+    "title": "Jumyou wo Kaitotte Moratta. Ichinen ni Tsuki, Ichimanen de.",
+    "author": "Taguchi, Shouichi",
+    "genres": [
+      "Drama",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 18,
+    "description": "Helpless and struggling for cash, 20-year-old Kusunoki sells the last of his possessions to buy food. Noticing his poverty, an old shop owner directs him to a store that supposedly purchases lifespan, time, and health. While not completely believing the man's words, Kusunoki n...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-90125",
+    "title": "Kaguya-sama wa Kokurasetai: Tensai-tachi no Renai Zunousen",
+    "author": "Akasaka, Aka",
+    "genres": [
+      "Award Winning",
+      "Comedy",
+      "Romance",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 281,
+    "description": "Considered a genius due to having the highest grades in the country, Miyuki Shirogane leads the prestigious Shuchiin Academy's student council as its president, working alongside the beautiful and wealthy vice president Kaguya Shinomiya. The two are often regarded as the perfe...",
+    "cover_url": ""
+  },
+  {
+    "id": "kaguya-sama-love-is-war",
+    "title": "Kaguya-sama: Love Is War",
+    "author": "Aka Akasaka",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "School",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 281,
+    "description": "Kaguya-sama: Love Is War is a popular Seinen manga series by Aka Akasaka.",
+    "cover_url": "https://example.com/covers/kaguya-sama-love-is-war.jpg"
+  },
+  {
+    "id": "jikan-2921",
+    "title": "Kaichou wa Maid-sama!",
+    "author": "Fujiwara, Hiro",
+    "genres": [
+      "Comedy",
+      "Romance",
+      "Shoujo"
+    ],
+    "status": "finished",
+    "total_chapters": 98,
+    "description": "Seika High School was an all-boys school, but it has since turned co-ed. Misaki Ayuzawa is the first female student council president of the school, eventually earning the nickname of the \"Demon President\" due to her mastery of Aikido and imposed iron rule.\n\nHowever, Misaki ha...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-127907",
+    "title": "Kaijuu 8-gou",
+    "author": "Matsumoto, Naoya",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Sci-Fi",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 129,
+    "description": "Grotesque, Godzilla-like monsters called \"kaijuu\" have been appearing around Japan for many years. To combat these beasts, an elite military unit known as the Defense Corps risks their lives daily to protect civilians. Once a creature is killed, \"sweepers\"—working under the ...",
+    "cover_url": ""
+  },
+  {
+    "id": "kakukaku-shikajika",
+    "title": "Kakukaku Shikajika",
+    "author": "Akiko Higashimura",
+    "genres": [
+      "Biography",
+      "Drama",
+      "Slice of Life",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 34,
+    "description": "Kakukaku Shikajika is a popular Josei manga series by Akiko Higashimura.",
+    "cover_url": "https://example.com/covers/kakukaku-shikajika.jpg"
+  },
+  {
+    "id": "kamisama-kiss",
+    "title": "Kamisama Kiss",
+    "author": "Julietta Suzuki",
+    "genres": [
+      "Romance",
+      "Supernatural",
+      "Comedy",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 149,
+    "description": "Kamisama Kiss is a popular Shoujo manga series by Julietta Suzuki.",
+    "cover_url": "https://example.com/covers/kamisama-kiss.jpg"
+  },
+  {
+    "id": "jikan-144267",
+    "title": "Kaoru Hana wa Rin to Saku",
+    "author": "Mikami, Saka",
+    "genres": [
+      "Drama",
+      "Romance"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Despite being adjacent to one another, Chidori Public High School and the all-girls Kikyo Private Academy seem to exist in two different worlds. While the latter boasts an immaculate reputation and favors students from wealthy backgrounds, the former is a nest for dim-witted d...",
+    "cover_url": ""
+  },
+  {
+    "id": "katekyo-hitman-reborn",
+    "title": "Katekyo Hitman Reborn!",
+    "author": "Akira Amano",
+    "genres": [
+      "Action",
+      "Comedy",
+      "School",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 409,
+    "description": "Katekyo Hitman Reborn! is a popular Shounen manga series by Akira Amano.",
+    "cover_url": "https://example.com/covers/katekyo-hitman-reborn.jpg"
+  },
+  {
+    "id": "jikan-96792",
+    "title": "Kimetsu no Yaiba",
+    "author": "Gotouge, Koyoharu",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 207,
+    "description": "Tanjirou Kamado lives with his impoverished family on a remote mountain. As the oldest sibling, he took upon the responsibility of ensuring his family's livelihood after the death of his father. On a cold winter day, he goes down to the local village in order to sell some char...",
+    "cover_url": ""
+  },
+  {
+    "id": "kimi-ni-todoke",
+    "title": "Kimi ni Todoke",
+    "author": "Karuho Shiina",
+    "genres": [
+      "Romance",
+      "School",
+      "Slice of Life",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 123,
+    "description": "Kimi ni Todoke is a popular Shoujo manga series by Karuho Shiina.",
+    "cover_url": "https://example.com/covers/kimi-ni-todoke.jpg"
+  },
+  {
+    "id": "kingdom",
+    "title": "Kingdom",
+    "author": "Yasuhisa Hara",
+    "genres": [
+      "Historical",
+      "War",
+      "Action",
+      "Seinen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 800,
+    "description": "Kingdom is a popular Seinen manga series by Yasuhisa Hara.",
+    "cover_url": "https://example.com/covers/kingdom.jpg"
+  },
+  {
+    "id": "jikan-16765",
+    "title": "Kingdom",
+    "author": "Hara, Yasuhisa",
+    "genres": [
+      "Action",
+      "Award Winning",
+      "Seinen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "During the Warring States period in China, Xin and Piao are two brother-like youngsters who dream of becoming Great Generals, despite their low status as orphaned slaves. One day, they encounter a man of nobility, who gives Piao an opportunity to undertake an important duty wi...",
+    "cover_url": ""
+  },
+  {
+    "id": "kitchen-princess",
+    "title": "Kitchen Princess",
+    "author": "Miyuki Kobayashi",
+    "genres": [
+      "Romance",
+      "Drama",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 47,
+    "description": "Kitchen Princess is a popular Shoujo manga series by Miyuki Kobayashi.",
+    "cover_url": "https://example.com/covers/kitchen-princess.jpg"
+  },
+  {
+    "id": "jikan-56805",
+    "title": "Koe no Katachi",
+    "author": "Ooima, Yoshitoki",
+    "genres": [
+      "Award Winning",
+      "Drama",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 64,
+    "description": "Shouya Ishida, a mischievous elementary school student, finds himself troubled by deaf transfer student Shouko Nishimiya. Despite her genuine attempts to befriend her new classmates, Shouko only proves herself to be an annoyance for Shouya and his friends, provoking them to ri...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-7375",
+    "title": "Kokou no Hito",
+    "author": "Sakamoto, Shinichi",
+    "genres": [
+      "Award Winning",
+      "Drama",
+      "Sports",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 170,
+    "description": "Through pain and arduous effort, one can reach the top of the world. Standing where no man has ever set foot before, there is an exhilarating feeling of success. This is what Mori Buntarou trains, works, and lives for.\n\nHis climb to the top starts when he transfers to a new hi...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-99007",
+    "title": "Komi-san wa, Comyushou desu.",
+    "author": "Oda, Tomohito",
+    "genres": [
+      "Award Winning",
+      "Comedy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 500,
+    "description": "It's Shouko Komi's first day at the prestigious Itan Private High School, and she has already risen to the status of the school's Madonna. With long black hair and a tall, graceful appearance, she captures the attention of anyone who comes across her. There's just one problem ...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-3866",
+    "title": "Kuroshitsuji",
+    "author": "Toboso, Yana",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Mystery",
+      "Supernatural",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Tucked away in the English countryside lies the ominous manor of the Phantomhives, a family which has established itself as the cold and ruthless \"Queen's Watchdog\" as well as the head of London's criminal underground. After a tragedy leaves the Earl and his wife dead, many ar...",
+    "cover_url": ""
+  },
+  {
+    "id": "life-lessons-with-uramichi-oniisan",
+    "title": "Life Lessons with Uramichi Oniisan",
+    "author": "Gaku Kuze",
+    "genres": [
+      "Comedy",
+      "Workplace",
+      "Slice of Life",
+      "Josei"
+    ],
+    "status": "ongoing",
+    "total_chapters": 90,
+    "description": "Life Lessons with Uramichi Oniisan is a popular Josei manga series by Gaku Kuze.",
+    "cover_url": "https://example.com/covers/life-lessons-with-uramichi-oniisan.jpg"
+  },
+  {
+    "id": "lovely-complex",
+    "title": "Lovely Complex",
+    "author": "Aya Nakahara",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 68,
+    "description": "Lovely Complex is a popular Shoujo manga series by Aya Nakahara.",
+    "cover_url": "https://example.com/covers/lovely-complex.jpg"
+  },
+  {
+    "id": "jikan-91941",
+    "title": "Made in Abyss",
+    "author": "Tsukushi, Akihito",
+    "genres": [
+      "Adventure",
+      "Drama",
+      "Fantasy",
+      "Sci-Fi"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "The Abyss, a hole of unprecedented depth—one young girl and a robot brave its dangers to find the truth.\n\nThe town of Orth is a special one, as it is built around the edges of the massive Abyss, a wonder which has never been fully explored. Those who venture too far down nev...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-14790",
+    "title": "Magi",
+    "author": "Ohtaka, Shinobu",
+    "genres": [
+      "Adventure",
+      "Award Winning",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 369,
+    "description": "Fourteen years ago, mysterious buildings called Dungeons started to rise in various places around the world. Within these dungeons, powerful beings called djinns rule over them. When a person successfully conquers the dungeon, the djinn offers their immense strength in the for...",
+    "cover_url": ""
+  },
+  {
+    "id": "magi",
+    "title": "Magi",
+    "author": "Shinobu Ohtaka",
+    "genres": [
+      "Adventure",
+      "Fantasy",
+      "Action",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 369,
+    "description": "Magi is a popular Shounen manga series by Shinobu Ohtaka.",
+    "cover_url": "https://example.com/covers/magi.jpg"
+  },
+  {
+    "id": "maid-sama",
+    "title": "Maid-Sama!",
+    "author": "Hiro Fujiwara",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 85,
+    "description": "Maid-Sama! is a popular Shoujo manga series by Hiro Fujiwara.",
+    "cover_url": "https://example.com/covers/maid-sama.jpg"
+  },
+  {
+    "id": "march-comes-in-like-a-lion",
+    "title": "March Comes in Like a Lion",
+    "author": "Chica Umino",
+    "genres": [
+      "Drama",
+      "Slice of Life",
+      "Game",
+      "Seinen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 210,
+    "description": "March Comes in Like a Lion is a popular Seinen manga series by Chica Umino.",
+    "cover_url": "https://example.com/covers/march-comes-in-like-a-lion.jpg"
+  },
+  {
+    "id": "jikan-1",
+    "title": "Monster",
+    "author": "Urasawa, Naoki",
+    "genres": [
+      "Award Winning",
+      "Drama",
+      "Mystery",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 162,
+    "description": "Kenzou Tenma, a renowned Japanese neurosurgeon working in post-war Germany, faces a difficult choice: to operate on Johan Liebert, an orphan boy on the verge of death, or on the mayor of Düsseldorf. In the end, Tenma decides to gamble his reputation by saving Johan, effective...",
+    "cover_url": ""
+  },
+  {
+    "id": "monster",
+    "title": "Monster",
+    "author": "Naoki Urasawa",
+    "genres": [
+      "Mystery",
+      "Psychological",
+      "Thriller",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 162,
+    "description": "Monster is a popular Seinen manga series by Naoki Urasawa.",
+    "cover_url": "https://example.com/covers/monster.jpg"
+  },
+  {
+    "id": "my-hero-academia",
+    "title": "My Hero Academia",
+    "author": "Kohei Horikoshi",
+    "genres": [
+      "Action",
+      "Superhero",
+      "School",
+      "Shounen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 430,
+    "description": "My Hero Academia is a popular Shounen manga series by Kohei Horikoshi.",
+    "cover_url": "https://example.com/covers/my-hero-academia.jpg"
+  },
+  {
+    "id": "my-little-monster",
+    "title": "My Little Monster",
+    "author": "Robico",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 55,
+    "description": "My Little Monster is a popular Shoujo manga series by Robico.",
+    "cover_url": "https://example.com/covers/my-little-monster.jpg"
+  },
+  {
+    "id": "nana",
+    "title": "Nana",
+    "author": "Ai Yazawa",
+    "genres": [
+      "Drama",
+      "Romance",
+      "Music",
+      "Josei"
+    ],
+    "status": "hiatus",
+    "total_chapters": 84,
+    "description": "Nana is a popular Josei manga series by Ai Yazawa.",
+    "cover_url": "https://example.com/covers/nana.jpg"
+  },
+  {
+    "id": "jikan-28",
+    "title": "Nana",
+    "author": "Yazawa, Ai",
+    "genres": [
+      "Award Winning",
+      "Drama",
+      "Romance",
+      "Shoujo"
+    ],
+    "status": "on hiatus",
+    "total_chapters": 84,
+    "description": "Nana Komatsu is a naive, unmotivated girl who spends her high school days chasing one crush after the other. Despite continually facing failure in her quest for love, her spirits have never dampened. At the age of 20, she finds herself on a train to Tokyo with hopes of reuniti...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-44485",
+    "title": "Nanatsu no Taizai",
+    "author": "Suzuki, Nakaba",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Award Winning",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 364,
+    "description": "In a world where injustice prevails, the Holy Knights of Britannia protect their homeland with their unparalleled magic and strength. Their most sought-after targets are \"The Seven Deadly Sins\": a group of criminals once regarded as the strongest of Britannia's Holy Knights. T...",
+    "cover_url": ""
+  },
+  {
+    "id": "naruto",
+    "title": "Naruto",
+    "author": "Masashi Kishimoto",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Ninja",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 700,
+    "description": "Naruto is a popular Shounen manga series by Masashi Kishimoto.",
+    "cover_url": "https://example.com/covers/naruto.jpg"
+  },
+  {
+    "id": "jikan-11",
+    "title": "Naruto",
+    "author": "Kishimoto, Masashi",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 700,
+    "description": "Whenever Naruto Uzumaki proclaims that he will someday become the Hokage—a title bestowed upon the best ninja in the Village Hidden in the Leaves—no one takes him seriously. Since birth, Naruto has been shunned and ridiculed by his fellow villagers. But their contempt isn'...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-31499",
+    "title": "Nisekoi",
+    "author": "Komi, Naoshi",
+    "genres": [
+      "Comedy",
+      "Romance",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 229,
+    "description": "When Raku Ichijou was young, he made a heartfelt promise to his childhood friend that if they were to meet again, they would marry each other. Ten years have passed since that fateful day, leaving Raku's memory of her faded. But he still holds a relic of their relationship tog...",
+    "cover_url": ""
+  },
+  {
+    "id": "nodame-cantabile",
+    "title": "Nodame Cantabile",
+    "author": "Tomoko Ninomiya",
+    "genres": [
+      "Romance",
+      "Music",
+      "Comedy",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 136,
+    "description": "Nodame Cantabile is a popular Josei manga series by Tomoko Ninomiya.",
+    "cover_url": "https://example.com/covers/nodame-cantabile.jpg"
+  },
+  {
+    "id": "jikan-24692",
+    "title": "Noragami",
+    "author": "Adachitoka",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 109,
+    "description": "As a relatively unknown minor deity without any worshippers, Delivery God Yato takes on odd jobs for only five yen, with the goal of amassing a fortune large enough to buy himself a shrine. But in addition to obscurity, he has another problem: his Shinki, or weapon partner, ha...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-132214",
+    "title": "Omniscient Reader's Viewpoint",
+    "author": "sing N song",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Kim Dokja does not consider himself the protagonist of his own life. Befitting the name his parents gave him, he is a solitary person whose sole hobby is reading web novels. For over a decade, he has lived vicariously through Yoo Joonghyuk, the main character of the web novel ...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-8967",
+    "title": "Onanie Master Kurosawa",
+    "author": "Yokota, Takuma",
+    "genres": [
+      "Drama"
+    ],
+    "status": "finished",
+    "total_chapters": 31,
+    "description": "Fourteen-year-old Kakeru Kurosawa is an antisocial junior high school student who looks down on his classmates—but beneath his superiority complex is a hopeless young teenager who uses masturbation as a pastime. Using erotic thoughts of his female classmates as stimulus, he ...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-13",
+    "title": "One Piece",
+    "author": "Oda, Eiichiro",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Gol D. Roger, a man referred to as the King of the Pirates, is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure, One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One...",
+    "cover_url": ""
+  },
+  {
+    "id": "one-piece",
+    "title": "One Piece",
+    "author": "Eiichiro Oda",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 1112,
+    "description": "One Piece is a popular Shounen manga series by Eiichiro Oda.",
+    "cover_url": "https://example.com/covers/one-piece.jpg"
+  },
+  {
+    "id": "one-punch-man",
+    "title": "One Punch Man",
+    "author": "ONE",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Superhero",
+      "Seinen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 240,
+    "description": "One Punch Man is a popular Seinen manga series by ONE.",
+    "cover_url": "https://example.com/covers/one-punch-man.jpg"
+  },
+  {
+    "id": "jikan-44347",
+    "title": "One Punch-Man",
+    "author": "Murata, Yusuke",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Seinen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "After rigorously training for three years, the ordinary Saitama has gained immense strength which allows him to take out anyone and anything with just one punch. He decides to put his new skill to good use by becoming a hero. However, he quickly becomes bored with easily defea...",
+    "cover_url": ""
+  },
+  {
+    "id": "ooku-the-inner-chambers",
+    "title": "Ooku: The Inner Chambers",
+    "author": "Fumi Yoshinaga",
+    "genres": [
+      "Historical",
+      "Drama",
+      "Romance",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 79,
+    "description": "Ooku: The Inner Chambers is a popular Josei manga series by Fumi Yoshinaga.",
+    "cover_url": "https://example.com/covers/ooku-the-inner-chambers.jpg"
+  },
+  {
+    "id": "jikan-35573",
+    "title": "Orange",
+    "author": "Takano, Ichigo",
+    "genres": [
+      "Drama",
+      "Romance",
+      "Sci-Fi",
+      "Shoujo"
+    ],
+    "status": "finished",
+    "total_chapters": 38,
+    "description": "One morning, Naho Takamiya receives a letter in the mail claiming to be from herself 10 years in the future. The letter reveals a series of events that are supposed to take place that day. At first, Naho thinks it's just a prank; but when the letter mentions a transfer student...",
+    "cover_url": ""
+  },
+  {
+    "id": "orange",
+    "title": "Orange",
+    "author": "Ichigo Takano",
+    "genres": [
+      "Romance",
+      "Drama",
+      "Sci-Fi",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 26,
+    "description": "Orange is a popular Shoujo manga series by Ichigo Takano.",
+    "cover_url": "https://example.com/covers/orange.jpg"
+  },
+  {
+    "id": "ouran-high-school-host-club",
+    "title": "Ouran High School Host Club",
+    "author": "Bisco Hatori",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 83,
+    "description": "Ouran High School Host Club is a popular Shoujo manga series by Bisco Hatori.",
+    "cover_url": "https://example.com/covers/ouran-high-school-host-club.jpg"
+  },
+  {
+    "id": "jikan-4632",
+    "title": "Oyasumi Punpun",
+    "author": "Asano, Inio",
+    "genres": [
+      "Drama",
+      "Slice of Life",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 147,
+    "description": "Punpun Onodera is a normal 11-year-old boy living in Japan. Hopelessly idealistic and romantic, Punpun begins to see his life take a subtle—though nonetheless startling—turn to the adult when he meets the new girl in his class, Aiko Tanaka. It is then that the quiet boy le...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-3031",
+    "title": "Pandora Hearts",
+    "author": "Mochizuki, Jun",
+    "genres": [
+      "Adventure",
+      "Fantasy",
+      "Mystery",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 107,
+    "description": "Reminiscent of a broken toy box, the mystical Abyss is a terrifying realm home to monstrous creatures called Chains. Most believe it to be only a fairy tale, used to scare children who misbehave. Oz Vessalius, the cheerful and mischievous heir of the noble Vessalius family, is...",
+    "cover_url": ""
+  },
+  {
+    "id": "paradise-kiss",
+    "title": "Paradise Kiss",
+    "author": "Ai Yazawa",
+    "genres": [
+      "Romance",
+      "Fashion",
+      "Drama",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 48,
+    "description": "Paradise Kiss is a popular Josei manga series by Ai Yazawa.",
+    "cover_url": "https://example.com/covers/paradise-kiss.jpg"
+  },
+  {
+    "id": "parasyte",
+    "title": "Parasyte",
+    "author": "Hitoshi Iwaaki",
+    "genres": [
+      "Horror",
+      "Sci-Fi",
+      "Psychological",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 64,
+    "description": "Parasyte is a popular Seinen manga series by Hitoshi Iwaaki.",
+    "cover_url": "https://example.com/covers/parasyte.jpg"
+  },
+  {
+    "id": "petshop-of-horrors",
+    "title": "Petshop of Horrors",
+    "author": "Matsuri Akino",
+    "genres": [
+      "Horror",
+      "Mystery",
+      "Supernatural",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 41,
+    "description": "Petshop of Horrors is a popular Josei manga series by Matsuri Akino.",
+    "cover_url": "https://example.com/covers/petshop-of-horrors.jpg"
+  },
+  {
+    "id": "piece-of-cake",
+    "title": "Piece of Cake",
+    "author": "George Asakura",
+    "genres": [
+      "Romance",
+      "Drama",
+      "Slice of Life",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 25,
+    "description": "Piece of Cake is a popular Josei manga series by George Asakura.",
+    "cover_url": "https://example.com/covers/piece-of-cake.jpg"
+  },
+  {
+    "id": "pluto",
+    "title": "Pluto",
+    "author": "Naoki Urasawa",
+    "genres": [
+      "Sci-Fi",
+      "Mystery",
+      "Drama",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 65,
+    "description": "Pluto is a popular Seinen manga series by Naoki Urasawa.",
+    "cover_url": "https://example.com/covers/pluto.jpg"
+  },
+  {
+    "id": "princess-jellyfish",
+    "title": "Princess Jellyfish",
+    "author": "Akiko Higashimura",
+    "genres": [
+      "Comedy",
+      "Drama",
+      "Romance",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 84,
+    "description": "Princess Jellyfish is a popular Josei manga series by Akiko Higashimura.",
+    "cover_url": "https://example.com/covers/princess-jellyfish.jpg"
+  },
+  {
+    "id": "jikan-25297",
+    "title": "Prison School",
+    "author": "Hiramoto, Akira",
+    "genres": [
+      "Award Winning",
+      "Comedy",
+      "Romance",
+      "Ecchi",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 278,
+    "description": "Hachimitsu Private Academy, an elite all-girls high school, opens its grandiose doors to male students for the first time in its history. The five males who enroll, however, are a merry band of perverts who are unable to communicate with girls! This cluster of misfits is compo...",
+    "cover_url": ""
+  },
+  {
+    "id": "prison-school",
+    "title": "Prison School",
+    "author": "Akira Hiramoto",
+    "genres": [
+      "Comedy",
+      "Ecchi",
+      "School",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 277,
+    "description": "Prison School is a popular Seinen manga series by Akira Hiramoto.",
+    "cover_url": "https://example.com/covers/prison-school.jpg"
+  },
+  {
+    "id": "jikan-78523",
+    "title": "ReLIFE",
+    "author": "Yayoi, Sou",
+    "genres": [
+      "Comedy",
+      "Drama",
+      "Romance",
+      "Slice of Life"
+    ],
+    "status": "finished",
+    "total_chapters": 238,
+    "description": "When the responsibilities of being an adult and the ugly side of corporate bullying betrays one's childhood dreams, many would wish to return to their innocent childhood to relive their life and make the right decisions. Dumbfounded by the offer presented to him, 27-year-old A...",
+    "cover_url": ""
+  },
+  {
+    "id": "requiem-of-the-rose-king",
+    "title": "Requiem of the Rose King",
+    "author": "Aya Kanno",
+    "genres": [
+      "Historical",
+      "Drama",
+      "Tragedy",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 102,
+    "description": "Requiem of the Rose King is a popular Josei manga series by Aya Kanno.",
+    "cover_url": "https://example.com/covers/requiem-of-the-rose-king.jpg"
+  },
+  {
+    "id": "river-s-edge",
+    "title": "River's Edge",
+    "author": "Kyoko Okazaki",
+    "genres": [
+      "Drama",
+      "Psychological",
+      "School",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 14,
+    "description": "River's Edge is a popular Josei manga series by Kyoko Okazaki.",
+    "cover_url": "https://example.com/covers/river-s-edge.jpg"
+  },
+  {
+    "id": "sailor-moon",
+    "title": "Sailor Moon",
+    "author": "Naoko Takeuchi",
+    "genres": [
+      "Fantasy",
+      "Romance",
+      "Magical Girl",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 60,
+    "description": "Sailor Moon is a popular Shoujo manga series by Naoko Takeuchi.",
+    "cover_url": "https://example.com/covers/sailor-moon.jpg"
+  },
+  {
+    "id": "jikan-131334",
+    "title": "Sakamoto Days",
+    "author": "Suzuki, Yuuto",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Tarou Sakamoto was considered the greatest hitman of all time. Feared by many, he stood at the top of the underground world until he met and fell in love with a woman. As a result, Sakamoto abandoned his life of crime and now works as a convenience store clerk.\n\nLeaving his sh...",
+    "cover_url": ""
+  },
+  {
+    "id": "say-i-love-you",
+    "title": "Say I Love You",
+    "author": "Kanae Hazuki",
+    "genres": [
+      "Romance",
+      "Drama",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 72,
+    "description": "Say I Love You is a popular Shoujo manga series by Kanae Hazuki.",
+    "cover_url": "https://example.com/covers/say-i-love-you.jpg"
+  },
+  {
+    "id": "jikan-145863",
+    "title": "Sayonara Eri",
+    "author": "Fujimoto, Tatsuki",
+    "genres": [
+      "Drama",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 0,
+    "description": "Suffering from a terminal illness, Yuuta Itou's mother asks him to film her last moments, which he does. From her radiant smile when she is with her family to the times when sickness ravages her body in the hospital, he records hours upon hours of footage. After her passing, Y...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-23390",
+    "title": "Shingeki no Kyojin",
+    "author": "Isayama, Hajime",
+    "genres": [
+      "Action",
+      "Award Winning",
+      "Drama",
+      "Suspense",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 141,
+    "description": "Hundreds of years ago, horrifying creatures which resembled humans appeared. These mindless, towering giants, called Titans, proved to be an existential threat, as they preyed on whatever humans they could find in order to satisfy a seemingly unending appetite. Unable to effec...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-45757",
+    "title": "Shokugeki no Souma",
+    "author": "Saeki, Shun",
+    "genres": [
+      "Gourmet",
+      "Ecchi",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 325,
+    "description": "Fifteen-year-old Souma Yukihira dreams to one day surpass his father's cooking skills and take over as the chef of their small family diner. However, his aspirations come to a halt when his father announces the closure of their restaurant, as he must travel abroad for cooking-...",
+    "cover_url": ""
+  },
+  {
+    "id": "shouwa-genroku-rakugo-shinjuu",
+    "title": "Shouwa Genroku Rakugo Shinjuu",
+    "author": "Haruko Kumota",
+    "genres": [
+      "Drama",
+      "Historical",
+      "Performing Arts",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 75,
+    "description": "Shouwa Genroku Rakugo Shinjuu is a popular Josei manga series by Haruko Kumota.",
+    "cover_url": "https://example.com/covers/shouwa-genroku-rakugo-shinjuu.jpg"
+  },
+  {
+    "id": "jikan-110485",
+    "title": "Shuumatsu no Walküre",
+    "author": "Fukui, Takumi",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Seinen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "High above the realm of man, the gods of the world have convened to decide on a single matter: the continued existence of mankind. Under the head of Zeus, the deities of Ancient Greece, Norse mythology, and Hinduism, among others, call assembly every one thousand years to deci...",
+    "cover_url": ""
+  },
+  {
+    "id": "skip-beat",
+    "title": "Skip Beat!",
+    "author": "Yoshiki Nakamura",
+    "genres": [
+      "Romance",
+      "Drama",
+      "Entertainment",
+      "Shoujo"
+    ],
+    "status": "ongoing",
+    "total_chapters": 320,
+    "description": "Skip Beat! is a popular Shoujo manga series by Yoshiki Nakamura.",
+    "cover_url": "https://example.com/covers/skip-beat.jpg"
+  },
+  {
+    "id": "jikan-51",
+    "title": "Slam Dunk",
+    "author": "Inoue, Takehiko",
+    "genres": [
+      "Award Winning",
+      "Sports",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 276,
+    "description": "Hanamichi Sakuragi, a tall, boisterous teenager with flame-red hair and physical strength beyond his years, is eager to put an end to his rejection streak of 50 and finally score a girlfriend as he begins his first year of Shohoku High. However, his reputation for delinquency ...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-121496",
+    "title": "Solo Leveling",
+    "author": "Chugong",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy"
+    ],
+    "status": "finished",
+    "total_chapters": 201,
+    "description": "Ten years ago, \"the Gate\" appeared and connected the real world with the realm of magic and monsters. To combat these vile beasts, ordinary people received superhuman powers and became known as \"Hunters.\" Twenty-year-old Sung Jin-Woo is one such Hunter, but he is known as the ...",
+    "cover_url": ""
+  },
+  {
+    "id": "something-s-wrong-with-us",
+    "title": "Something's Wrong With Us",
+    "author": "Natsumi Ando",
+    "genres": [
+      "Romance",
+      "Mystery",
+      "Drama",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 105,
+    "description": "Something's Wrong With Us is a popular Josei manga series by Natsumi Ando.",
+    "cover_url": "https://example.com/covers/something-s-wrong-with-us.jpg"
+  },
+  {
+    "id": "jikan-112268",
+    "title": "Sono Bisque Doll wa Koi wo Suru",
+    "author": "Fukuda, Shinichi",
+    "genres": [
+      "Romance",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 119,
+    "description": "Engrossed in the family business of traditional doll making, Wakana Gojou is a reserved high school freshman without friends. Harboring painful memories of a childhood friend's disdain toward his interest, Gojou cannot relate to his classmates and their pastimes, eventually is...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-908",
+    "title": "Soul Eater",
+    "author": "Ookubo, Atsushi",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 117,
+    "description": "Death City is home to the Death Weapon Meister Academy, established by Shinigami—the grim reaper himself. Created to maintain peace, the academy trains Meisters and Demon Weapons—people who take on the form of a weapon—to defend humanity against evil. The ultimate goal o...",
+    "cover_url": ""
+  },
+  {
+    "id": "soul-eater",
+    "title": "Soul Eater",
+    "author": "Atsushi Ohkubo",
+    "genres": [
+      "Action",
+      "Supernatural",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 113,
+    "description": "Soul Eater is a popular Shounen manga series by Atsushi Ohkubo.",
+    "cover_url": "https://example.com/covers/soul-eater.jpg"
+  },
+  {
+    "id": "jikan-126287",
+    "title": "Sousou no Frieren",
+    "author": "Yamada, Kanehito",
+    "genres": [
+      "Adventure",
+      "Award Winning",
+      "Drama",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "The Demon King has been defeated, and the victorious hero party returns home before disbanding. The four—mage Frieren, hero Himmel, priest Heiter, and warrior Eisen—reminisce about their decade-long journey as the moment to bid each other farewell arrives. But the passing ...",
+    "cover_url": ""
+  },
+  {
+    "id": "special-a",
+    "title": "Special A",
+    "author": "Maki Minami",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 99,
+    "description": "Special A is a popular Shoujo manga series by Maki Minami.",
+    "cover_url": "https://example.com/covers/special-a.jpg"
+  },
+  {
+    "id": "jikan-119161",
+    "title": "Spy x Family",
+    "author": "Endou, Tatsuya",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "For the agent known as \"Twilight,\" no order is too tall if it is for the sake of peace. Operating as Westalis' master spy, Twilight works tirelessly to prevent extremists from sparking a war with neighboring country Ostania. For his latest mission, he must investigate Ostanian...",
+    "cover_url": ""
+  },
+  {
+    "id": "spy-x-family",
+    "title": "Spy x Family",
+    "author": "Tatsuya Endo",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Family",
+      "Shounen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 105,
+    "description": "Spy x Family is a popular Shounen manga series by Tatsuya Endo.",
+    "cover_url": "https://example.com/covers/spy-x-family.jpg"
+  },
+  {
+    "id": "strobe-edge",
+    "title": "Strobe Edge",
+    "author": "Io Sakisaka",
+    "genres": [
+      "Romance",
+      "School",
+      "Drama",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 40,
+    "description": "Strobe Edge is a popular Shoujo manga series by Io Sakisaka.",
+    "cover_url": "https://example.com/covers/strobe-edge.jpg"
+  },
+  {
+    "id": "suppli",
+    "title": "Suppli",
+    "author": "Mari Okazaki",
+    "genres": [
+      "Romance",
+      "Workplace",
+      "Drama",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 55,
+    "description": "Suppli is a popular Josei manga series by Mari Okazaki.",
+    "cover_url": "https://example.com/covers/suppli.jpg"
+  },
+  {
+    "id": "jikan-87609",
+    "title": "Tensei shitara Slime Datta Ken",
+    "author": "Kawakami, Taiki",
+    "genres": [
+      "Award Winning",
+      "Fantasy",
+      "Shounen"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "It is just another ordinary day for Satoru Mikami. The sun is shining brightly on the streets of Tokyo, and he is in the midst of a discussion with his colleagues when suddenly he gets stabbed by a passing robber. The average 37-year-old corporate worker is now at death's door...",
+    "cover_url": ""
+  },
+  {
+    "id": "terra-formars",
+    "title": "Terra Formars",
+    "author": "Yu Sasuga",
+    "genres": [
+      "Sci-Fi",
+      "Action",
+      "Horror",
+      "Seinen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 240,
+    "description": "Terra Formars is a popular Seinen manga series by Yu Sasuga.",
+    "cover_url": "https://example.com/covers/terra-formars.jpg"
+  },
+  {
+    "id": "jikan-8586",
+    "title": "The Breaker",
+    "author": "Park, Jin-Hwan",
+    "genres": [
+      "Action",
+      "Comedy",
+      "Drama"
+    ],
+    "status": "finished",
+    "total_chapters": 72,
+    "description": "Yi \"Shioon\" Shi-Woon's everyday life at Nine Dragons High School—which consists of beatings from fellow student Ho Chang and his gang—is far from ideal. But one day, a mysterious man named Han Chun Woo spots one of these beatings and instead of offering support, brands Shi...",
+    "cover_url": ""
+  },
+  {
+    "id": "the-promised-neverland",
+    "title": "The Promised Neverland",
+    "author": "Kaiu Shirai",
+    "genres": [
+      "Mystery",
+      "Thriller",
+      "Sci-Fi",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 181,
+    "description": "The Promised Neverland is a popular Shounen manga series by Kaiu Shirai.",
+    "cover_url": "https://example.com/covers/the-promised-neverland.jpg"
+  },
+  {
+    "id": "the-seven-deadly-sins",
+    "title": "The Seven Deadly Sins",
+    "author": "Nakaba Suzuki",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Adventure",
+      "Shounen"
+    ],
+    "status": "completed",
+    "total_chapters": 346,
+    "description": "The Seven Deadly Sins is a popular Shounen manga series by Nakaba Suzuki.",
+    "cover_url": "https://example.com/covers/the-seven-deadly-sins.jpg"
+  },
+  {
+    "id": "jikan-33327",
+    "title": "Tokyo Ghoul",
+    "author": "Ishida, Sui",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Horror",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 144,
+    "description": "Lurking within the shadows of Tokyo are frightening beings known as ghouls, who satisfy their hunger by feeding on humans once night falls. An organization known as the Commission of Counter Ghoul (CCG) has been established in response to the constant attacks on citizens and a...",
+    "cover_url": ""
+  },
+  {
+    "id": "tokyo-ghoul",
+    "title": "Tokyo Ghoul",
+    "author": "Sui Ishida",
+    "genres": [
+      "Horror",
+      "Action",
+      "Psychological",
+      "Seinen"
+    ],
+    "status": "completed",
+    "total_chapters": 179,
+    "description": "Tokyo Ghoul is a popular Seinen manga series by Sui Ishida.",
+    "cover_url": "https://example.com/covers/tokyo-ghoul.jpg"
+  },
+  {
+    "id": "jikan-81117",
+    "title": "Tokyo Ghoul:re",
+    "author": "Ishida, Sui",
+    "genres": [
+      "Action",
+      "Fantasy",
+      "Horror",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 181,
+    "description": "Two years have passed since the CCG's raid on Anteiku. Although the atmosphere in Tokyo has changed drastically due to the increased influence of the CCG, ghouls continue to pose a problem as they have begun taking caution, especially the terrorist organization Aogiri Tree, wh...",
+    "cover_url": ""
+  },
+  {
+    "id": "tokyo-tarareba-girls",
+    "title": "Tokyo Tarareba Girls",
+    "author": "Akiko Higashimura",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "Drama",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 54,
+    "description": "Tokyo Tarareba Girls is a popular Josei manga series by Akiko Higashimura.",
+    "cover_url": "https://example.com/covers/tokyo-tarareba-girls.jpg"
+  },
+  {
+    "id": "jikan-104565",
+    "title": "Tokyo卍Revengers",
+    "author": "Wakui, Ken",
+    "genres": [
+      "Action",
+      "Award Winning",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 279,
+    "description": "Takemichi Hanagaki's life is at an all-time low. Just when he thought it could not get worse, he finds out that Hinata Tachibana, his ex-girlfriend, was murdered by the Tokyo Manji Gang: a group of vicious criminals that has been disturbing society's peace for quite some time....",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-122663",
+    "title": "Tower of God",
+    "author": "SIU",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Drama",
+      "Fantasy",
+      "Mystery"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "Twenty-Fifth Bam had been alone his whole life until he met Rachel. Now, however, Rachel is set on climbing the Tower, and she is willing to leave Bam behind to do so. After Rachel disappears in a veil of light, Bam follows her, vowing to ascend the Tower in hopes of meeting h...",
+    "cover_url": ""
+  },
+  {
+    "id": "tramps-like-us",
+    "title": "Tramps Like Us",
+    "author": "Yayoi Ogawa",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "Slice of Life",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 82,
+    "description": "Tramps Like Us is a popular Josei manga series by Yayoi Ogawa.",
+    "cover_url": "https://example.com/covers/tramps-like-us.jpg"
+  },
+  {
+    "id": "usotoki-rhetoric",
+    "title": "Usotoki Rhetoric",
+    "author": "Miyako Ritsu",
+    "genres": [
+      "Mystery",
+      "Romance",
+      "Historical",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 50,
+    "description": "Usotoki Rhetoric is a popular Josei manga series by Miyako Ritsu.",
+    "cover_url": "https://example.com/covers/usotoki-rhetoric.jpg"
+  },
+  {
+    "id": "jikan-436",
+    "title": "Uzumaki",
+    "author": "Itou, Junji",
+    "genres": [
+      "Drama",
+      "Horror",
+      "Supernatural",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 19,
+    "description": "In the town of Kurouzu-cho, Kirie Goshima lives a fairly normal life with her family. As she walks to the train station one day to meet her boyfriend, Shuuichi Saito, she sees his father staring at a snail shell in an alley. Thinking nothing of it, she mentions the incident to...",
+    "cover_url": ""
+  },
+  {
+    "id": "vagabond",
+    "title": "Vagabond",
+    "author": "Takehiko Inoue",
+    "genres": [
+      "Historical",
+      "Action",
+      "Drama",
+      "Seinen"
+    ],
+    "status": "hiatus",
+    "total_chapters": 327,
+    "description": "Vagabond is a popular Seinen manga series by Takehiko Inoue.",
+    "cover_url": "https://example.com/covers/vagabond.jpg"
+  },
+  {
+    "id": "jikan-656",
+    "title": "Vagabond",
+    "author": "Inoue, Takehiko",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Award Winning",
+      "Seinen"
+    ],
+    "status": "on hiatus",
+    "total_chapters": 327,
+    "description": "In 16th-century Japan, Shinmen Takezou is a wild, rough young man in both his appearance and his actions. His aggressive nature has won him the collective reproach and fear of his village, leading him and his best friend, Matahachi Honiden, to run away in search of something g...",
+    "cover_url": ""
+  },
+  {
+    "id": "vampire-knight",
+    "title": "Vampire Knight",
+    "author": "Matsuri Hino",
+    "genres": [
+      "Romance",
+      "Supernatural",
+      "Drama",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 93,
+    "description": "Vampire Knight is a popular Shoujo manga series by Matsuri Hino.",
+    "cover_url": "https://example.com/covers/vampire-knight.jpg"
+  },
+  {
+    "id": "vinland-saga",
+    "title": "Vinland Saga",
+    "author": "Makoto Yukimura",
+    "genres": [
+      "Historical",
+      "Action",
+      "Drama",
+      "Seinen"
+    ],
+    "status": "ongoing",
+    "total_chapters": 215,
+    "description": "Vinland Saga is a popular Seinen manga series by Makoto Yukimura.",
+    "cover_url": "https://example.com/covers/vinland-saga.jpg"
+  },
+  {
+    "id": "jikan-642",
+    "title": "Vinland Saga",
+    "author": "Yukimura, Makoto",
+    "genres": [
+      "Action",
+      "Adventure",
+      "Award Winning",
+      "Drama",
+      "Seinen"
+    ],
+    "status": "finished",
+    "total_chapters": 224,
+    "description": "Thorfinn, son of one of the Vikings' greatest warriors, is among the finest fighters in the merry band of mercenaries run by the cunning Askeladd, an impressive feat for a person his age. However, Thorfinn is not part of the group for the plunder it entails—instead, for havi...",
+    "cover_url": ""
+  },
+  {
+    "id": "wolf-girl-and-black-prince",
+    "title": "Wolf Girl and Black Prince",
+    "author": "Ayuko Hatta",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "School",
+      "Shoujo"
+    ],
+    "status": "completed",
+    "total_chapters": 58,
+    "description": "Wolf Girl and Black Prince is a popular Shoujo manga series by Ayuko Hatta.",
+    "cover_url": "https://example.com/covers/wolf-girl-and-black-prince.jpg"
+  },
+  {
+    "id": "wotakoi-love-is-hard-for-otaku",
+    "title": "Wotakoi: Love is Hard for Otaku",
+    "author": "Fujita",
+    "genres": [
+      "Romance",
+      "Comedy",
+      "Workplace",
+      "Josei"
+    ],
+    "status": "completed",
+    "total_chapters": 86,
+    "description": "Wotakoi: Love is Hard for Otaku is a popular Josei manga series by Fujita.",
+    "cover_url": "https://example.com/covers/wotakoi-love-is-hard-for-otaku.jpg"
+  },
+  {
+    "id": "jikan-89087",
+    "title": "Wotaku ni Koi wa Muzukashii",
+    "author": "Fujita",
+    "genres": [
+      "Comedy",
+      "Romance"
+    ],
+    "status": "finished",
+    "total_chapters": 105,
+    "description": "Narumi Momose is a petite and cute young woman who loves idols, games, and everything anime or manga-related, especially in the boys' love genre. In other words, she is a closet otaku and more specifically, a fujoshi. After a breakup due to these kind of interests, she quits h...",
+    "cover_url": ""
+  },
+  {
+    "id": "jikan-100128",
+    "title": "Yakusoku no Neverland",
+    "author": "Demizu, Posuka",
+    "genres": [
+      "Award Winning",
+      "Mystery",
+      "Suspense",
+      "Shounen"
+    ],
+    "status": "finished",
+    "total_chapters": 181,
+    "description": "At Grace Field House, life could not be better for the orphans! Though they have no parents, together with the other kids and a kind \"Mama\" who cares for them, they form one big happy family. No child is ever overlooked, especially since they are all adopted by the age of 12. ...",
+    "cover_url": ""
   },
   {
     "id": "yona-of-the-dawn",
     "title": "Yona of the Dawn",
     "author": "Mizuho Kusanagi",
-    "genres": ["Adventure", "Fantasy", "Shoujo"],
+    "genres": [
+      "Adventure",
+      "Fantasy",
+      "Romance",
+      "Shoujo"
+    ],
     "status": "ongoing",
     "total_chapters": 260,
-    "description": "A sheltered princess is forced to grow into a determined leader after losing her kingdom overnight.",
+    "description": "Yona of the Dawn is a popular Shoujo manga series by Mizuho Kusanagi.",
     "cover_url": "https://example.com/covers/yona-of-the-dawn.jpg"
+  },
+  {
+    "id": "jikan-104",
+    "title": "Yotsuba to!",
+    "author": "Azuma, Kiyohiko",
+    "genres": [
+      "Award Winning",
+      "Comedy",
+      "Slice of Life"
+    ],
+    "status": "publishing",
+    "total_chapters": 0,
+    "description": "While most people find the world mundane, five-year-old Yotsuba Koiwai sees it as a treasure trove of amazing bustle and wonderful places to explore. When she and her adoptive father, Yousuke, move to a new city, the energetic young girl naturally sets out to investigate the n...",
+    "cover_url": ""
   }
 ]
-

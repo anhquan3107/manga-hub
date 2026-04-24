@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-04-24T03:41:35Z",
+  "manual_count": 101,
+  "mangadex_count": 100,
+  "final_count": 201,
+  "demographic_counters": {
+    "josei": 25,
+    "seinen": 54,
+    "shoujo": 32,
+    "shounen": 79
+  },
+  "educational_practice": {
+    "quotes_count": 0,
+    "httpbin_url": "https://httpbin.org/get"
+  }
+}

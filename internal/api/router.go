@@ -131,7 +131,10 @@ func NewRouter(
 				return
 			}
 
-			utils.OK(c, http.StatusOK, gin.H{"items": items})
+			utils.OK(c, http.StatusOK, gin.H{
+				"items":         items,
+				"reading_lists": buildReadingLists(items),
+			})
 		})
 
 		protected.PUT("/progress", func(c *gin.Context) {
@@ -178,4 +181,27 @@ func currentUserID(c *gin.Context) string {
 
 func isNotFound(err error) bool {
 	return errors.Is(err, http.ErrMissingFile) || strings.Contains(strings.ToLower(err.Error()), "no rows")
+}
+
+func buildReadingLists(items []models.LibraryEntry) gin.H {
+	reading := make([]models.LibraryEntry, 0)
+	completed := make([]models.LibraryEntry, 0)
+	planToRead := make([]models.LibraryEntry, 0)
+
+	for _, item := range items {
+		switch strings.ToLower(strings.TrimSpace(item.Status)) {
+		case "completed":
+			completed = append(completed, item)
+		case "plan_to_read", "plantoread", "planned":
+			planToRead = append(planToRead, item)
+		default:
+			reading = append(reading, item)
+		}
+	}
+
+	return gin.H{
+		"reading":      reading,
+		"completed":    completed,
+		"plan_to_read": planToRead,
+	}
 }
