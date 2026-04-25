@@ -31,7 +31,7 @@ func main() {
 	codec := grpcjson.Codec{}
 	encoding.RegisterCodec(codec)
 
-	conn, err := grpc.Dial(
+	conn, err := grpc.NewClient(
 		*addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithDefaultCallOptions(grpc.ForceCodec(codec)),

@@ -27,8 +27,8 @@ const (
 
 type mangadexResponse struct {
 	Data []struct {
-		ID            string `json:"id"`
-		Type          string `json:"type"`
+		ID            string         `json:"id"`
+		Type          string         `json:"type"`
 		Attributes    map[string]any `json:"attributes"`
 		Relationships []struct {
 			Type       string         `json:"type"`
@@ -39,14 +39,14 @@ type mangadexResponse struct {
 
 type jikanResponse struct {
 	Data []struct {
-		MalID      int    `json:"mal_id"`
-		URL        string `json:"url"`
-		Status     string `json:"status"`
-		Chapters   int    `json:"chapters"`
-		Synopsis   string `json:"synopsis"`
-		Title      string `json:"title"`
+		MalID        int    `json:"mal_id"`
+		URL          string `json:"url"`
+		Status       string `json:"status"`
+		Chapters     int    `json:"chapters"`
+		Synopsis     string `json:"synopsis"`
+		Title        string `json:"title"`
 		TitleEnglish string `json:"title_english"`
-		Authors    []struct {
+		Authors      []struct {
 			Name string `json:"name"`
 		} `json:"authors"`
 		Genres []struct {
@@ -61,8 +61,12 @@ type jikanResponse struct {
 type collectionReport struct {
 	GeneratedAt         string         `json:"generated_at"`
 	ManualCount         int            `json:"manual_count"`
+	APICount            int            `json:"api_count"`
+	APISource           string         `json:"api_source"`
 	MangaDexCount       int            `json:"mangadex_count"`
 	FinalCount          int            `json:"final_count"`
+	InvalidManualCount  int            `json:"invalid_manual_count"`
+	InvalidAPICount     int            `json:"invalid_api_count"`
 	DemographicCounters map[string]int `json:"demographic_counters"`
 	EducationalPractice struct {
 		QuotesCount int    `json:"quotes_count"`
@@ -72,7 +76,7 @@ type collectionReport struct {
 
 type quotesResponse struct {
 	Quotes []struct {
-		Quote string `json:"quote"`
+		Quote  string `json:"quote"`
 		Author string `json:"author"`
 	} `json:"quotes"`
 }
@@ -89,12 +93,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("load manual manga: %v", err)
 	}
+	manualItems, invalidManual := sanitizeMangaList(manualItems)
+	if len(manualItems) < 20 {
+		log.Fatalf("manual manga entries too low after validation: got=%d required>=20", len(manualItems))
+	}
 
 	client := &http.Client{Timeout: 15 * time.Second}
-	apiItems, err := fetchMangaDexBatch(ctx, client)
+	apiItems, apiSource, err := fetchMangaDexBatch(ctx, client)
 	if err != nil {
 		log.Fatalf("fetch mangadex data: %v", err)
 	}
+	apiItems, invalidAPI := sanitizeMangaList(apiItems)
 
 	quotesCount, httpbinURL := runEducationalPractice(ctx, client)
 
@@ -107,12 +116,12 @@ func main() {
 		log.Fatalf("write output json: %v", err)
 	}
 
-	report := buildReport(manualItems, apiItems, merged, quotesCount, httpbinURL)
+	report := buildReport(manualItems, apiItems, merged, quotesCount, httpbinURL, apiSource, invalidManual, invalidAPI)
 	if err := writeJSON(reportPath, report); err != nil {
 		log.Fatalf("write report json: %v", err)
 	}
 
-	log.Printf("collection complete: manual=%d api=%d merged=%d", len(manualItems), len(apiItems), len(merged))
+	log.Printf("collection complete: manual=%d api=%d merged=%d source=%s invalid_manual=%d invalid_api=%d", len(manualItems), len(apiItems), len(merged), apiSource, invalidManual, invalidAPI)
 	log.Printf("output: %s", outputPath)
 	log.Printf("report: %s", reportPath)
 }
@@ -144,7 +153,7 @@ func loadManualManga(path string) ([]models.Manga, error) {
 	return items, nil
 }
 
-func fetchMangaDexBatch(ctx context.Context, client *http.Client) ([]models.Manga, error) {
+func fetchMangaDexBatch(ctx context.Context, client *http.Client) ([]models.Manga, string, error) {
 	demographics := []string{"shounen", "shoujo", "seinen", "josei"}
 	items := make([]models.Manga, 0, 120)
 
@@ -152,12 +161,16 @@ func fetchMangaDexBatch(ctx context.Context, client *http.Client) ([]models.Mang
 		batch, err := fetchMangaDexByDemographic(ctx, client, demographic, 25)
 		if err != nil {
 			log.Printf("mangadex unavailable (%v), falling back to jikan", err)
-			return fetchJikanBatch(ctx, client, 100)
+			fallback, fallbackErr := fetchJikanBatch(ctx, client, 100)
+			if fallbackErr != nil {
+				return nil, "", fallbackErr
+			}
+			return fallback, "jikan", nil
 		}
 		items = append(items, batch...)
 	}
 
-	return items, nil
+	return items, "mangadex", nil
 }
 
 func fetchJikanBatch(ctx context.Context, client *http.Client, total int) ([]models.Manga, error) {
@@ -379,7 +392,7 @@ func runEducationalPractice(ctx context.Context, client *http.Client) (int, stri
 	return quotesCount, httpbinURL
 }
 
-func buildReport(manual, api, merged []models.Manga, quotesCount int, httpbinURL string) collectionReport {
+func buildReport(manual, api, merged []models.Manga, quotesCount int, httpbinURL, apiSource string, invalidManual, invalidAPI int) collectionReport {
 	counters := map[string]int{
 		"shounen": 0,
 		"shoujo":  0,
@@ -405,14 +418,69 @@ func buildReport(manual, api, merged []models.Manga, quotesCount int, httpbinURL
 	report := collectionReport{
 		GeneratedAt:         time.Now().UTC().Format(time.RFC3339),
 		ManualCount:         len(manual),
+		APICount:            len(api),
+		APISource:           apiSource,
 		MangaDexCount:       len(api),
 		FinalCount:          len(merged),
+		InvalidManualCount:  invalidManual,
+		InvalidAPICount:     invalidAPI,
 		DemographicCounters: counters,
 	}
 	report.EducationalPractice.QuotesCount = quotesCount
 	report.EducationalPractice.HTTPBinURL = httpbinURL
 
 	return report
+}
+
+func sanitizeMangaList(items []models.Manga) ([]models.Manga, int) {
+	out := make([]models.Manga, 0, len(items))
+	invalid := 0
+
+	for _, item := range items {
+		normalized, ok := normalizeManga(item)
+		if !ok {
+			invalid++
+			continue
+		}
+		out = append(out, normalized)
+	}
+
+	return out, invalid
+}
+
+func normalizeManga(item models.Manga) (models.Manga, bool) {
+	item.Title = strings.TrimSpace(item.Title)
+	item.Author = strings.TrimSpace(item.Author)
+	item.Description = strings.TrimSpace(item.Description)
+	item.CoverURL = strings.TrimSpace(item.CoverURL)
+
+	if item.ID == "" {
+		item.ID = slugify(item.Title)
+	}
+	item.ID = strings.ToLower(strings.TrimSpace(item.ID))
+
+	if item.ID == "" || item.Title == "" || item.Author == "" || item.Description == "" {
+		return models.Manga{}, false
+	}
+
+	item.Genres = uniqueNonEmpty(item.Genres)
+	if len(item.Genres) == 0 {
+		return models.Manga{}, false
+	}
+
+	if item.TotalChapters < 0 {
+		item.TotalChapters = 0
+	}
+
+	status := strings.ToLower(strings.TrimSpace(item.Status))
+	switch status {
+	case "ongoing", "completed", "hiatus", "cancelled":
+		item.Status = status
+	default:
+		item.Status = "ongoing"
+	}
+
+	return item, true
 }
 
 func mergeAndDedupe(a, b []models.Manga) []models.Manga {

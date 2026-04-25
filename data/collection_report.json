@@ -1,8 +1,12 @@
 {
-  "generated_at": "2026-04-24T03:41:35Z",
+  "generated_at": "2026-04-25T03:24:18Z",
   "manual_count": 101,
+  "api_count": 100,
+  "api_source": "jikan",
   "mangadex_count": 100,
   "final_count": 201,
+  "invalid_manual_count": 0,
+  "invalid_api_count": 0,
   "demographic_counters": {
     "josei": 25,
     "seinen": 54,

@@ -255,6 +255,84 @@ func (s *Store) GetMangaByID(ctx context.Context, mangaID string) (models.Manga,
 	return manga, nil
 }
 
+func (s *Store) CreateManga(ctx context.Context, manga models.Manga) (models.Manga, error) {
+	genres, err := json.Marshal(manga.Genres)
+	if err != nil {
+		return models.Manga{}, fmt.Errorf("marshal genres: %w", err)
+	}
+
+	_, err = s.db.ExecContext(
+		ctx,
+		`INSERT INTO manga (id, title, author, genres, status, total_chapters, description, cover_url)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+		manga.ID,
+		manga.Title,
+		manga.Author,
+		string(genres),
+		manga.Status,
+		manga.TotalChapters,
+		manga.Description,
+		manga.CoverURL,
+	)
+	if err != nil {
+		return models.Manga{}, fmt.Errorf("create manga: %w", err)
+	}
+
+	return s.GetMangaByID(ctx, manga.ID)
+}
+
+func (s *Store) UpdateMangaByID(ctx context.Context, mangaID string, manga models.Manga) (models.Manga, error) {
+	genres, err := json.Marshal(manga.Genres)
+	if err != nil {
+		return models.Manga{}, fmt.Errorf("marshal genres: %w", err)
+	}
+
+	result, err := s.db.ExecContext(
+		ctx,
+		`UPDATE manga
+		SET title = ?, author = ?, genres = ?, status = ?, total_chapters = ?, description = ?, cover_url = ?
+		WHERE id = ?`,
+		manga.Title,
+		manga.Author,
+		string(genres),
+		manga.Status,
+		manga.TotalChapters,
+		manga.Description,
+		manga.CoverURL,
+		mangaID,
+	)
+	if err != nil {
+		return models.Manga{}, fmt.Errorf("update manga: %w", err)
+	}
+
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return models.Manga{}, fmt.Errorf("update manga rows affected: %w", err)
+	}
+	if affected == 0 {
+		return models.Manga{}, sql.ErrNoRows
+	}
+
+	return s.GetMangaByID(ctx, mangaID)
+}
+
+func (s *Store) DeleteMangaByID(ctx context.Context, mangaID string) error {
+	result, err := s.db.ExecContext(ctx, `DELETE FROM manga WHERE id = ?`, mangaID)
+	if err != nil {
+		return fmt.Errorf("delete manga: %w", err)
+	}
+
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("delete manga rows affected: %w", err)
+	}
+	if affected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
+}
+
 func (s *Store) UpsertLibraryEntry(ctx context.Context, userID string, entry models.LibraryEntry) (models.LibraryEntry, error) {
 	_, err := s.db.ExecContext(
 		ctx,

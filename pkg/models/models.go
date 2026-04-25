@@ -19,6 +19,27 @@ type Manga struct {
 	CoverURL      string   `json:"cover_url"`
 }
 
+type CreateMangaRequest struct {
+	ID            string   `json:"id" binding:"required"`
+	Title         string   `json:"title" binding:"required"`
+	Author        string   `json:"author" binding:"required"`
+	Genres        []string `json:"genres" binding:"required,min=1"`
+	Status        string   `json:"status" binding:"required"`
+	TotalChapters int      `json:"total_chapters" binding:"min=0"`
+	Description   string   `json:"description" binding:"required"`
+	CoverURL      string   `json:"cover_url"`
+}
+
+type UpdateMangaRequest struct {
+	Title         string   `json:"title" binding:"required"`
+	Author        string   `json:"author" binding:"required"`
+	Genres        []string `json:"genres" binding:"required,min=1"`
+	Status        string   `json:"status" binding:"required"`
+	TotalChapters int      `json:"total_chapters" binding:"min=0"`
+	Description   string   `json:"description" binding:"required"`
+	CoverURL      string   `json:"cover_url"`
+}
+
 type MangaQuery struct {
 	Query  string
 	Genre  string

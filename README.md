@@ -20,8 +20,13 @@ Completed:
 Run collector:
 
 ```bash
-go run ./cmd/data-collector
+go run ./internal/data-collector
 ```
+
+Week 3 data integration notes:
+- Collector validates and normalizes manga entries before writing output.
+- If MangaDex is unavailable, collector falls back to Jikan as a legal API source.
+- Collection report includes API source and invalid record counters.
 
 ## System Architecture Components
 
@@ -103,4 +108,12 @@ Default environment values are in [.env.example](.env.example).
 ## Environment
 
 Copy values from [.env.example](.env.example) into your environment before running services.
+
+## Tests
+
+Run Week 2 API/Auth validation tests:
+
+```bash
+go test ./internal/api ./internal/auth
+```
 

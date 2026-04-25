@@ -4,12 +4,6 @@ package mangahub;
 
 option go_package = "mangahub/proto;mangahubproto";
 
-service MangaService {
-  rpc GetManga(GetMangaRequest) returns (MangaResponse);
-  rpc SearchManga(SearchRequest) returns (SearchResponse);
-  rpc UpdateProgress(ProgressRequest) returns (ProgressResponse);
-}
-
 message GetMangaRequest {
   string id = 1;
 }
@@ -52,3 +46,8 @@ message ProgressResponse {
   string message = 2;
 }
 
+service MangaService {
+  rpc GetManga(GetMangaRequest) returns (MangaResponse);
+  rpc SearchManga(SearchRequest) returns (SearchResponse);
+  rpc UpdateProgress(ProgressRequest) returns (ProgressResponse);
+}
