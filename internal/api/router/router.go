@@ -1,11 +1,10 @@
 package router
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 
-	"mangahub/internal/api/controller"
+	controller "mangahub/internal/api/handle"
+	"mangahub/internal/api/middleware"
 	"mangahub/internal/auth"
 	"mangahub/internal/config"
 	"mangahub/internal/manga"
@@ -21,7 +20,7 @@ func NewRouter(
 	hub *chatws.Hub,
 ) *gin.Engine {
 	router := gin.New()
-	router.Use(gin.Logger(), gin.Recovery(), corsMiddleware(cfg.AllowedOrigin))
+	router.Use(gin.Logger(), gin.Recovery(), middleware.CORS(cfg.AllowedOrigin))
 	h := controller.New(controller.Dependencies{
 		AuthService:  authService,
 		MangaService: mangaService,
@@ -53,20 +52,4 @@ func NewRouter(
 	}
 
 	return router
-}
-
-func corsMiddleware(origin string) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Header("Access-Control-Allow-Origin", origin)
-		c.Header("Access-Control-Allow-Headers", "Authorization, Content-Type")
-		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS")
-		c.Header("Access-Control-Allow-Credentials", "true")
-
-		if c.Request.Method == http.MethodOptions {
-			c.AbortWithStatus(http.StatusNoContent)
-			return
-		}
-
-		c.Next()
-	}
 }
