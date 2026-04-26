@@ -80,25 +80,7 @@ Hub and handler:
 - [internal/websocket/hub.go](internal/websocket/hub.go)
 - [internal/websocket/handler.go](internal/websocket/handler.go)
 
-### 5) gRPC Internal Service
-
-Protocol definition: [proto/mangahub.proto](proto/mangahub.proto)
-
-Start gRPC server:
-
-```bash
-go run ./cmd/grpc-server
-```
-
-Simple gRPC client integration:
-
-```bash
-go run ./cmd/grpc-client -method search -query one -limit 5
-go run ./cmd/grpc-client -method get -id one-piece
-go run ./cmd/grpc-client -method progress -user user-1 -manga one-piece -chapter 10 -status reading
-```
-
-### 6) Database Layer
+### 5) Database Layer
 
 Database layer and schema:
 - [pkg/database/sqlite.go](pkg/database/sqlite.go)

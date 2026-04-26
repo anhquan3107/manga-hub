@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"mangahub/internal/api"
+	apirouter "mangahub/internal/api/router"
 	"mangahub/internal/auth"
 	"mangahub/internal/config"
 	"mangahub/internal/manga"
@@ -45,7 +45,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:    cfg.HTTPAddr,
-		Handler: api.NewRouter(cfg, authService, mangaService, userService, hub),
+		Handler: apirouter.NewRouter(cfg, authService, mangaService, userService, hub),
 	}
 
 	go func() {
