@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 
-	controller "mangahub/internal/api/handle"
+	handler "mangahub/internal/api/handler"
 	"mangahub/internal/api/middleware"
 	"mangahub/internal/auth"
 	"mangahub/internal/config"
@@ -21,7 +21,7 @@ func NewRouter(
 ) *gin.Engine {
 	router := gin.New()
 	router.Use(gin.Logger(), gin.Recovery(), middleware.CORS(cfg.AllowedOrigin))
-	h := controller.New(controller.Dependencies{
+	h := handler.New(handler.Dependencies{
 		AuthService:  authService,
 		MangaService: mangaService,
 		UserService:  userService,
