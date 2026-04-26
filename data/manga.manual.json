@@ -1,0 +1,1518 @@
+[
+    {
+        "id":  "one-piece",
+        "title":  "One Piece",
+        "author":  "Eiichiro Oda",
+        "genres":  [
+                       "Action",
+                       "Adventure",
+                       "Fantasy",
+                       "Shounen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  1112,
+        "description":  "One Piece is a popular Shounen manga series by Eiichiro Oda.",
+        "cover_url":  "https://example.com/covers/one-piece.jpg"
+    },
+    {
+        "id":  "naruto",
+        "title":  "Naruto",
+        "author":  "Masashi Kishimoto",
+        "genres":  [
+                       "Action",
+                       "Adventure",
+                       "Ninja",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  700,
+        "description":  "Naruto is a popular Shounen manga series by Masashi Kishimoto.",
+        "cover_url":  "https://example.com/covers/naruto.jpg"
+    },
+    {
+        "id":  "bleach",
+        "title":  "Bleach",
+        "author":  "Tite Kubo",
+        "genres":  [
+                       "Action",
+                       "Supernatural",
+                       "Swordplay",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  686,
+        "description":  "Bleach is a popular Shounen manga series by Tite Kubo.",
+        "cover_url":  "https://example.com/covers/bleach.jpg"
+    },
+    {
+        "id":  "dragon-ball",
+        "title":  "Dragon Ball",
+        "author":  "Akira Toriyama",
+        "genres":  [
+                       "Action",
+                       "Adventure",
+                       "Martial Arts",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  519,
+        "description":  "Dragon Ball is a popular Shounen manga series by Akira Toriyama.",
+        "cover_url":  "https://example.com/covers/dragon-ball.jpg"
+    },
+    {
+        "id":  "attack-on-titan",
+        "title":  "Attack on Titan",
+        "author":  "Hajime Isayama",
+        "genres":  [
+                       "Action",
+                       "Drama",
+                       "Dark Fantasy",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  139,
+        "description":  "Attack on Titan is a popular Shounen manga series by Hajime Isayama.",
+        "cover_url":  "https://example.com/covers/attack-on-titan.jpg"
+    },
+    {
+        "id":  "demon-slayer",
+        "title":  "Demon Slayer",
+        "author":  "Koyoharu Gotouge",
+        "genres":  [
+                       "Action",
+                       "Historical",
+                       "Supernatural",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  205,
+        "description":  "Demon Slayer is a popular Shounen manga series by Koyoharu Gotouge.",
+        "cover_url":  "https://example.com/covers/demon-slayer.jpg"
+    },
+    {
+        "id":  "jujutsu-kaisen",
+        "title":  "Jujutsu Kaisen",
+        "author":  "Gege Akutami",
+        "genres":  [
+                       "Action",
+                       "Supernatural",
+                       "Dark Fantasy",
+                       "Shounen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  260,
+        "description":  "Jujutsu Kaisen is a popular Shounen manga series by Gege Akutami.",
+        "cover_url":  "https://example.com/covers/jujutsu-kaisen.jpg"
+    },
+    {
+        "id":  "my-hero-academia",
+        "title":  "My Hero Academia",
+        "author":  "Kohei Horikoshi",
+        "genres":  [
+                       "Action",
+                       "Superhero",
+                       "School",
+                       "Shounen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  430,
+        "description":  "My Hero Academia is a popular Shounen manga series by Kohei Horikoshi.",
+        "cover_url":  "https://example.com/covers/my-hero-academia.jpg"
+    },
+    {
+        "id":  "hunter-x-hunter",
+        "title":  "Hunter x Hunter",
+        "author":  "Yoshihiro Togashi",
+        "genres":  [
+                       "Action",
+                       "Adventure",
+                       "Fantasy",
+                       "Shounen"
+                   ],
+        "status":  "hiatus",
+        "total_chapters":  400,
+        "description":  "Hunter x Hunter is a popular Shounen manga series by Yoshihiro Togashi.",
+        "cover_url":  "https://example.com/covers/hunter-x-hunter.jpg"
+    },
+    {
+        "id":  "fullmetal-alchemist",
+        "title":  "Fullmetal Alchemist",
+        "author":  "Hiromu Arakawa",
+        "genres":  [
+                       "Action",
+                       "Adventure",
+                       "Steampunk",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  116,
+        "description":  "Fullmetal Alchemist is a popular Shounen manga series by Hiromu Arakawa.",
+        "cover_url":  "https://example.com/covers/fullmetal-alchemist.jpg"
+    },
+    {
+        "id":  "haikyu",
+        "title":  "Haikyu!!",
+        "author":  "Haruichi Furudate",
+        "genres":  [
+                       "Sports",
+                       "School",
+                       "Drama",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  402,
+        "description":  "Haikyu!! is a popular Shounen manga series by Haruichi Furudate.",
+        "cover_url":  "https://example.com/covers/haikyu.jpg"
+    },
+    {
+        "id":  "the-promised-neverland",
+        "title":  "The Promised Neverland",
+        "author":  "Kaiu Shirai",
+        "genres":  [
+                       "Mystery",
+                       "Thriller",
+                       "Sci-Fi",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  181,
+        "description":  "The Promised Neverland is a popular Shounen manga series by Kaiu Shirai.",
+        "cover_url":  "https://example.com/covers/the-promised-neverland.jpg"
+    },
+    {
+        "id":  "dr-stone",
+        "title":  "Dr. Stone",
+        "author":  "Riichiro Inagaki",
+        "genres":  [
+                       "Sci-Fi",
+                       "Adventure",
+                       "Survival",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  232,
+        "description":  "Dr. Stone is a popular Shounen manga series by Riichiro Inagaki.",
+        "cover_url":  "https://example.com/covers/dr-stone.jpg"
+    },
+    {
+        "id":  "black-clover",
+        "title":  "Black Clover",
+        "author":  "Yuki Tabata",
+        "genres":  [
+                       "Action",
+                       "Fantasy",
+                       "Magic",
+                       "Shounen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  370,
+        "description":  "Black Clover is a popular Shounen manga series by Yuki Tabata.",
+        "cover_url":  "https://example.com/covers/black-clover.jpg"
+    },
+    {
+        "id":  "chainsaw-man",
+        "title":  "Chainsaw Man",
+        "author":  "Tatsuki Fujimoto",
+        "genres":  [
+                       "Action",
+                       "Horror",
+                       "Dark Fantasy",
+                       "Shounen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  190,
+        "description":  "Chainsaw Man is a popular Shounen manga series by Tatsuki Fujimoto.",
+        "cover_url":  "https://example.com/covers/chainsaw-man.jpg"
+    },
+    {
+        "id":  "blue-lock",
+        "title":  "Blue Lock",
+        "author":  "Muneyuki Kaneshiro",
+        "genres":  [
+                       "Sports",
+                       "Psychological",
+                       "Drama",
+                       "Shounen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  300,
+        "description":  "Blue Lock is a popular Shounen manga series by Muneyuki Kaneshiro.",
+        "cover_url":  "https://example.com/covers/blue-lock.jpg"
+    },
+    {
+        "id":  "spy-x-family",
+        "title":  "Spy x Family",
+        "author":  "Tatsuya Endo",
+        "genres":  [
+                       "Action",
+                       "Comedy",
+                       "Family",
+                       "Shounen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  105,
+        "description":  "Spy x Family is a popular Shounen manga series by Tatsuya Endo.",
+        "cover_url":  "https://example.com/covers/spy-x-family.jpg"
+    },
+    {
+        "id":  "fairy-tail",
+        "title":  "Fairy Tail",
+        "author":  "Hiro Mashima",
+        "genres":  [
+                       "Action",
+                       "Fantasy",
+                       "Adventure",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  545,
+        "description":  "Fairy Tail is a popular Shounen manga series by Hiro Mashima.",
+        "cover_url":  "https://example.com/covers/fairy-tail.jpg"
+    },
+    {
+        "id":  "the-seven-deadly-sins",
+        "title":  "The Seven Deadly Sins",
+        "author":  "Nakaba Suzuki",
+        "genres":  [
+                       "Action",
+                       "Fantasy",
+                       "Adventure",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  346,
+        "description":  "The Seven Deadly Sins is a popular Shounen manga series by Nakaba Suzuki.",
+        "cover_url":  "https://example.com/covers/the-seven-deadly-sins.jpg"
+    },
+    {
+        "id":  "gintama",
+        "title":  "Gintama",
+        "author":  "Hideaki Sorachi",
+        "genres":  [
+                       "Comedy",
+                       "Action",
+                       "Sci-Fi",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  704,
+        "description":  "Gintama is a popular Shounen manga series by Hideaki Sorachi.",
+        "cover_url":  "https://example.com/covers/gintama.jpg"
+    },
+    {
+        "id":  "magi",
+        "title":  "Magi",
+        "author":  "Shinobu Ohtaka",
+        "genres":  [
+                       "Adventure",
+                       "Fantasy",
+                       "Action",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  369,
+        "description":  "Magi is a popular Shounen manga series by Shinobu Ohtaka.",
+        "cover_url":  "https://example.com/covers/magi.jpg"
+    },
+    {
+        "id":  "soul-eater",
+        "title":  "Soul Eater",
+        "author":  "Atsushi Ohkubo",
+        "genres":  [
+                       "Action",
+                       "Supernatural",
+                       "Fantasy",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  113,
+        "description":  "Soul Eater is a popular Shounen manga series by Atsushi Ohkubo.",
+        "cover_url":  "https://example.com/covers/soul-eater.jpg"
+    },
+    {
+        "id":  "fire-force",
+        "title":  "Fire Force",
+        "author":  "Atsushi Ohkubo",
+        "genres":  [
+                       "Action",
+                       "Supernatural",
+                       "Fantasy",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  304,
+        "description":  "Fire Force is a popular Shounen manga series by Atsushi Ohkubo.",
+        "cover_url":  "https://example.com/covers/fire-force.jpg"
+    },
+    {
+        "id":  "katekyo-hitman-reborn",
+        "title":  "Katekyo Hitman Reborn!",
+        "author":  "Akira Amano",
+        "genres":  [
+                       "Action",
+                       "Comedy",
+                       "School",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  409,
+        "description":  "Katekyo Hitman Reborn! is a popular Shounen manga series by Akira Amano.",
+        "cover_url":  "https://example.com/covers/katekyo-hitman-reborn.jpg"
+    },
+    {
+        "id":  "assassination-classroom",
+        "title":  "Assassination Classroom",
+        "author":  "Yusei Matsui",
+        "genres":  [
+                       "Action",
+                       "Comedy",
+                       "School",
+                       "Shounen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  180,
+        "description":  "Assassination Classroom is a popular Shounen manga series by Yusei Matsui.",
+        "cover_url":  "https://example.com/covers/assassination-classroom.jpg"
+    },
+    {
+        "id":  "fruits-basket",
+        "title":  "Fruits Basket",
+        "author":  "Natsuki Takaya",
+        "genres":  [
+                       "Romance",
+                       "Drama",
+                       "Slice of Life",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  136,
+        "description":  "Fruits Basket is a popular Shoujo manga series by Natsuki Takaya.",
+        "cover_url":  "https://example.com/covers/fruits-basket.jpg"
+    },
+    {
+        "id":  "sailor-moon",
+        "title":  "Sailor Moon",
+        "author":  "Naoko Takeuchi",
+        "genres":  [
+                       "Fantasy",
+                       "Romance",
+                       "Magical Girl",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  60,
+        "description":  "Sailor Moon is a popular Shoujo manga series by Naoko Takeuchi.",
+        "cover_url":  "https://example.com/covers/sailor-moon.jpg"
+    },
+    {
+        "id":  "ouran-high-school-host-club",
+        "title":  "Ouran High School Host Club",
+        "author":  "Bisco Hatori",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  83,
+        "description":  "Ouran High School Host Club is a popular Shoujo manga series by Bisco Hatori.",
+        "cover_url":  "https://example.com/covers/ouran-high-school-host-club.jpg"
+    },
+    {
+        "id":  "cardcaptor-sakura",
+        "title":  "Cardcaptor Sakura",
+        "author":  "CLAMP",
+        "genres":  [
+                       "Fantasy",
+                       "Romance",
+                       "Magical Girl",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  50,
+        "description":  "Cardcaptor Sakura is a popular Shoujo manga series by CLAMP.",
+        "cover_url":  "https://example.com/covers/cardcaptor-sakura.jpg"
+    },
+    {
+        "id":  "kimi-ni-todoke",
+        "title":  "Kimi ni Todoke",
+        "author":  "Karuho Shiina",
+        "genres":  [
+                       "Romance",
+                       "School",
+                       "Slice of Life",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  123,
+        "description":  "Kimi ni Todoke is a popular Shoujo manga series by Karuho Shiina.",
+        "cover_url":  "https://example.com/covers/kimi-ni-todoke.jpg"
+    },
+    {
+        "id":  "ao-haru-ride",
+        "title":  "Ao Haru Ride",
+        "author":  "Io Sakisaka",
+        "genres":  [
+                       "Romance",
+                       "School",
+                       "Drama",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  53,
+        "description":  "Ao Haru Ride is a popular Shoujo manga series by Io Sakisaka.",
+        "cover_url":  "https://example.com/covers/ao-haru-ride.jpg"
+    },
+    {
+        "id":  "maid-sama",
+        "title":  "Maid-Sama!",
+        "author":  "Hiro Fujiwara",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  85,
+        "description":  "Maid-Sama! is a popular Shoujo manga series by Hiro Fujiwara.",
+        "cover_url":  "https://example.com/covers/maid-sama.jpg"
+    },
+    {
+        "id":  "skip-beat",
+        "title":  "Skip Beat!",
+        "author":  "Yoshiki Nakamura",
+        "genres":  [
+                       "Romance",
+                       "Drama",
+                       "Entertainment",
+                       "Shoujo"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  320,
+        "description":  "Skip Beat! is a popular Shoujo manga series by Yoshiki Nakamura.",
+        "cover_url":  "https://example.com/covers/skip-beat.jpg"
+    },
+    {
+        "id":  "vampire-knight",
+        "title":  "Vampire Knight",
+        "author":  "Matsuri Hino",
+        "genres":  [
+                       "Romance",
+                       "Supernatural",
+                       "Drama",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  93,
+        "description":  "Vampire Knight is a popular Shoujo manga series by Matsuri Hino.",
+        "cover_url":  "https://example.com/covers/vampire-knight.jpg"
+    },
+    {
+        "id":  "yona-of-the-dawn",
+        "title":  "Yona of the Dawn",
+        "author":  "Mizuho Kusanagi",
+        "genres":  [
+                       "Adventure",
+                       "Fantasy",
+                       "Romance",
+                       "Shoujo"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  260,
+        "description":  "Yona of the Dawn is a popular Shoujo manga series by Mizuho Kusanagi.",
+        "cover_url":  "https://example.com/covers/yona-of-the-dawn.jpg"
+    },
+    {
+        "id":  "orange",
+        "title":  "Orange",
+        "author":  "Ichigo Takano",
+        "genres":  [
+                       "Romance",
+                       "Drama",
+                       "Sci-Fi",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  26,
+        "description":  "Orange is a popular Shoujo manga series by Ichigo Takano.",
+        "cover_url":  "https://example.com/covers/orange.jpg"
+    },
+    {
+        "id":  "kamisama-kiss",
+        "title":  "Kamisama Kiss",
+        "author":  "Julietta Suzuki",
+        "genres":  [
+                       "Romance",
+                       "Supernatural",
+                       "Comedy",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  149,
+        "description":  "Kamisama Kiss is a popular Shoujo manga series by Julietta Suzuki.",
+        "cover_url":  "https://example.com/covers/kamisama-kiss.jpg"
+    },
+    {
+        "id":  "lovely-complex",
+        "title":  "Lovely Complex",
+        "author":  "Aya Nakahara",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  68,
+        "description":  "Lovely Complex is a popular Shoujo manga series by Aya Nakahara.",
+        "cover_url":  "https://example.com/covers/lovely-complex.jpg"
+    },
+    {
+        "id":  "special-a",
+        "title":  "Special A",
+        "author":  "Maki Minami",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  99,
+        "description":  "Special A is a popular Shoujo manga series by Maki Minami.",
+        "cover_url":  "https://example.com/covers/special-a.jpg"
+    },
+    {
+        "id":  "itazura-na-kiss",
+        "title":  "Itazura na Kiss",
+        "author":  "Kaoru Tada",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  100,
+        "description":  "Itazura na Kiss is a popular Shoujo manga series by Kaoru Tada.",
+        "cover_url":  "https://example.com/covers/itazura-na-kiss.jpg"
+    },
+    {
+        "id":  "boys-over-flowers",
+        "title":  "Boys Over Flowers",
+        "author":  "Yoko Kamio",
+        "genres":  [
+                       "Romance",
+                       "Drama",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  244,
+        "description":  "Boys Over Flowers is a popular Shoujo manga series by Yoko Kamio.",
+        "cover_url":  "https://example.com/covers/boys-over-flowers.jpg"
+    },
+    {
+        "id":  "wolf-girl-and-black-prince",
+        "title":  "Wolf Girl and Black Prince",
+        "author":  "Ayuko Hatta",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  58,
+        "description":  "Wolf Girl and Black Prince is a popular Shoujo manga series by Ayuko Hatta.",
+        "cover_url":  "https://example.com/covers/wolf-girl-and-black-prince.jpg"
+    },
+    {
+        "id":  "say-i-love-you",
+        "title":  "Say I Love You",
+        "author":  "Kanae Hazuki",
+        "genres":  [
+                       "Romance",
+                       "Drama",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  72,
+        "description":  "Say I Love You is a popular Shoujo manga series by Kanae Hazuki.",
+        "cover_url":  "https://example.com/covers/say-i-love-you.jpg"
+    },
+    {
+        "id":  "my-little-monster",
+        "title":  "My Little Monster",
+        "author":  "Robico",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  55,
+        "description":  "My Little Monster is a popular Shoujo manga series by Robico.",
+        "cover_url":  "https://example.com/covers/my-little-monster.jpg"
+    },
+    {
+        "id":  "honey-lemon-soda",
+        "title":  "Honey Lemon Soda",
+        "author":  "Mayu Murata",
+        "genres":  [
+                       "Romance",
+                       "School",
+                       "Slice of Life",
+                       "Shoujo"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  120,
+        "description":  "Honey Lemon Soda is a popular Shoujo manga series by Mayu Murata.",
+        "cover_url":  "https://example.com/covers/honey-lemon-soda.jpg"
+    },
+    {
+        "id":  "a-sign-of-affection",
+        "title":  "A Sign of Affection",
+        "author":  "Suu Morishita",
+        "genres":  [
+                       "Romance",
+                       "Slice of Life",
+                       "Drama",
+                       "Shoujo"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  50,
+        "description":  "A Sign of Affection is a popular Shoujo manga series by Suu Morishita.",
+        "cover_url":  "https://example.com/covers/a-sign-of-affection.jpg"
+    },
+    {
+        "id":  "dawn-of-the-arcana",
+        "title":  "Dawn of the Arcana",
+        "author":  "Rei Toma",
+        "genres":  [
+                       "Fantasy",
+                       "Romance",
+                       "Drama",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  53,
+        "description":  "Dawn of the Arcana is a popular Shoujo manga series by Rei Toma.",
+        "cover_url":  "https://example.com/covers/dawn-of-the-arcana.jpg"
+    },
+    {
+        "id":  "kitchen-princess",
+        "title":  "Kitchen Princess",
+        "author":  "Miyuki Kobayashi",
+        "genres":  [
+                       "Romance",
+                       "Drama",
+                       "School",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  47,
+        "description":  "Kitchen Princess is a popular Shoujo manga series by Miyuki Kobayashi.",
+        "cover_url":  "https://example.com/covers/kitchen-princess.jpg"
+    },
+    {
+        "id":  "beauty-pop",
+        "title":  "Beauty Pop",
+        "author":  "Kiyoko Arai",
+        "genres":  [
+                       "Comedy",
+                       "School",
+                       "Romance",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  57,
+        "description":  "Beauty Pop is a popular Shoujo manga series by Kiyoko Arai.",
+        "cover_url":  "https://example.com/covers/beauty-pop.jpg"
+    },
+    {
+        "id":  "fushigi-yuugi",
+        "title":  "Fushigi Yuugi",
+        "author":  "Yuu Watase",
+        "genres":  [
+                       "Fantasy",
+                       "Romance",
+                       "Adventure",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  113,
+        "description":  "Fushigi Yuugi is a popular Shoujo manga series by Yuu Watase.",
+        "cover_url":  "https://example.com/covers/fushigi-yuugi.jpg"
+    },
+    {
+        "id":  "strobe-edge",
+        "title":  "Strobe Edge",
+        "author":  "Io Sakisaka",
+        "genres":  [
+                       "Romance",
+                       "School",
+                       "Drama",
+                       "Shoujo"
+                   ],
+        "status":  "completed",
+        "total_chapters":  40,
+        "description":  "Strobe Edge is a popular Shoujo manga series by Io Sakisaka.",
+        "cover_url":  "https://example.com/covers/strobe-edge.jpg"
+    },
+    {
+        "id":  "berserk",
+        "title":  "Berserk",
+        "author":  "Kentaro Miura",
+        "genres":  [
+                       "Dark Fantasy",
+                       "Action",
+                       "Drama",
+                       "Seinen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  376,
+        "description":  "Berserk is a popular Seinen manga series by Kentaro Miura.",
+        "cover_url":  "https://example.com/covers/berserk.jpg"
+    },
+    {
+        "id":  "monster",
+        "title":  "Monster",
+        "author":  "Naoki Urasawa",
+        "genres":  [
+                       "Mystery",
+                       "Psychological",
+                       "Thriller",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  162,
+        "description":  "Monster is a popular Seinen manga series by Naoki Urasawa.",
+        "cover_url":  "https://example.com/covers/monster.jpg"
+    },
+    {
+        "id":  "vagabond",
+        "title":  "Vagabond",
+        "author":  "Takehiko Inoue",
+        "genres":  [
+                       "Historical",
+                       "Action",
+                       "Drama",
+                       "Seinen"
+                   ],
+        "status":  "hiatus",
+        "total_chapters":  327,
+        "description":  "Vagabond is a popular Seinen manga series by Takehiko Inoue.",
+        "cover_url":  "https://example.com/covers/vagabond.jpg"
+    },
+    {
+        "id":  "vinland-saga",
+        "title":  "Vinland Saga",
+        "author":  "Makoto Yukimura",
+        "genres":  [
+                       "Historical",
+                       "Action",
+                       "Drama",
+                       "Seinen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  215,
+        "description":  "Vinland Saga is a popular Seinen manga series by Makoto Yukimura.",
+        "cover_url":  "https://example.com/covers/vinland-saga.jpg"
+    },
+    {
+        "id":  "kingdom",
+        "title":  "Kingdom",
+        "author":  "Yasuhisa Hara",
+        "genres":  [
+                       "Historical",
+                       "War",
+                       "Action",
+                       "Seinen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  800,
+        "description":  "Kingdom is a popular Seinen manga series by Yasuhisa Hara.",
+        "cover_url":  "https://example.com/covers/kingdom.jpg"
+    },
+    {
+        "id":  "tokyo-ghoul",
+        "title":  "Tokyo Ghoul",
+        "author":  "Sui Ishida",
+        "genres":  [
+                       "Horror",
+                       "Action",
+                       "Psychological",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  179,
+        "description":  "Tokyo Ghoul is a popular Seinen manga series by Sui Ishida.",
+        "cover_url":  "https://example.com/covers/tokyo-ghoul.jpg"
+    },
+    {
+        "id":  "one-punch-man",
+        "title":  "One Punch Man",
+        "author":  "ONE",
+        "genres":  [
+                       "Action",
+                       "Comedy",
+                       "Superhero",
+                       "Seinen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  240,
+        "description":  "One Punch Man is a popular Seinen manga series by ONE.",
+        "cover_url":  "https://example.com/covers/one-punch-man.jpg"
+    },
+    {
+        "id":  "kaguya-sama-love-is-war",
+        "title":  "Kaguya-sama: Love Is War",
+        "author":  "Aka Akasaka",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "School",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  281,
+        "description":  "Kaguya-sama: Love Is War is a popular Seinen manga series by Aka Akasaka.",
+        "cover_url":  "https://example.com/covers/kaguya-sama-love-is-war.jpg"
+    },
+    {
+        "id":  "jojo-s-bizarre-adventure",
+        "title":  "JoJo\u0027s Bizarre Adventure",
+        "author":  "Hirohiko Araki",
+        "genres":  [
+                       "Action",
+                       "Adventure",
+                       "Supernatural",
+                       "Seinen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  950,
+        "description":  "JoJo\u0027s Bizarre Adventure is a popular Seinen manga series by Hirohiko Araki.",
+        "cover_url":  "https://example.com/covers/jojo-s-bizarre-adventure.jpg"
+    },
+    {
+        "id":  "akira",
+        "title":  "Akira",
+        "author":  "Katsuhiro Otomo",
+        "genres":  [
+                       "Sci-Fi",
+                       "Action",
+                       "Cyberpunk",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  120,
+        "description":  "Akira is a popular Seinen manga series by Katsuhiro Otomo.",
+        "cover_url":  "https://example.com/covers/akira.jpg"
+    },
+    {
+        "id":  "ghost-in-the-shell",
+        "title":  "Ghost in the Shell",
+        "author":  "Masamune Shirow",
+        "genres":  [
+                       "Sci-Fi",
+                       "Cyberpunk",
+                       "Action",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  70,
+        "description":  "Ghost in the Shell is a popular Seinen manga series by Masamune Shirow.",
+        "cover_url":  "https://example.com/covers/ghost-in-the-shell.jpg"
+    },
+    {
+        "id":  "hellsing",
+        "title":  "Hellsing",
+        "author":  "Kouta Hirano",
+        "genres":  [
+                       "Action",
+                       "Horror",
+                       "Supernatural",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  95,
+        "description":  "Hellsing is a popular Seinen manga series by Kouta Hirano.",
+        "cover_url":  "https://example.com/covers/hellsing.jpg"
+    },
+    {
+        "id":  "parasyte",
+        "title":  "Parasyte",
+        "author":  "Hitoshi Iwaaki",
+        "genres":  [
+                       "Horror",
+                       "Sci-Fi",
+                       "Psychological",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  64,
+        "description":  "Parasyte is a popular Seinen manga series by Hitoshi Iwaaki.",
+        "cover_url":  "https://example.com/covers/parasyte.jpg"
+    },
+    {
+        "id":  "20th-century-boys",
+        "title":  "20th Century Boys",
+        "author":  "Naoki Urasawa",
+        "genres":  [
+                       "Mystery",
+                       "Sci-Fi",
+                       "Thriller",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  249,
+        "description":  "20th Century Boys is a popular Seinen manga series by Naoki Urasawa.",
+        "cover_url":  "https://example.com/covers/20th-century-boys.jpg"
+    },
+    {
+        "id":  "pluto",
+        "title":  "Pluto",
+        "author":  "Naoki Urasawa",
+        "genres":  [
+                       "Sci-Fi",
+                       "Mystery",
+                       "Drama",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  65,
+        "description":  "Pluto is a popular Seinen manga series by Naoki Urasawa.",
+        "cover_url":  "https://example.com/covers/pluto.jpg"
+    },
+    {
+        "id":  "golden-kamuy",
+        "title":  "Golden Kamuy",
+        "author":  "Satoru Noda",
+        "genres":  [
+                       "Adventure",
+                       "Historical",
+                       "Action",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  314,
+        "description":  "Golden Kamuy is a popular Seinen manga series by Satoru Noda.",
+        "cover_url":  "https://example.com/covers/golden-kamuy.jpg"
+    },
+    {
+        "id":  "gantz",
+        "title":  "Gantz",
+        "author":  "Hiroya Oku",
+        "genres":  [
+                       "Sci-Fi",
+                       "Action",
+                       "Horror",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  383,
+        "description":  "Gantz is a popular Seinen manga series by Hiroya Oku.",
+        "cover_url":  "https://example.com/covers/gantz.jpg"
+    },
+    {
+        "id":  "dorohedoro",
+        "title":  "Dorohedoro",
+        "author":  "Q Hayashida",
+        "genres":  [
+                       "Dark Fantasy",
+                       "Action",
+                       "Comedy",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  190,
+        "description":  "Dorohedoro is a popular Seinen manga series by Q Hayashida.",
+        "cover_url":  "https://example.com/covers/dorohedoro.jpg"
+    },
+    {
+        "id":  "blame",
+        "title":  "Blame!",
+        "author":  "Tsutomu Nihei",
+        "genres":  [
+                       "Sci-Fi",
+                       "Cyberpunk",
+                       "Action",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  66,
+        "description":  "Blame! is a popular Seinen manga series by Tsutomu Nihei.",
+        "cover_url":  "https://example.com/covers/blame.jpg"
+    },
+    {
+        "id":  "ajin-demi-human",
+        "title":  "Ajin: Demi-Human",
+        "author":  "Gamon Sakurai",
+        "genres":  [
+                       "Action",
+                       "Horror",
+                       "Supernatural",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  86,
+        "description":  "Ajin: Demi-Human is a popular Seinen manga series by Gamon Sakurai.",
+        "cover_url":  "https://example.com/covers/ajin-demi-human.jpg"
+    },
+    {
+        "id":  "terra-formars",
+        "title":  "Terra Formars",
+        "author":  "Yu Sasuga",
+        "genres":  [
+                       "Sci-Fi",
+                       "Action",
+                       "Horror",
+                       "Seinen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  240,
+        "description":  "Terra Formars is a popular Seinen manga series by Yu Sasuga.",
+        "cover_url":  "https://example.com/covers/terra-formars.jpg"
+    },
+    {
+        "id":  "prison-school",
+        "title":  "Prison School",
+        "author":  "Akira Hiramoto",
+        "genres":  [
+                       "Comedy",
+                       "Ecchi",
+                       "School",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  277,
+        "description":  "Prison School is a popular Seinen manga series by Akira Hiramoto.",
+        "cover_url":  "https://example.com/covers/prison-school.jpg"
+    },
+    {
+        "id":  "march-comes-in-like-a-lion",
+        "title":  "March Comes in Like a Lion",
+        "author":  "Chica Umino",
+        "genres":  [
+                       "Drama",
+                       "Slice of Life",
+                       "Game",
+                       "Seinen"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  210,
+        "description":  "March Comes in Like a Lion is a popular Seinen manga series by Chica Umino.",
+        "cover_url":  "https://example.com/covers/march-comes-in-like-a-lion.jpg"
+    },
+    {
+        "id":  "btooom",
+        "title":  "Btooom!",
+        "author":  "Junya Inoue",
+        "genres":  [
+                       "Action",
+                       "Psychological",
+                       "Survival",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  118,
+        "description":  "Btooom! is a popular Seinen manga series by Junya Inoue.",
+        "cover_url":  "https://example.com/covers/btooom.jpg"
+    },
+    {
+        "id":  "initial-d",
+        "title":  "Initial D",
+        "author":  "Shuichi Shigeno",
+        "genres":  [
+                       "Sports",
+                       "Racing",
+                       "Drama",
+                       "Seinen"
+                   ],
+        "status":  "completed",
+        "total_chapters":  719,
+        "description":  "Initial D is a popular Seinen manga series by Shuichi Shigeno.",
+        "cover_url":  "https://example.com/covers/initial-d.jpg"
+    },
+    {
+        "id":  "nodame-cantabile",
+        "title":  "Nodame Cantabile",
+        "author":  "Tomoko Ninomiya",
+        "genres":  [
+                       "Romance",
+                       "Music",
+                       "Comedy",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  136,
+        "description":  "Nodame Cantabile is a popular Josei manga series by Tomoko Ninomiya.",
+        "cover_url":  "https://example.com/covers/nodame-cantabile.jpg"
+    },
+    {
+        "id":  "chihayafuru",
+        "title":  "Chihayafuru",
+        "author":  "Yuki Suetsugu",
+        "genres":  [
+                       "Drama",
+                       "Sports",
+                       "Romance",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  247,
+        "description":  "Chihayafuru is a popular Josei manga series by Yuki Suetsugu.",
+        "cover_url":  "https://example.com/covers/chihayafuru.jpg"
+    },
+    {
+        "id":  "princess-jellyfish",
+        "title":  "Princess Jellyfish",
+        "author":  "Akiko Higashimura",
+        "genres":  [
+                       "Comedy",
+                       "Drama",
+                       "Romance",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  84,
+        "description":  "Princess Jellyfish is a popular Josei manga series by Akiko Higashimura.",
+        "cover_url":  "https://example.com/covers/princess-jellyfish.jpg"
+    },
+    {
+        "id":  "wotakoi-love-is-hard-for-otaku",
+        "title":  "Wotakoi: Love is Hard for Otaku",
+        "author":  "Fujita",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "Workplace",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  86,
+        "description":  "Wotakoi: Love is Hard for Otaku is a popular Josei manga series by Fujita.",
+        "cover_url":  "https://example.com/covers/wotakoi-love-is-hard-for-otaku.jpg"
+    },
+    {
+        "id":  "honey-and-clover",
+        "title":  "Honey and Clover",
+        "author":  "Chica Umino",
+        "genres":  [
+                       "Drama",
+                       "Romance",
+                       "Slice of Life",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  64,
+        "description":  "Honey and Clover is a popular Josei manga series by Chica Umino.",
+        "cover_url":  "https://example.com/covers/honey-and-clover.jpg"
+    },
+    {
+        "id":  "paradise-kiss",
+        "title":  "Paradise Kiss",
+        "author":  "Ai Yazawa",
+        "genres":  [
+                       "Romance",
+                       "Fashion",
+                       "Drama",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  48,
+        "description":  "Paradise Kiss is a popular Josei manga series by Ai Yazawa.",
+        "cover_url":  "https://example.com/covers/paradise-kiss.jpg"
+    },
+    {
+        "id":  "nana",
+        "title":  "Nana",
+        "author":  "Ai Yazawa",
+        "genres":  [
+                       "Drama",
+                       "Romance",
+                       "Music",
+                       "Josei"
+                   ],
+        "status":  "hiatus",
+        "total_chapters":  84,
+        "description":  "Nana is a popular Josei manga series by Ai Yazawa.",
+        "cover_url":  "https://example.com/covers/nana.jpg"
+    },
+    {
+        "id":  "shouwa-genroku-rakugo-shinjuu",
+        "title":  "Shouwa Genroku Rakugo Shinjuu",
+        "author":  "Haruko Kumota",
+        "genres":  [
+                       "Drama",
+                       "Historical",
+                       "Performing Arts",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  75,
+        "description":  "Shouwa Genroku Rakugo Shinjuu is a popular Josei manga series by Haruko Kumota.",
+        "cover_url":  "https://example.com/covers/shouwa-genroku-rakugo-shinjuu.jpg"
+    },
+    {
+        "id":  "ooku-the-inner-chambers",
+        "title":  "Ooku: The Inner Chambers",
+        "author":  "Fumi Yoshinaga",
+        "genres":  [
+                       "Historical",
+                       "Drama",
+                       "Romance",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  79,
+        "description":  "Ooku: The Inner Chambers is a popular Josei manga series by Fumi Yoshinaga.",
+        "cover_url":  "https://example.com/covers/ooku-the-inner-chambers.jpg"
+    },
+    {
+        "id":  "tramps-like-us",
+        "title":  "Tramps Like Us",
+        "author":  "Yayoi Ogawa",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "Slice of Life",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  82,
+        "description":  "Tramps Like Us is a popular Josei manga series by Yayoi Ogawa.",
+        "cover_url":  "https://example.com/covers/tramps-like-us.jpg"
+    },
+    {
+        "id":  "tokyo-tarareba-girls",
+        "title":  "Tokyo Tarareba Girls",
+        "author":  "Akiko Higashimura",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "Drama",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  54,
+        "description":  "Tokyo Tarareba Girls is a popular Josei manga series by Akiko Higashimura.",
+        "cover_url":  "https://example.com/covers/tokyo-tarareba-girls.jpg"
+    },
+    {
+        "id":  "happy-mania",
+        "title":  "Happy Mania",
+        "author":  "Moyoco Anno",
+        "genres":  [
+                       "Romance",
+                       "Comedy",
+                       "Drama",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  66,
+        "description":  "Happy Mania is a popular Josei manga series by Moyoco Anno.",
+        "cover_url":  "https://example.com/covers/happy-mania.jpg"
+    },
+    {
+        "id":  "piece-of-cake",
+        "title":  "Piece of Cake",
+        "author":  "George Asakura",
+        "genres":  [
+                       "Romance",
+                       "Drama",
+                       "Slice of Life",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  25,
+        "description":  "Piece of Cake is a popular Josei manga series by George Asakura.",
+        "cover_url":  "https://example.com/covers/piece-of-cake.jpg"
+    },
+    {
+        "id":  "helter-skelter",
+        "title":  "Helter Skelter",
+        "author":  "Kyoko Okazaki",
+        "genres":  [
+                       "Psychological",
+                       "Drama",
+                       "Fashion",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  9,
+        "description":  "Helter Skelter is a popular Josei manga series by Kyoko Okazaki.",
+        "cover_url":  "https://example.com/covers/helter-skelter.jpg"
+    },
+    {
+        "id":  "blank-canvas",
+        "title":  "Blank Canvas",
+        "author":  "Akiko Higashimura",
+        "genres":  [
+                       "Biography",
+                       "Drama",
+                       "Slice of Life",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  40,
+        "description":  "Blank Canvas is a popular Josei manga series by Akiko Higashimura.",
+        "cover_url":  "https://example.com/covers/blank-canvas.jpg"
+    },
+    {
+        "id":  "river-s-edge",
+        "title":  "River\u0027s Edge",
+        "author":  "Kyoko Okazaki",
+        "genres":  [
+                       "Drama",
+                       "Psychological",
+                       "School",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  14,
+        "description":  "River\u0027s Edge is a popular Josei manga series by Kyoko Okazaki.",
+        "cover_url":  "https://example.com/covers/river-s-edge.jpg"
+    },
+    {
+        "id":  "suppli",
+        "title":  "Suppli",
+        "author":  "Mari Okazaki",
+        "genres":  [
+                       "Romance",
+                       "Workplace",
+                       "Drama",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  55,
+        "description":  "Suppli is a popular Josei manga series by Mari Okazaki.",
+        "cover_url":  "https://example.com/covers/suppli.jpg"
+    },
+    {
+        "id":  "gokusen",
+        "title":  "Gokusen",
+        "author":  "Kozueko Morimoto",
+        "genres":  [
+                       "Comedy",
+                       "School",
+                       "Yakuza",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  156,
+        "description":  "Gokusen is a popular Josei manga series by Kozueko Morimoto.",
+        "cover_url":  "https://example.com/covers/gokusen.jpg"
+    },
+    {
+        "id":  "petshop-of-horrors",
+        "title":  "Petshop of Horrors",
+        "author":  "Matsuri Akino",
+        "genres":  [
+                       "Horror",
+                       "Mystery",
+                       "Supernatural",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  41,
+        "description":  "Petshop of Horrors is a popular Josei manga series by Matsuri Akino.",
+        "cover_url":  "https://example.com/covers/petshop-of-horrors.jpg"
+    },
+    {
+        "id":  "life-lessons-with-uramichi-oniisan",
+        "title":  "Life Lessons with Uramichi Oniisan",
+        "author":  "Gaku Kuze",
+        "genres":  [
+                       "Comedy",
+                       "Workplace",
+                       "Slice of Life",
+                       "Josei"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  90,
+        "description":  "Life Lessons with Uramichi Oniisan is a popular Josei manga series by Gaku Kuze.",
+        "cover_url":  "https://example.com/covers/life-lessons-with-uramichi-oniisan.jpg"
+    },
+    {
+        "id":  "kakukaku-shikajika",
+        "title":  "Kakukaku Shikajika",
+        "author":  "Akiko Higashimura",
+        "genres":  [
+                       "Biography",
+                       "Drama",
+                       "Slice of Life",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  34,
+        "description":  "Kakukaku Shikajika is a popular Josei manga series by Akiko Higashimura.",
+        "cover_url":  "https://example.com/covers/kakukaku-shikajika.jpg"
+    },
+    {
+        "id":  "usotoki-rhetoric",
+        "title":  "Usotoki Rhetoric",
+        "author":  "Miyako Ritsu",
+        "genres":  [
+                       "Mystery",
+                       "Romance",
+                       "Historical",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  50,
+        "description":  "Usotoki Rhetoric is a popular Josei manga series by Miyako Ritsu.",
+        "cover_url":  "https://example.com/covers/usotoki-rhetoric.jpg"
+    },
+    {
+        "id":  "requiem-of-the-rose-king",
+        "title":  "Requiem of the Rose King",
+        "author":  "Aya Kanno",
+        "genres":  [
+                       "Historical",
+                       "Drama",
+                       "Tragedy",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  102,
+        "description":  "Requiem of the Rose King is a popular Josei manga series by Aya Kanno.",
+        "cover_url":  "https://example.com/covers/requiem-of-the-rose-king.jpg"
+    },
+    {
+        "id":  "something-s-wrong-with-us",
+        "title":  "Something\u0027s Wrong With Us",
+        "author":  "Natsumi Ando",
+        "genres":  [
+                       "Romance",
+                       "Mystery",
+                       "Drama",
+                       "Josei"
+                   ],
+        "status":  "completed",
+        "total_chapters":  105,
+        "description":  "Something\u0027s Wrong With Us is a popular Josei manga series by Natsumi Ando.",
+        "cover_url":  "https://example.com/covers/something-s-wrong-with-us.jpg"
+    },
+    {
+        "id":  "even-though-we-re-adults",
+        "title":  "Even Though We\u0027re Adults",
+        "author":  "Takako Shimura",
+        "genres":  [
+                       "Romance",
+                       "Drama",
+                       "Slice of Life",
+                       "Josei"
+                   ],
+        "status":  "ongoing",
+        "total_chapters":  70,
+        "description":  "Even Though We\u0027re Adults is a popular Josei manga series by Takako Shimura.",
+        "cover_url":  "https://example.com/covers/even-though-we-re-adults.jpg"
+    }
+]
+
