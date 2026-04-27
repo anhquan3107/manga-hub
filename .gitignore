@@ -7,3 +7,4 @@ coverage.out
 bin/
 dist/
 .DS_Store
+docs/
