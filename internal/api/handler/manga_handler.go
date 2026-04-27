@@ -30,11 +30,7 @@ func (h *Handler) ListManga(c *gin.Context) {
 }
 
 func (h *Handler) GetManga(c *gin.Context) {
-	mangaID, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		utils.Error(c, http.StatusBadRequest, "invalid manga id")
-		return
-	}
+	mangaID := c.Param("id")
 
 	item, err := h.mangaService.GetByID(c.Request.Context(), mangaID)
 	if err != nil {
@@ -76,11 +72,7 @@ func (h *Handler) UpdateManga(c *gin.Context) {
 		return
 	}
 
-	mangaID, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		utils.Error(c, http.StatusBadRequest, "invalid manga id")
-		return
-	}
+	mangaID := c.Param("id")
 
 	item, err := h.mangaService.Update(c.Request.Context(), mangaID, req)
 	if err != nil {
@@ -96,13 +88,9 @@ func (h *Handler) UpdateManga(c *gin.Context) {
 }
 
 func (h *Handler) DeleteManga(c *gin.Context) {
-	mangaID, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	if err != nil {
-		utils.Error(c, http.StatusBadRequest, "invalid manga id")
-		return
-	}
+	mangaID := c.Param("id")
 
-	err = h.mangaService.Delete(c.Request.Context(), mangaID)
+	err := h.mangaService.Delete(c.Request.Context(), mangaID)
 	if err != nil {
 		if isNotFound(err) {
 			utils.Error(c, http.StatusNotFound, "manga not found")

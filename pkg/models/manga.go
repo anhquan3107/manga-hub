@@ -1,7 +1,7 @@
 package models
 
 type Manga struct {
-	ID            int64    `json:"id"`
+	ID            string   `json:"id"`
 	Title         string   `json:"title"`
 	Author        string   `json:"author"`
 	Genres        []string `json:"genres"`
@@ -12,6 +12,7 @@ type Manga struct {
 }
 
 type CreateMangaRequest struct {
+	ID            string   `json:"id" binding:"required"`
 	Title         string   `json:"title" binding:"required"`
 	Author        string   `json:"author" binding:"required"`
 	Genres        []string `json:"genres" binding:"required,min=1"`

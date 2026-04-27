@@ -140,6 +140,7 @@ func TestMangaCRUDAndLibraryProgressFlow(t *testing.T) {
 	token := registerAndGetToken(t, router, "bob")
 
 	createResp := performJSONRequest(t, router, http.MethodPost, "/manga", map[string]any{
+		"id":             "test-manga",
 		"title":          "Test Manga",
 		"author":         "Tester",
 		"genres":         []string{"Action", "Shounen"},
@@ -153,16 +154,16 @@ func TestMangaCRUDAndLibraryProgressFlow(t *testing.T) {
 	}
 
 	var createdManga struct {
-		ID int64 `json:"id"`
+		ID string `json:"id"`
 	}
 	if err := json.Unmarshal(createResp.Body.Bytes(), &createdManga); err != nil {
 		t.Fatalf("decode create manga response: %v", err)
 	}
-	if createdManga.ID <= 0 {
-		t.Fatalf("expected positive manga id, got %d", createdManga.ID)
+	if createdManga.ID == "" {
+		t.Fatalf("expected non-empty manga id")
 	}
 
-	mangaPath := fmt.Sprintf("/manga/%d", createdManga.ID)
+	mangaPath := fmt.Sprintf("/manga/%s", createdManga.ID)
 
 	getResp := performJSONRequest(t, router, http.MethodGet, mangaPath, nil, "")
 	if getResp.Code != http.StatusOK {

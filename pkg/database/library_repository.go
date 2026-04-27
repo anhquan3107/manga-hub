@@ -8,7 +8,7 @@ import (
 	"mangahub/pkg/models"
 )
 
-func (s *Store) UpsertLibraryEntry(ctx context.Context, userID int64, entry models.LibraryEntry) (models.LibraryEntry, error) {
+func (s *Store) UpsertLibraryEntry(ctx context.Context, userID string, entry models.LibraryEntry) (models.LibraryEntry, error) {
 	_, err := s.db.ExecContext(
 		ctx,
 		`INSERT INTO user_progress (user_id, manga_id, current_chapter, status, updated_at)
@@ -40,7 +40,7 @@ func (s *Store) UpsertLibraryEntry(ctx context.Context, userID int64, entry mode
 	return models.LibraryEntry{}, errors.New("library entry not found after update")
 }
 
-func (s *Store) GetUserLibrary(ctx context.Context, userID int64) ([]models.LibraryEntry, error) {
+func (s *Store) GetUserLibrary(ctx context.Context, userID string) ([]models.LibraryEntry, error) {
 	rows, err := s.db.QueryContext(
 		ctx,
 		`SELECT up.user_id, up.manga_id, m.title, up.current_chapter, up.status, up.updated_at

@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -133,6 +134,7 @@ func loadManualManga(path string) ([]models.Manga, error) {
 	}
 
 	type manualManga struct {
+		ID            string   `json:"id"`
 		Title         string   `json:"title"`
 		Author        string   `json:"author"`
 		Genres        []string `json:"genres"`
@@ -154,6 +156,7 @@ func loadManualManga(path string) ([]models.Manga, error) {
 	items := make([]models.Manga, 0, len(raw))
 	for _, item := range raw {
 		items = append(items, models.Manga{
+			ID:            item.ID,
 			Title:         item.Title,
 			Author:        item.Author,
 			Genres:        item.Genres,
@@ -293,6 +296,7 @@ func fetchJikanPage(ctx context.Context, client *http.Client, page, limit int) (
 		}
 
 		results = append(results, models.Manga{
+			ID:            strconv.Itoa(item.MalID),
 			Title:         title,
 			Author:        author,
 			Genres:        uniqueNonEmpty(genres),
@@ -364,6 +368,7 @@ func fetchMangaDexByDemographic(ctx context.Context, client *http.Client, demogr
 		tags = append(tags, strings.Title(demographic))
 
 		results = append(results, models.Manga{
+			ID:            item.ID,
 			Title:         title,
 			Author:        author,
 			Genres:        uniqueNonEmpty(tags),

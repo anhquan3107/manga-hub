@@ -12,14 +12,14 @@ import (
 func (s *Store) InitSchema(ctx context.Context) error {
 	schema := `
 	CREATE TABLE IF NOT EXISTS users (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		id TEXT PRIMARY KEY,
 		username TEXT UNIQUE NOT NULL,
 		password_hash TEXT NOT NULL,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	);
 
 	CREATE TABLE IF NOT EXISTS manga (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		id TEXT PRIMARY KEY,
 		title TEXT NOT NULL,
 		author TEXT NOT NULL,
 		genres TEXT NOT NULL,
@@ -30,8 +30,8 @@ func (s *Store) InitSchema(ctx context.Context) error {
 	);
 
 	CREATE TABLE IF NOT EXISTS user_progress (
-		user_id INTEGER NOT NULL,
-		manga_id INTEGER NOT NULL,
+		user_id TEXT NOT NULL,
+		manga_id TEXT NOT NULL,
 		current_chapter INTEGER NOT NULL DEFAULT 0,
 		status TEXT NOT NULL,
 		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -84,8 +84,9 @@ func (s *Store) InsertManga(ctx context.Context, manga models.Manga) error {
 
 	_, err = s.db.ExecContext(
 		ctx,
-		`INSERT INTO manga (title, author, genres, status, total_chapters, description, cover_url)
-		VALUES (?, ?, ?, ?, ?, ?, ?)`,
+		`INSERT OR REPLACE INTO manga (id, title, author, genres, status, total_chapters, description, cover_url)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+		manga.ID,
 		manga.Title,
 		manga.Author,
 		string(genres),

@@ -63,7 +63,7 @@ func (s *Store) ListManga(ctx context.Context, query models.MangaQuery) ([]model
 	return results, rows.Err()
 }
 
-func (s *Store) GetMangaByID(ctx context.Context, mangaID int64) (models.Manga, error) {
+func (s *Store) GetMangaByID(ctx context.Context, mangaID string) (models.Manga, error) {
 	row := s.db.QueryRowContext(
 		ctx,
 		`SELECT id, title, author, genres, status, total_chapters, description, cover_url
@@ -85,10 +85,11 @@ func (s *Store) CreateManga(ctx context.Context, manga models.Manga) (models.Man
 		return models.Manga{}, fmt.Errorf("marshal genres: %w", err)
 	}
 
-	result, err := s.db.ExecContext(
+	_, err = s.db.ExecContext(
 		ctx,
-		`INSERT INTO manga (title, author, genres, status, total_chapters, description, cover_url)
-		VALUES (?, ?, ?, ?, ?, ?, ?)`,
+		`INSERT OR REPLACE INTO manga (id, title, author, genres, status, total_chapters, description, cover_url)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+		manga.ID,
 		manga.Title,
 		manga.Author,
 		string(genres),
@@ -101,15 +102,10 @@ func (s *Store) CreateManga(ctx context.Context, manga models.Manga) (models.Man
 		return models.Manga{}, fmt.Errorf("create manga: %w", err)
 	}
 
-	mangaID, err := result.LastInsertId()
-	if err != nil {
-		return models.Manga{}, fmt.Errorf("create manga last insert id: %w", err)
-	}
-
-	return s.GetMangaByID(ctx, mangaID)
+	return s.GetMangaByID(ctx, manga.ID)
 }
 
-func (s *Store) UpdateMangaByID(ctx context.Context, mangaID int64, manga models.Manga) (models.Manga, error) {
+func (s *Store) UpdateMangaByID(ctx context.Context, mangaID string, manga models.Manga) (models.Manga, error) {
 	genres, err := json.Marshal(manga.Genres)
 	if err != nil {
 		return models.Manga{}, fmt.Errorf("marshal genres: %w", err)
@@ -144,7 +140,7 @@ func (s *Store) UpdateMangaByID(ctx context.Context, mangaID int64, manga models
 	return s.GetMangaByID(ctx, mangaID)
 }
 
-func (s *Store) DeleteMangaByID(ctx context.Context, mangaID int64) error {
+func (s *Store) DeleteMangaByID(ctx context.Context, mangaID string) error {
 	result, err := s.db.ExecContext(ctx, `DELETE FROM manga WHERE id = ?`, mangaID)
 	if err != nil {
 		return fmt.Errorf("delete manga: %w", err)

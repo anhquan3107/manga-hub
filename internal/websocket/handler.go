@@ -3,7 +3,6 @@ package websocket
 import (
 	"log"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -46,7 +45,7 @@ func Handler(hub *Hub, authService *auth.Service) gin.HandlerFunc {
 
 		client := ClientConnection{
 			Conn:     conn,
-			UserID:   strconv.FormatInt(claims.UserID, 10),
+			UserID:   claims.UserID,
 			Username: claims.Username,
 		}
 		hub.Register <- client
@@ -60,7 +59,7 @@ func Handler(hub *Hub, authService *auth.Service) gin.HandlerFunc {
 			}
 
 			hub.Broadcast <- models.ChatMessage{
-				UserID:    strconv.FormatInt(claims.UserID, 10),
+				UserID:    claims.UserID,
 				Username:  claims.Username,
 				Message:   incoming.Message,
 				Timestamp: time.Now().Unix(),

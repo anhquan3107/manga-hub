@@ -7,10 +7,11 @@ import (
 	"mangahub/pkg/models"
 )
 
-func (s *Store) CreateUser(ctx context.Context, username, passwordHash string) (models.User, error) {
-	result, err := s.db.ExecContext(
+func (s *Store) CreateUser(ctx context.Context, userID, username, passwordHash string) (models.User, error) {
+	_, err := s.db.ExecContext(
 		ctx,
-		`INSERT INTO users (username, password_hash) VALUES (?, ?)`,
+		`INSERT INTO users (id, username, password_hash) VALUES (?, ?, ?)`,
+		userID,
 		username,
 		passwordHash,
 	)
@@ -18,15 +19,10 @@ func (s *Store) CreateUser(ctx context.Context, username, passwordHash string) (
 		return models.User{}, fmt.Errorf("create user: %w", err)
 	}
 
-	userID, err := result.LastInsertId()
-	if err != nil {
-		return models.User{}, fmt.Errorf("create user last insert id: %w", err)
-	}
-
 	return s.GetUserByID(ctx, userID)
 }
 
-func (s *Store) GetUserByID(ctx context.Context, userID int64) (models.User, error) {
+func (s *Store) GetUserByID(ctx context.Context, userID string) (models.User, error) {
 	var user models.User
 	err := s.db.QueryRowContext(
 		ctx,
