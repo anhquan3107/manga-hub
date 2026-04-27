@@ -9,12 +9,12 @@ import (
 	"syscall"
 	"time"
 
-	apirouter "mangahub/internal/api/router"
+	"mangahub/internal/api/router"
 	"mangahub/internal/auth"
 	"mangahub/internal/config"
 	"mangahub/internal/manga"
 	"mangahub/internal/user"
-	chatws "mangahub/internal/websocket"
+	"mangahub/internal/websocket"
 	"mangahub/pkg/database"
 )
 
@@ -39,13 +39,13 @@ func main() {
 	authService := auth.NewService(store, cfg.JWTSecret)
 	mangaService := manga.NewService(store)
 	userService := user.NewService(store)
-	hub := chatws.NewHub()
+	hub := websocket.NewHub()
 
 	go hub.Run(ctx)
 
 	server := &http.Server{
 		Addr:    cfg.HTTPAddr,
-		Handler: apirouter.NewRouter(cfg, authService, mangaService, userService, hub),
+		Handler: router.NewRouter(cfg, authService, mangaService, userService, hub),
 	}
 
 	go func() {

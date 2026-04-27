@@ -65,10 +65,15 @@ func (h *Handler) UpdateProgress(c *gin.Context) {
 	utils.OK(c, http.StatusOK, entry)
 }
 
-func currentUserID(c *gin.Context) string {
+func currentUserID(c *gin.Context) int64 {
 	value, _ := c.Get(auth.ContextUserIDKey)
-	userID, _ := value.(string)
-	return userID
+	if userID, ok := value.(int64); ok {
+		return userID
+	}
+	if userID, ok := value.(int); ok {
+		return int64(userID)
+	}
+	return 0
 }
 
 func buildReadingLists(items []models.LibraryEntry) gin.H {

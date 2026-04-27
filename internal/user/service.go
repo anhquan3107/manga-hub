@@ -15,7 +15,7 @@ func NewService(store *database.Store) *Service {
 	return &Service{store: store}
 }
 
-func (s *Service) AddToLibrary(ctx context.Context, userID string, req models.AddLibraryRequest) (models.LibraryEntry, error) {
+func (s *Service) AddToLibrary(ctx context.Context, userID int64, req models.AddLibraryRequest) (models.LibraryEntry, error) {
 	if _, err := s.store.GetMangaByID(ctx, req.MangaID); err != nil {
 		return models.LibraryEntry{}, err
 	}
@@ -27,11 +27,7 @@ func (s *Service) AddToLibrary(ctx context.Context, userID string, req models.Ad
 	})
 }
 
-func (s *Service) GetLibrary(ctx context.Context, userID string) ([]models.LibraryEntry, error) {
-	return s.store.GetUserLibrary(ctx, userID)
-}
-
-func (s *Service) UpdateProgress(ctx context.Context, userID string, req models.UpdateProgressRequest) (models.LibraryEntry, error) {
+func (s *Service) UpdateProgress(ctx context.Context, userID int64, req models.UpdateProgressRequest) (models.LibraryEntry, error) {
 	status := req.Status
 	if status == "" {
 		status = "reading"
@@ -42,4 +38,8 @@ func (s *Service) UpdateProgress(ctx context.Context, userID string, req models.
 		CurrentChapter: req.CurrentChapter,
 		Status:         status,
 	})
+}
+
+func (s *Service) GetLibrary(ctx context.Context, userID int64) ([]models.LibraryEntry, error) {
+	return s.store.GetUserLibrary(ctx, userID)
 }

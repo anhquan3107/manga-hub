@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
@@ -139,7 +140,6 @@ func TestMangaCRUDAndLibraryProgressFlow(t *testing.T) {
 	token := registerAndGetToken(t, router, "bob")
 
 	createResp := performJSONRequest(t, router, http.MethodPost, "/manga", map[string]any{
-		"id":             "test-manga",
 		"title":          "Test Manga",
 		"author":         "Tester",
 		"genres":         []string{"Action", "Shounen"},
@@ -152,12 +152,24 @@ func TestMangaCRUDAndLibraryProgressFlow(t *testing.T) {
 		t.Fatalf("create manga status = %d, body=%s", createResp.Code, createResp.Body.String())
 	}
 
-	getResp := performJSONRequest(t, router, http.MethodGet, "/manga/test-manga", nil, "")
+	var createdManga struct {
+		ID int64 `json:"id"`
+	}
+	if err := json.Unmarshal(createResp.Body.Bytes(), &createdManga); err != nil {
+		t.Fatalf("decode create manga response: %v", err)
+	}
+	if createdManga.ID <= 0 {
+		t.Fatalf("expected positive manga id, got %d", createdManga.ID)
+	}
+
+	mangaPath := fmt.Sprintf("/manga/%d", createdManga.ID)
+
+	getResp := performJSONRequest(t, router, http.MethodGet, mangaPath, nil, "")
 	if getResp.Code != http.StatusOK {
 		t.Fatalf("get manga status = %d, body=%s", getResp.Code, getResp.Body.String())
 	}
 
-	updateResp := performJSONRequest(t, router, http.MethodPut, "/manga/test-manga", map[string]any{
+	updateResp := performJSONRequest(t, router, http.MethodPut, mangaPath, map[string]any{
 		"title":          "Test Manga Updated",
 		"author":         "Tester",
 		"genres":         []string{"Action", "Adventure", "Shounen"},
@@ -171,7 +183,7 @@ func TestMangaCRUDAndLibraryProgressFlow(t *testing.T) {
 	}
 
 	addLibraryResp := performJSONRequest(t, router, http.MethodPost, "/users/library", map[string]any{
-		"manga_id":        "test-manga",
+		"manga_id":        createdManga.ID,
 		"current_chapter": 1,
 		"status":          "reading",
 	}, token)
@@ -193,7 +205,7 @@ func TestMangaCRUDAndLibraryProgressFlow(t *testing.T) {
 	}
 
 	updateProgressResp := performJSONRequest(t, router, http.MethodPut, "/users/progress", map[string]any{
-		"manga_id":        "test-manga",
+		"manga_id":        createdManga.ID,
 		"current_chapter": 5,
 		"status":          "reading",
 	}, token)
@@ -201,7 +213,7 @@ func TestMangaCRUDAndLibraryProgressFlow(t *testing.T) {
 		t.Fatalf("update progress status = %d, body=%s", updateProgressResp.Code, updateProgressResp.Body.String())
 	}
 
-	deleteResp := performJSONRequest(t, router, http.MethodDelete, "/manga/test-manga", nil, token)
+	deleteResp := performJSONRequest(t, router, http.MethodDelete, mangaPath, nil, token)
 	if deleteResp.Code != http.StatusOK {
 		t.Fatalf("delete manga status = %d, body=%s", deleteResp.Code, deleteResp.Body.String())
 	}

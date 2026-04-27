@@ -14,7 +14,7 @@ import (
 )
 
 type Claims struct {
-	UserID   string `json:"user_id"`
+	UserID   int64  `json:"user_id"`
 	Username string `json:"username"`
 	jwt.RegisteredClaims
 }
@@ -41,8 +41,7 @@ func (s *Service) Register(ctx context.Context, req models.RegisterRequest) (mod
 		return models.AuthResponse{}, fmt.Errorf("hash password: %w", err)
 	}
 
-	userID := fmt.Sprintf("user-%d", time.Now().UnixNano())
-	user, err := s.store.CreateUser(ctx, userID, req.Username, string(passwordHash))
+	user, err := s.store.CreateUser(ctx, req.Username, string(passwordHash))
 	if err != nil {
 		return models.AuthResponse{}, err
 	}
@@ -80,7 +79,7 @@ func (s *Service) IssueToken(user models.User) (string, error) {
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			Subject:   user.ID,
+			Subject:   fmt.Sprintf("%d", user.ID),
 		},
 	}
 

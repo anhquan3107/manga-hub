@@ -132,19 +132,39 @@ func loadManualManga(path string) ([]models.Manga, error) {
 		return nil, fmt.Errorf("read manual file: %w", err)
 	}
 
-	var items []models.Manga
-	if err := json.Unmarshal(content, &items); err != nil {
+	type manualManga struct {
+		Title         string   `json:"title"`
+		Author        string   `json:"author"`
+		Genres        []string `json:"genres"`
+		Status        string   `json:"status"`
+		TotalChapters int      `json:"total_chapters"`
+		Description   string   `json:"description"`
+		CoverURL      string   `json:"cover_url"`
+	}
+
+	var raw []manualManga
+	if err := json.Unmarshal(content, &raw); err != nil {
 		return nil, fmt.Errorf("decode manual file: %w", err)
 	}
 
-	if len(items) == 0 {
+	if len(raw) == 0 {
 		return nil, fmt.Errorf("manual file has no manga entries")
 	}
 
+	items := make([]models.Manga, 0, len(raw))
+	for _, item := range raw {
+		items = append(items, models.Manga{
+			Title:         item.Title,
+			Author:        item.Author,
+			Genres:        item.Genres,
+			Status:        item.Status,
+			TotalChapters: item.TotalChapters,
+			Description:   item.Description,
+			CoverURL:      item.CoverURL,
+		})
+	}
+
 	for i := range items {
-		if items[i].ID == "" {
-			items[i].ID = slugify(items[i].Title)
-		}
 		if items[i].Status == "" {
 			items[i].Status = "ongoing"
 		}
@@ -273,7 +293,6 @@ func fetchJikanPage(ctx context.Context, client *http.Client, page, limit int) (
 		}
 
 		results = append(results, models.Manga{
-			ID:            fmt.Sprintf("jikan-%d", item.MalID),
 			Title:         title,
 			Author:        author,
 			Genres:        uniqueNonEmpty(genres),
@@ -345,7 +364,6 @@ func fetchMangaDexByDemographic(ctx context.Context, client *http.Client, demogr
 		tags = append(tags, strings.Title(demographic))
 
 		results = append(results, models.Manga{
-			ID:            item.ID,
 			Title:         title,
 			Author:        author,
 			Genres:        uniqueNonEmpty(tags),
@@ -454,12 +472,7 @@ func normalizeManga(item models.Manga) (models.Manga, bool) {
 	item.Description = strings.TrimSpace(item.Description)
 	item.CoverURL = strings.TrimSpace(item.CoverURL)
 
-	if item.ID == "" {
-		item.ID = slugify(item.Title)
-	}
-	item.ID = strings.ToLower(strings.TrimSpace(item.ID))
-
-	if item.ID == "" || item.Title == "" || item.Author == "" || item.Description == "" {
+	if item.Title == "" || item.Author == "" || item.Description == "" {
 		return models.Manga{}, false
 	}
 
@@ -488,10 +501,7 @@ func mergeAndDedupe(a, b []models.Manga) []models.Manga {
 	merged := make([]models.Manga, 0, len(a)+len(b))
 
 	add := func(item models.Manga) {
-		key := strings.ToLower(strings.TrimSpace(item.ID))
-		if key == "" {
-			key = strings.ToLower(strings.TrimSpace(item.Title))
-		}
+		key := strings.ToLower(strings.TrimSpace(item.Title))
 		if key == "" {
 			return
 		}
