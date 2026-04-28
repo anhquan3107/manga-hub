@@ -79,6 +79,7 @@ func registerAndGetToken(t *testing.T, router http.Handler, username string) str
 	rr := performJSONRequest(t, router, http.MethodPost, "/auth/register", map[string]any{
 		"username": username,
 		"password": "secret123",
+		"email":    username + "@example.com",
 	}, "")
 	if rr.Code != http.StatusCreated {
 		t.Fatalf("register status = %d, body=%s", rr.Code, rr.Body.String())
@@ -102,6 +103,7 @@ func TestAuthRegisterAndLogin(t *testing.T) {
 	registerResp := performJSONRequest(t, router, http.MethodPost, "/auth/register", map[string]any{
 		"username": "alice",
 		"password": "secret123",
+		"email":    "alice@example.com",
 	}, "")
 	if registerResp.Code != http.StatusCreated {
 		t.Fatalf("register status = %d, body=%s", registerResp.Code, registerResp.Body.String())

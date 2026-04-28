@@ -20,6 +20,8 @@ func main() {
 		commands.HandleAuth(args)
 	case "manga":
 		commands.HandleManga(args)
+	case "server":
+		commands.HandleServer(args)
 	case "library":
 		commands.HandleLibrary(args)
 	case "progress":

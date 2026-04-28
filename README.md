@@ -25,17 +25,8 @@ go build -o build/mangahub cmd/cli/main.go
 # Navigate to build folder
 cd build
 
-# Run with ./ prefix (tells shell to look in current directory)
+# Now you can use it like:
 ./mangahub auth login --username <your_user> --password <your_password>
-```
-
-*Alternatively, if you want to use just `mangahub` without the `./` prefix in the build folder:*
-```bash
-# Set up an alias for just that session
-alias mangahub="./mangahub"
-
-# Now you can use it directly:
-mangahub auth login --username <your_user> --password <your_password>
 ```
 
 **Option 2: Global Installation**
@@ -52,6 +43,8 @@ sudo mv build/mangahub /usr/local/bin/
 mangahub auth login --username <your_user> --password <your_password>
 ```
 
+*(Alternatively, you can set up an alias: `alias mangahub="$(pwd)/build/mangahub"`)*
+
 ## CLI Usage
 
 The CLI commands are mapped directly to the active endpoints, designed with clean architecture and stored in `cmd/cli/commands/`.
@@ -62,8 +55,10 @@ Authentication generates a token securely saved to `~/.mangahub/token` for subse
 
 **Register:**
 ```bash
-mangahub auth register --username <your_user> --email <your_email> --password <your_password>
+mangahub auth register --username <your_user> --email <your_email>
 ```
+
+The CLI will prompt for the password and confirmation with hidden input. The `--email` flag is accepted for compatibility but is not sent to the current API.
 
 **Login:**
 ```bash

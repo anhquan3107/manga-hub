@@ -42,7 +42,7 @@ func (s *Service) Register(ctx context.Context, req models.RegisterRequest) (mod
 	}
 
 	userID := fmt.Sprintf("user-%d", time.Now().UnixNano())
-	user, err := s.store.CreateUser(ctx, userID, req.Username, string(passwordHash))
+	user, err := s.store.CreateUser(ctx, userID, req.Username, req.Email, string(passwordHash))
 	if err != nil {
 		return models.AuthResponse{}, err
 	}
@@ -58,11 +58,11 @@ func (s *Service) Register(ctx context.Context, req models.RegisterRequest) (mod
 func (s *Service) Login(ctx context.Context, req models.LoginRequest) (models.AuthResponse, error) {
 	user, passwordHash, err := s.store.GetUserByUsername(ctx, req.Username)
 	if err != nil {
-		return models.AuthResponse{}, errors.New("invalid username or password")
+		return models.AuthResponse{}, errors.New("account not found")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(req.Password)); err != nil {
-		return models.AuthResponse{}, errors.New("invalid username or password")
+		return models.AuthResponse{}, errors.New("invalid credentials")
 	}
 
 	token, err := s.IssueToken(user)
