@@ -18,6 +18,7 @@ func NewRouter(
 	mangaService *manga.Service,
 	userService *user.Service,
 	hub *chatws.Hub,
+	progressBroadcaster handler.ProgressBroadcaster,
 ) *gin.Engine {
 	router := gin.New()
 	router.Use(gin.Logger(), gin.Recovery(), middleware.CORS(cfg.AllowedOrigin))
@@ -26,6 +27,7 @@ func NewRouter(
 		MangaService: mangaService,
 		UserService:  userService,
 		Hub:          hub,
+		Broadcaster:  progressBroadcaster,
 	})
 
 	router.GET("/health", h.Health)

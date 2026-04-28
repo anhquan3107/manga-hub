@@ -43,7 +43,7 @@ func setupRouterForTest(t *testing.T) *gin.Engine {
 	hub := chatws.NewHub()
 
 	cfg := config.Config{AllowedOrigin: "*"}
-	return NewRouter(cfg, authService, mangaService, userService, hub)
+	return NewRouter(cfg, authService, mangaService, userService, hub, nil)
 }
 
 func performJSONRequest(t *testing.T, router http.Handler, method, path string, payload any, token string) *httptest.ResponseRecorder {
