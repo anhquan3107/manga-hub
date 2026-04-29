@@ -185,10 +185,17 @@ func HandleAuth(args []string) {
 			if res.User.Username == "" {
 				res.User.Username = username
 			}
+			sessionID := getSessionID()
 			fmt.Println("✓ Login successful!")
 			fmt.Printf("Welcome back, %s!\n", res.User.Username)
 			fmt.Println("Session Details:")
 			fmt.Printf(" Token expires: %s (24 hours)\n", expiresAt)
+			if sessionID != "" {
+				fmt.Printf(" Session ID: %s\n", sessionID)
+			}
+			if sessionID != "" {
+				fmt.Printf(" Session ID: %s\n", sessionID)
+			}
 			fmt.Println(" Permissions: read, write, sync")
 			fmt.Println()
 			fmt.Println("Auto-sync: enabled")
