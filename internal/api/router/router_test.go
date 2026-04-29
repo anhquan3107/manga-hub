@@ -79,6 +79,7 @@ func registerAndGetToken(t *testing.T, router http.Handler, username string) str
 	rr := performJSONRequest(t, router, http.MethodPost, "/auth/register", map[string]any{
 		"username": username,
 		"password": "secret123",
+		"email":    username + "@example.com",
 	}, "")
 	if rr.Code != http.StatusCreated {
 		t.Fatalf("register status = %d, body=%s", rr.Code, rr.Body.String())
@@ -102,6 +103,7 @@ func TestAuthRegisterAndLogin(t *testing.T) {
 	registerResp := performJSONRequest(t, router, http.MethodPost, "/auth/register", map[string]any{
 		"username": "alice",
 		"password": "secret123",
+		"email":    "alice@example.com",
 	}, "")
 	if registerResp.Code != http.StatusCreated {
 		t.Fatalf("register status = %d, body=%s", registerResp.Code, registerResp.Body.String())
@@ -123,6 +125,21 @@ func TestAuthRegisterAndLogin(t *testing.T) {
 	}
 	if resp.Token == "" {
 		t.Fatalf("expected non-empty token")
+	}
+}
+
+func TestAuthLogoutRevokesToken(t *testing.T) {
+	router := setupRouterForTest(t)
+	token := registerAndGetToken(t, router, "logout-user")
+
+	logoutResp := performJSONRequest(t, router, http.MethodPost, "/auth/logout", nil, token)
+	if logoutResp.Code != http.StatusOK {
+		t.Fatalf("logout status = %d, body=%s", logoutResp.Code, logoutResp.Body.String())
+	}
+
+	protectedResp := performJSONRequest(t, router, http.MethodGet, "/users/library", nil, token)
+	if protectedResp.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401 after logout, got %d, body=%s", protectedResp.Code, protectedResp.Body.String())
 	}
 }
 

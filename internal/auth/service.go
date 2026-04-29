@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -22,12 +23,15 @@ type Claims struct {
 type Service struct {
 	store     *database.Store
 	jwtSecret []byte
+	revokedMu sync.RWMutex
+	revoked   map[string]time.Time
 }
 
 func NewService(store *database.Store, jwtSecret string) *Service {
 	return &Service{
 		store:     store,
 		jwtSecret: []byte(jwtSecret),
+		revoked:   make(map[string]time.Time),
 	}
 }
 
@@ -42,7 +46,7 @@ func (s *Service) Register(ctx context.Context, req models.RegisterRequest) (mod
 	}
 
 	userID := fmt.Sprintf("user-%d", time.Now().UnixNano())
-	user, err := s.store.CreateUser(ctx, userID, req.Username, string(passwordHash))
+	user, err := s.store.CreateUser(ctx, userID, req.Username, req.Email, string(passwordHash))
 	if err != nil {
 		return models.AuthResponse{}, err
 	}
@@ -58,11 +62,11 @@ func (s *Service) Register(ctx context.Context, req models.RegisterRequest) (mod
 func (s *Service) Login(ctx context.Context, req models.LoginRequest) (models.AuthResponse, error) {
 	user, passwordHash, err := s.store.GetUserByUsername(ctx, req.Username)
 	if err != nil {
-		return models.AuthResponse{}, errors.New("invalid username or password")
+		return models.AuthResponse{}, errors.New("account not found")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(req.Password)); err != nil {
-		return models.AuthResponse{}, errors.New("invalid username or password")
+		return models.AuthResponse{}, errors.New("invalid credentials")
 	}
 
 	token, err := s.IssueToken(user)
@@ -71,6 +75,28 @@ func (s *Service) Login(ctx context.Context, req models.LoginRequest) (models.Au
 	}
 
 	return models.AuthResponse{Token: token, User: user}, nil
+}
+
+func (s *Service) ChangePassword(ctx context.Context, userID, currentPassword, newPassword string) error {
+	user, passwordHash, err := s.store.GetUserByIDWithPassword(ctx, userID)
+	if err != nil {
+		return errors.New("user not found")
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(currentPassword)); err != nil {
+		return errors.New("invalid current password")
+	}
+
+	newHash, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return fmt.Errorf("hash password: %w", err)
+	}
+
+	if err := s.store.UpdateUserPassword(ctx, user.ID, string(newHash)); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *Service) IssueToken(user models.User) (string, error) {
@@ -106,5 +132,52 @@ func (s *Service) ParseToken(tokenString string) (*Claims, error) {
 		return nil, errors.New("invalid token")
 	}
 
+	if s.isRevoked(tokenString) {
+		return nil, errors.New("invalid token")
+	}
+
 	return claims, nil
+}
+
+func (s *Service) Logout(tokenString string) error {
+	claims, err := s.ParseToken(tokenString)
+	if err != nil {
+		return err
+	}
+
+	expiresAt := time.Now().Add(24 * time.Hour)
+	if claims.ExpiresAt != nil {
+		expiresAt = claims.ExpiresAt.Time
+	}
+
+	s.revokedMu.Lock()
+	s.revoked[tokenString] = expiresAt
+	s.revokedMu.Unlock()
+
+	return nil
+}
+
+func (s *Service) isRevoked(tokenString string) bool {
+	now := time.Now()
+
+	s.revokedMu.Lock()
+	defer s.revokedMu.Unlock()
+
+	for token, exp := range s.revoked {
+		if now.After(exp) {
+			delete(s.revoked, token)
+		}
+	}
+
+	exp, exists := s.revoked[tokenString]
+	if !exists {
+		return false
+	}
+
+	if now.After(exp) {
+		delete(s.revoked, tokenString)
+		return false
+	}
+
+	return true
 }

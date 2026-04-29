@@ -16,6 +16,22 @@ func (h *Handler) Chat(c *gin.Context) {
 	chatws.Handler(h.hub, h.authService)(c)
 }
 
+func (h *Handler) GetMe(c *gin.Context) {
+	userID := currentUserID(c)
+	if userID == "" {
+		utils.Error(c, http.StatusUnauthorized, "missing user id")
+		return
+	}
+
+	user, err := h.userService.GetUserByID(c.Request.Context(), userID)
+	if err != nil {
+		utils.Error(c, http.StatusNotFound, "user not found")
+		return
+	}
+
+	utils.OK(c, http.StatusOK, user)
+}
+
 func (h *Handler) AddToLibrary(c *gin.Context) {
 	var req models.AddLibraryRequest
 	if err := c.ShouldBindJSON(&req); err != nil {

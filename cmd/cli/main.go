@@ -20,6 +20,8 @@ func main() {
 		commands.HandleAuth(args)
 	case "manga":
 		commands.HandleManga(args)
+	case "server":
+		commands.HandleServer(args)
 	case "library":
 		commands.HandleLibrary(args)
 	case "progress":
@@ -37,7 +39,7 @@ func printUsage() {
 	fmt.Println("MangaHub CLI")
 	fmt.Println("Usage: mangahub <command> <subcommand> [flags]")
 	fmt.Println("\nCommands:")
-	fmt.Println("  auth       Manage authentication (register, login)")
+	fmt.Println("  auth       Manage authentication (register, login, logout, status)")
 	fmt.Println("  manga      Manage manga (search, info)")
 	fmt.Println("  library    Manage your library (add, list)")
 	fmt.Println("  progress   Manage your reading progress (update)")

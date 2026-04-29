@@ -5,11 +5,30 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strconv"
 )
 
+func getSessionID() string {
+	if customPath := os.Getenv("MANGAHUB_TOKEN_PATH"); customPath != "" {
+		return ""
+	}
+
+	if sessionID := os.Getenv("TERM_SESSION_ID"); sessionID != "" {
+		return sessionID
+	}
+
+	ppid := os.Getppid()
+	return "session_" + strconv.Itoa(ppid)
+}
+
 func getTokenPath() string {
+	if customPath := os.Getenv("MANGAHUB_TOKEN_PATH"); customPath != "" {
+		return customPath
+	}
+
+	sessionID := getSessionID()
 	home, _ := os.UserHomeDir()
-	dir := filepath.Join(home, ".mangahub")
+	dir := filepath.Join(home, ".mangahub", sessionID)
 	os.MkdirAll(dir, 0755)
 	return filepath.Join(dir, "token")
 }
@@ -24,6 +43,14 @@ func loadToken() string {
 		return ""
 	}
 	return string(data)
+}
+
+func deleteToken() error {
+	err := os.Remove(getTokenPath())
+	if err != nil && !os.IsNotExist(err) {
+		return err
+	}
+	return nil
 }
 
 func printRespBody(body io.ReadCloser) {

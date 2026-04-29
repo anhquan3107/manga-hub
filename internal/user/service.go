@@ -43,3 +43,7 @@ func (s *Service) UpdateProgress(ctx context.Context, userID string, req models.
 func (s *Service) GetLibrary(ctx context.Context, userID string) ([]models.LibraryEntry, error) {
 	return s.store.GetUserLibrary(ctx, userID)
 }
+
+func (s *Service) GetUserByID(ctx context.Context, userID string) (models.User, error) {
+	return s.store.GetUserByID(ctx, userID)
+}

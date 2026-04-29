@@ -31,6 +31,8 @@ func NewRouter(
 	router.GET("/health", h.Health)
 	router.POST("/auth/register", h.Register)
 	router.POST("/auth/login", h.Login)
+	router.POST("/auth/logout", auth.Middleware(authService), h.Logout)
+	router.POST("/auth/change-password", auth.Middleware(authService), h.ChangePassword)
 	router.GET("/manga", h.ListManga)
 	router.GET("/manga/:id", h.GetManga)
 	router.GET("/ws/chat", h.Chat)
@@ -38,6 +40,7 @@ func NewRouter(
 	protected := router.Group("/users")
 	protected.Use(auth.Middleware(authService))
 	{
+		protected.GET("/me", h.GetMe)
 		protected.POST("/library", h.AddToLibrary)
 		protected.GET("/library", h.GetLibrary)
 		protected.PUT("/progress", h.UpdateProgress)
