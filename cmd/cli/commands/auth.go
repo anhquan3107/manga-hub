@@ -58,7 +58,7 @@ func printLoginError(message, detail string) {
 
 func HandleAuth(args []string) {
 	if len(args) < 1 {
-		fmt.Println("Usage: mangahub auth <register|login|logout> [flags]")
+		fmt.Println("Usage: mangahub auth <register|login|logout|status> [flags]")
 		return
 	}
 
@@ -193,9 +193,6 @@ func HandleAuth(args []string) {
 			if sessionID != "" {
 				fmt.Printf(" Session ID: %s\n", sessionID)
 			}
-			if sessionID != "" {
-				fmt.Printf(" Session ID: %s\n", sessionID)
-			}
 			fmt.Println(" Permissions: read, write, sync")
 			fmt.Println()
 			fmt.Println("Auto-sync: enabled")
@@ -245,6 +242,79 @@ func HandleAuth(args []string) {
 
 		fmt.Println("✓ Logout successful!")
 		fmt.Println("Session ended and token removed")
+
+	case "status":
+		token := strings.TrimSpace(loadToken())
+		if token == "" {
+			fmt.Println("✗ Not logged in")
+			fmt.Println("Use: mangahub auth login --username <username> to login")
+			return
+		}
+
+		req, _ := http.NewRequest(http.MethodGet, "http://localhost:8080/health", nil)
+		req.Header.Set("Authorization", "Bearer "+token)
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			fmt.Println("⚠ Server unreachable")
+			fmt.Println("Token exists but cannot verify with server")
+			return
+		}
+		resp.Body.Close()
+
+		if resp.StatusCode == http.StatusUnauthorized {
+			fmt.Println("✗ Session expired or invalid")
+			_ = deleteToken()
+			fmt.Println("Token has been cleared")
+			return
+		}
+
+		var userInfo struct {
+			ID        string    `json:"id"`
+			Username  string    `json:"username"`
+			Email     string    `json:"email"`
+			CreatedAt time.Time `json:"created_at"`
+		}
+
+		req2, _ := http.NewRequest(http.MethodGet, "http://localhost:8080/users/me", nil)
+		req2.Header.Set("Authorization", "Bearer "+token)
+		resp2, err := http.DefaultClient.Do(req2)
+		if err != nil {
+			fmt.Println("⚠ Unable to fetch user information")
+			fmt.Println("Server unreachable while calling /users/me")
+			return
+		}
+		defer resp2.Body.Close()
+
+		if resp2.StatusCode != http.StatusOK {
+			fmt.Println("⚠ Unable to fetch user information")
+			fmt.Printf(" /users/me returned %s\n", resp2.Status)
+			return
+		}
+
+		if err := json.NewDecoder(resp2.Body).Decode(&userInfo); err != nil {
+			fmt.Println("⚠ Unable to decode user information")
+			return
+		}
+
+		fmt.Println("✓ Logged in")
+		fmt.Println("User Information:")
+		if userInfo.Username != "" {
+			fmt.Printf(" Username: %s\n", userInfo.Username)
+		}
+		if userInfo.ID != "" {
+			fmt.Printf(" User ID: %s\n", userInfo.ID)
+		}
+		if userInfo.Email != "" {
+			fmt.Printf(" Email: %s\n", userInfo.Email)
+		}
+		sessionID := getSessionID()
+		if sessionID != "" {
+			fmt.Printf(" Session ID: %s\n", sessionID)
+		}
+		expiresAt := time.Now().UTC().Add(24 * time.Hour).Format("2006-01-02 15:04:05 UTC")
+		fmt.Printf(" Token expires: %s (24 hours)\n", expiresAt)
+		fmt.Println("Session Status: Active")
+
 	default:
 		fmt.Println("Unknown subcommand:", subCmd)
 	}

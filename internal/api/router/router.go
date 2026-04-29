@@ -39,6 +39,7 @@ func NewRouter(
 	protected := router.Group("/users")
 	protected.Use(auth.Middleware(authService))
 	{
+		protected.GET("/me", h.GetMe)
 		protected.POST("/library", h.AddToLibrary)
 		protected.GET("/library", h.GetLibrary)
 		protected.PUT("/progress", h.UpdateProgress)
