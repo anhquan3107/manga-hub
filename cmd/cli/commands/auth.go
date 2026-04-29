@@ -58,7 +58,7 @@ func printLoginError(message, detail string) {
 
 func HandleAuth(args []string) {
 	if len(args) < 1 {
-		fmt.Println("Usage: mangahub auth <register|login|logout|status> [flags]")
+		fmt.Println("Usage: mangahub auth <register|login|logout|status|change-password> [flags]")
 		return
 	}
 
@@ -243,6 +243,64 @@ func HandleAuth(args []string) {
 		fmt.Println("✓ Logout successful!")
 		fmt.Println("Session ended and token removed")
 
+	case "change-password":
+		token := strings.TrimSpace(loadToken())
+		if token == "" {
+			fmt.Println("✗ Not logged in")
+			fmt.Println("Use: mangahub auth login --username <username> to login")
+			return
+		}
+
+		currentPassword := readPasswordPrompt("Current password: ")
+		if currentPassword == "" {
+			fmt.Println("Current password required")
+			return
+		}
+
+		newPassword := readPasswordPrompt("New password: ")
+		if newPassword == "" {
+			fmt.Println("New password required")
+			return
+		}
+		if !isStrongPassword(newPassword) {
+			printRegistrationError("Password too weak", "Password must be at least 8 characters with mixed case and numbers")
+			return
+		}
+
+		if currentPassword == newPassword {
+			fmt.Println("New password must be different from the current password")
+			return
+		}
+
+		data, _ := json.Marshal(map[string]string{
+			"current_password": currentPassword,
+			"new_password":     newPassword,
+		})
+		req, _ := http.NewRequest(http.MethodPost, "http://localhost:8080/auth/change-password", bytes.NewBuffer(data))
+		req.Header.Set("Authorization", "Bearer "+token)
+		req.Header.Set("Content-Type", "application/json")
+
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode == http.StatusUnauthorized {
+			fmt.Println("✗ Change password failed: invalid current password")
+			return
+		}
+		if resp.StatusCode >= 400 {
+			fmt.Printf("✗ Change password failed: %s\n", http.StatusText(resp.StatusCode))
+			printRespBody(resp.Body)
+			return
+		}
+
+		_ = deleteToken()
+		fmt.Println("✓ Password changed successfully!")
+		fmt.Println("Your session has been ended. Please login again with the new password.")
+
 	case "status":
 		token := strings.TrimSpace(loadToken())
 		if token == "" {
@@ -278,22 +336,9 @@ func HandleAuth(args []string) {
 		req2, _ := http.NewRequest(http.MethodGet, "http://localhost:8080/users/me", nil)
 		req2.Header.Set("Authorization", "Bearer "+token)
 		resp2, err := http.DefaultClient.Do(req2)
-		if err != nil {
-			fmt.Println("⚠ Unable to fetch user information")
-			fmt.Println("Server unreachable while calling /users/me")
-			return
-		}
-		defer resp2.Body.Close()
-
-		if resp2.StatusCode != http.StatusOK {
-			fmt.Println("⚠ Unable to fetch user information")
-			fmt.Printf(" /users/me returned %s\n", resp2.Status)
-			return
-		}
-
-		if err := json.NewDecoder(resp2.Body).Decode(&userInfo); err != nil {
-			fmt.Println("⚠ Unable to decode user information")
-			return
+		if err == nil && resp2.StatusCode == 200 {
+			json.NewDecoder(resp2.Body).Decode(&userInfo)
+			resp2.Body.Close()
 		}
 
 		fmt.Println("✓ Logged in")

@@ -1,9 +1,14 @@
 package auth
 
 import (
+	"context"
+	"path/filepath"
 	"testing"
 	"time"
 
+	"golang.org/x/crypto/bcrypt"
+
+	"mangahub/pkg/database"
 	"mangahub/pkg/models"
 )
 
@@ -50,5 +55,37 @@ func TestLogoutRevokesToken(t *testing.T) {
 
 	if _, err := service.ParseToken(token); err == nil {
 		t.Fatalf("expected revoked token to be invalid")
+	}
+}
+
+func TestChangePasswordUpdatesStoredHash(t *testing.T) {
+	store, err := database.NewSQLiteStore(filepath.Join(t.TempDir(), "mangahub.db"))
+	if err != nil {
+		t.Fatalf("NewSQLiteStore returned error: %v", err)
+	}
+	defer store.Close()
+
+	ctx := context.Background()
+	if err := store.InitSchema(ctx); err != nil {
+		t.Fatalf("InitSchema returned error: %v", err)
+	}
+
+	oldPassword := "oldPass123"
+	hash, err := bcrypt.GenerateFromPassword([]byte(oldPassword), bcrypt.DefaultCost)
+	if err != nil {
+		t.Fatalf("GenerateFromPassword returned error: %v", err)
+	}
+
+	service := NewService(store, "test-secret")
+	if _, err := store.CreateUser(ctx, "user-1", "demo", "demo@example.com", string(hash)); err != nil {
+		t.Fatalf("CreateUser returned error: %v", err)
+	}
+
+	if err := service.ChangePassword(ctx, "user-1", oldPassword, "newPass123"); err != nil {
+		t.Fatalf("ChangePassword returned error: %v", err)
+	}
+
+	if err := service.ChangePassword(ctx, "user-1", oldPassword, "anotherPass123"); err == nil {
+		t.Fatalf("expected old password to stop working after change")
 	}
 }

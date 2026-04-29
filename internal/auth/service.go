@@ -77,6 +77,28 @@ func (s *Service) Login(ctx context.Context, req models.LoginRequest) (models.Au
 	return models.AuthResponse{Token: token, User: user}, nil
 }
 
+func (s *Service) ChangePassword(ctx context.Context, userID, currentPassword, newPassword string) error {
+	user, passwordHash, err := s.store.GetUserByIDWithPassword(ctx, userID)
+	if err != nil {
+		return errors.New("user not found")
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(currentPassword)); err != nil {
+		return errors.New("invalid current password")
+	}
+
+	newHash, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return fmt.Errorf("hash password: %w", err)
+	}
+
+	if err := s.store.UpdateUserPassword(ctx, user.ID, string(newHash)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (s *Service) IssueToken(user models.User) (string, error) {
 	claims := Claims{
 		UserID:   user.ID,
