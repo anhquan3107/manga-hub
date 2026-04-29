@@ -45,3 +45,24 @@ func (h *Handler) Login(c *gin.Context) {
 
 	utils.OK(c, http.StatusOK, resp)
 }
+
+func (h *Handler) Logout(c *gin.Context) {
+	rawToken, ok := c.Get("token")
+	if !ok {
+		utils.Error(c, http.StatusUnauthorized, "invalid token")
+		return
+	}
+
+	token, ok := rawToken.(string)
+	if !ok || strings.TrimSpace(token) == "" {
+		utils.Error(c, http.StatusUnauthorized, "invalid token")
+		return
+	}
+
+	if err := h.authService.Logout(token); err != nil {
+		utils.Error(c, http.StatusUnauthorized, "invalid token")
+		return
+	}
+
+	utils.OK(c, http.StatusOK, gin.H{"message": "logged out"})
+}

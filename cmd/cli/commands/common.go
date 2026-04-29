@@ -26,6 +26,14 @@ func loadToken() string {
 	return string(data)
 }
 
+func deleteToken() error {
+	err := os.Remove(getTokenPath())
+	if err != nil && !os.IsNotExist(err) {
+		return err
+	}
+	return nil
+}
+
 func printRespBody(body io.ReadCloser) {
 	b, _ := io.ReadAll(body)
 	fmt.Println(string(b))

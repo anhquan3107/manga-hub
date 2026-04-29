@@ -128,6 +128,21 @@ func TestAuthRegisterAndLogin(t *testing.T) {
 	}
 }
 
+func TestAuthLogoutRevokesToken(t *testing.T) {
+	router := setupRouterForTest(t)
+	token := registerAndGetToken(t, router, "logout-user")
+
+	logoutResp := performJSONRequest(t, router, http.MethodPost, "/auth/logout", nil, token)
+	if logoutResp.Code != http.StatusOK {
+		t.Fatalf("logout status = %d, body=%s", logoutResp.Code, logoutResp.Body.String())
+	}
+
+	protectedResp := performJSONRequest(t, router, http.MethodGet, "/users/library", nil, token)
+	if protectedResp.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401 after logout, got %d, body=%s", protectedResp.Code, protectedResp.Body.String())
+	}
+}
+
 func TestProtectedLibraryRequiresAuth(t *testing.T) {
 	router := setupRouterForTest(t)
 

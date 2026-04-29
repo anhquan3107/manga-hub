@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -22,12 +23,15 @@ type Claims struct {
 type Service struct {
 	store     *database.Store
 	jwtSecret []byte
+	revokedMu sync.RWMutex
+	revoked   map[string]time.Time
 }
 
 func NewService(store *database.Store, jwtSecret string) *Service {
 	return &Service{
 		store:     store,
 		jwtSecret: []byte(jwtSecret),
+		revoked:   make(map[string]time.Time),
 	}
 }
 
@@ -106,5 +110,52 @@ func (s *Service) ParseToken(tokenString string) (*Claims, error) {
 		return nil, errors.New("invalid token")
 	}
 
+	if s.isRevoked(tokenString) {
+		return nil, errors.New("invalid token")
+	}
+
 	return claims, nil
+}
+
+func (s *Service) Logout(tokenString string) error {
+	claims, err := s.ParseToken(tokenString)
+	if err != nil {
+		return err
+	}
+
+	expiresAt := time.Now().Add(24 * time.Hour)
+	if claims.ExpiresAt != nil {
+		expiresAt = claims.ExpiresAt.Time
+	}
+
+	s.revokedMu.Lock()
+	s.revoked[tokenString] = expiresAt
+	s.revokedMu.Unlock()
+
+	return nil
+}
+
+func (s *Service) isRevoked(tokenString string) bool {
+	now := time.Now()
+
+	s.revokedMu.Lock()
+	defer s.revokedMu.Unlock()
+
+	for token, exp := range s.revoked {
+		if now.After(exp) {
+			delete(s.revoked, token)
+		}
+	}
+
+	exp, exists := s.revoked[tokenString]
+	if !exists {
+		return false
+	}
+
+	if now.After(exp) {
+		delete(s.revoked, tokenString)
+		return false
+	}
+
+	return true
 }

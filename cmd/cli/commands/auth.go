@@ -58,7 +58,7 @@ func printLoginError(message, detail string) {
 
 func HandleAuth(args []string) {
 	if len(args) < 1 {
-		fmt.Println("Usage: mangahub auth <register|login> [flags]")
+		fmt.Println("Usage: mangahub auth <register|login|logout> [flags]")
 		return
 	}
 
@@ -143,6 +143,13 @@ func HandleAuth(args []string) {
 			fmt.Println("--username is required")
 			return
 		}
+
+		existingToken := strings.TrimSpace(loadToken())
+		if existingToken != "" {
+			fmt.Println("⚠ You're already logged in")
+			fmt.Println("Logging in again will replace your current session")
+		}
+
 		password := readPasswordPrompt("Password: ")
 		if password == "" {
 			fmt.Println("Password required")
@@ -203,6 +210,34 @@ func HandleAuth(args []string) {
 				printLoginError("Server connection error", "Check server status: mangahub server status")
 			}
 		}
+	case "logout":
+		token := strings.TrimSpace(loadToken())
+		if token == "" {
+			fmt.Println("No active session found")
+			return
+		}
+
+		req, _ := http.NewRequest(http.MethodPost, "http://localhost:8080/auth/logout", nil)
+		req.Header.Set("Authorization", "Bearer "+token)
+
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			_ = deleteToken()
+			fmt.Println("✓ Logged out locally")
+			fmt.Println("Server unreachable; local session has been cleared")
+			return
+		}
+		defer resp.Body.Close()
+
+		_ = deleteToken()
+		if resp.StatusCode >= 400 {
+			fmt.Println("✓ Logged out locally")
+			fmt.Println("Session token cleared from this device")
+			return
+		}
+
+		fmt.Println("✓ Logout successful!")
+		fmt.Println("Session ended and token removed")
 	default:
 		fmt.Println("Unknown subcommand:", subCmd)
 	}

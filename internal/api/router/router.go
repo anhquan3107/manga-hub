@@ -31,6 +31,7 @@ func NewRouter(
 	router.GET("/health", h.Health)
 	router.POST("/auth/register", h.Register)
 	router.POST("/auth/login", h.Login)
+	router.POST("/auth/logout", auth.Middleware(authService), h.Logout)
 	router.GET("/manga", h.ListManga)
 	router.GET("/manga/:id", h.GetManga)
 	router.GET("/ws/chat", h.Chat)
