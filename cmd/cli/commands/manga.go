@@ -40,7 +40,23 @@ func HandleManga(args []string) {
 
 	switch subCmd {
 	case "search", "list":
-		flags.Parse(args[1:])
+		parseArgs := args[1:]
+		if subCmd == "search" && len(parseArgs) > 0 && !strings.HasPrefix(parseArgs[0], "-") {
+			query = parseArgs[0]
+			parseArgs = parseArgs[1:]
+		}
+
+		flags.Parse(parseArgs)
+
+		if subCmd == "search" && strings.TrimSpace(query) == "" {
+			fmt.Println("Usage: mangahub manga search <query> [--genre <genre>] [--status <status>] [--limit <n>]")
+			return
+		}
+
+		if subCmd == "search" {
+			fmt.Printf("Searching for \"%s\"...\n", query)
+		}
+
 		u, _ := url.Parse("http://localhost:8080/manga")
 		q := u.Query()
 		if query != "" {
@@ -53,6 +69,9 @@ func HandleManga(args []string) {
 			q.Set("status", status)
 		}
 		q.Set("limit", fmt.Sprintf("%d", limit))
+		if page > 0 {
+			q.Set("page", fmt.Sprintf("%d", page))
+		}
 		u.RawQuery = q.Encode()
 
 		resp, err := http.Get(u.String())
@@ -78,11 +97,26 @@ func HandleManga(args []string) {
 		}
 
 		if len(result.Items) == 0 {
+			if subCmd == "search" {
+				fmt.Println("No manga found matching your search criteria.")
+				fmt.Println("Suggestions:")
+				fmt.Println("- Check spelling and try again")
+				fmt.Println("- Use broader search terms")
+				fmt.Println("- Browse by genre: mangahub manga list --genre action")
+				return
+			}
+
 			fmt.Println("No manga found")
 			return
 		}
 
-		printMangaTable(result.Items, page, limit)
+		if subCmd == "search" {
+			fmt.Printf("Found %d results:\n", len(result.Items))
+			printMangaTable(result.Items, 0, limit, false)
+			return
+		}
+
+		printMangaTable(result.Items, page, limit, true)
 
 	case "info":
 		if len(args) < 2 {
@@ -115,8 +149,10 @@ func HandleManga(args []string) {
 	}
 }
 
-func printMangaTable(items []MangaItem, page, limit int) {
-	fmt.Printf("✓ Found %d manga\n\n", len(items))
+func printMangaTable(items []MangaItem, page, limit int, showFooter bool) {
+	if page > 0 {
+		fmt.Printf("✓ Found %d manga\n\n", len(items))
+	}
 
 	// Table header
 	fmt.Println("┌────────────────────┬────────────────────────┬──────────────┬────────────┬──────────┐")
@@ -128,13 +164,19 @@ func printMangaTable(items []MangaItem, page, limit int) {
 		id := truncate(item.ID, 18)
 		title := truncate(item.Title, 22)
 		author := truncate(item.Author, 12)
-		status := truncate(item.Status, 10)
+		status := truncate(strings.Title(item.Status), 10)
 		fmt.Printf("│ %-18s │ %-22s │ %-12s │ %-10s │ %8d │\n",
 			id, title, author, status, item.TotalChapters)
 	}
 
 	fmt.Println("└────────────────────┴────────────────────────┴──────────────┴────────────┴──────────┘")
-	fmt.Printf("\nPage: %d | Limit: %d per page\n", page, limit)
+	if showFooter {
+		if page > 0 {
+			fmt.Printf("\nPage: %d | Limit: %d per page\n", page, limit)
+		} else {
+			fmt.Printf("\nLimit: %d per page\n", limit)
+		}
+	}
 }
 
 func printMangaDetail(manga MangaItem) {
