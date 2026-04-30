@@ -68,15 +68,28 @@ func (h *Hub) Run(ctx context.Context) {
 			}
 		case message := <-h.Broadcast:
 			h.mu.RLock()
+			failed := make([]*gorillaws.Conn, 0)
 			for conn := range h.clients {
 				if err := conn.WriteJSON(message); err != nil {
 					log.Printf("websocket write error: %v", err)
-					_ = conn.Close()
+					failed = append(failed, conn)
 				}
 			}
 			h.mu.RUnlock()
+			for _, conn := range failed {
+				h.removeClient(conn)
+			}
 		}
 	}
+}
+
+func (h *Hub) removeClient(conn *gorillaws.Conn) {
+	h.mu.Lock()
+	if _, ok := h.clients[conn]; ok {
+		delete(h.clients, conn)
+	}
+	h.mu.Unlock()
+	_ = conn.Close()
 }
 
 func (h *Hub) closeAll() {
