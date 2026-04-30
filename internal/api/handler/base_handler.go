@@ -11,14 +11,20 @@ import (
 	"mangahub/internal/manga"
 	"mangahub/internal/user"
 	chatws "mangahub/internal/websocket"
+	"mangahub/pkg/models"
 	"mangahub/pkg/utils"
 )
+
+type ProgressBroadcaster interface {
+	PublishProgress(update models.ProgressUpdate)
+}
 
 type Dependencies struct {
 	AuthService  *auth.Service
 	MangaService *manga.Service
 	UserService  *user.Service
 	Hub          *chatws.Hub
+	Broadcaster  ProgressBroadcaster
 }
 
 type Handler struct {
@@ -26,6 +32,7 @@ type Handler struct {
 	mangaService *manga.Service
 	userService  *user.Service
 	hub          *chatws.Hub
+	broadcaster  ProgressBroadcaster
 }
 
 func New(deps Dependencies) *Handler {
@@ -34,6 +41,7 @@ func New(deps Dependencies) *Handler {
 		mangaService: deps.MangaService,
 		userService:  deps.UserService,
 		hub:          deps.Hub,
+		broadcaster:  deps.Broadcaster,
 	}
 }
 

@@ -13,6 +13,7 @@ import (
 	"mangahub/internal/auth"
 	"mangahub/internal/config"
 	"mangahub/internal/manga"
+	"mangahub/internal/tcp"
 	"mangahub/internal/user"
 	"mangahub/internal/websocket"
 	"mangahub/pkg/database"
@@ -39,13 +40,19 @@ func main() {
 	authService := auth.NewService(store, cfg.JWTSecret)
 	mangaService := manga.NewService(store)
 	userService := user.NewService(store)
+	tcpServer := tcp.NewServer(cfg.TCPAddr, userService)
 	hub := websocket.NewHub()
 
 	go hub.Run(ctx)
+	go func() {
+		if err := tcpServer.ListenAndServe(ctx); err != nil {
+			log.Printf("tcp server error: %v", err)
+		}
+	}()
 
 	server := &http.Server{
 		Addr:    cfg.HTTPAddr,
-		Handler: router.NewRouter(cfg, authService, mangaService, userService, hub),
+		Handler: router.NewRouter(cfg, authService, mangaService, userService, hub, tcpServer),
 	}
 
 	go func() {

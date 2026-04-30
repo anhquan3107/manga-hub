@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -76,6 +77,15 @@ func (h *Handler) UpdateProgress(c *gin.Context) {
 	if err != nil {
 		utils.Error(c, http.StatusInternalServerError, err.Error())
 		return
+	}
+
+	if h.broadcaster != nil {
+		h.broadcaster.PublishProgress(models.ProgressUpdate{
+			UserID:    currentUserID(c),
+			MangaID:   entry.MangaID,
+			Chapter:   entry.CurrentChapter,
+			Timestamp: time.Now().Unix(),
+		})
 	}
 
 	utils.OK(c, http.StatusOK, entry)
