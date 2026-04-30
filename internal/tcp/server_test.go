@@ -15,10 +15,11 @@ import (
 )
 
 type testServerMessage struct {
-	Type     string                 `json:"type"`
-	Error    string                 `json:"error"`
-	Message  string                 `json:"message"`
-	Progress *models.ProgressUpdate `json:"progress"`
+	Type      string                 `json:"type"`
+	RequestID string                 `json:"request_id"`
+	Error     string                 `json:"error"`
+	Message   string                 `json:"message"`
+	Progress  *models.ProgressUpdate `json:"progress"`
 }
 
 func TestTCPProgressFlowAndBroadcast(t *testing.T) {
@@ -122,6 +123,149 @@ func TestTCPReturnsErrorForInvalidProgress(t *testing.T) {
 	errMsg := readUntilType(t, conn, reader, "error")
 	if errMsg.Error == "" {
 		t.Fatalf("expected non-empty error message")
+	}
+}
+
+func TestTCPPingReturnsPong(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	store, userService := setupStoreAndService(t)
+	defer store.Close()
+
+	addr := freeTCPAddr(t)
+	server := NewServer(addr, userService)
+
+	go func() {
+		_ = server.ListenAndServe(ctx)
+	}()
+
+	conn := dialWithRetry(t, addr)
+	defer conn.Close()
+	reader := bufio.NewReader(conn)
+	_ = readServerMessage(t, conn, reader) // connected
+
+	writeJSONLine(t, conn, map[string]any{
+		"type":       "ping",
+		"request_id": "r-ping",
+	})
+
+	pong := readUntilType(t, conn, reader, "pong")
+	if pong.RequestID != "r-ping" {
+		t.Fatalf("expected request_id r-ping, got %s", pong.RequestID)
+	}
+}
+
+func TestTCPUnsupportedMessageTypeReturnsError(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	store, userService := setupStoreAndService(t)
+	defer store.Close()
+
+	addr := freeTCPAddr(t)
+	server := NewServer(addr, userService)
+
+	go func() {
+		_ = server.ListenAndServe(ctx)
+	}()
+
+	conn := dialWithRetry(t, addr)
+	defer conn.Close()
+	reader := bufio.NewReader(conn)
+	_ = readServerMessage(t, conn, reader) // connected
+
+	writeJSONLine(t, conn, map[string]any{
+		"type":       "status",
+		"request_id": "r-status",
+	})
+
+	errMsg := readUntilType(t, conn, reader, "error")
+	if errMsg.RequestID != "r-status" {
+		t.Fatalf("expected request_id r-status, got %s", errMsg.RequestID)
+	}
+	if errMsg.Error == "" {
+		t.Fatalf("expected error for unsupported message type")
+	}
+}
+
+func TestTCPProgressWithInlineUserIDWithoutHello(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	store, userService := setupStoreAndService(t)
+	defer store.Close()
+
+	seedUserAndManga(t, store)
+
+	addr := freeTCPAddr(t)
+	server := NewServer(addr, userService)
+
+	go func() {
+		_ = server.ListenAndServe(ctx)
+	}()
+
+	conn := dialWithRetry(t, addr)
+	defer conn.Close()
+	reader := bufio.NewReader(conn)
+	_ = readServerMessage(t, conn, reader) // connected
+
+	writeJSONLine(t, conn, map[string]any{
+		"type":       "progress",
+		"request_id": "r-progress",
+		"user_id":    "user-1",
+		"manga_id":   "manga-1",
+		"chapter":    9,
+		"status":     "reading",
+	})
+
+	ack := readUntilType(t, conn, reader, "ack")
+	if ack.RequestID != "r-progress" {
+		t.Fatalf("expected request_id r-progress, got %s", ack.RequestID)
+	}
+	if ack.Progress == nil || ack.Progress.Chapter != 9 {
+		t.Fatalf("expected ack progress chapter 9")
+	}
+}
+
+func TestPublishProgressBroadcastsToAllClients(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	store, userService := setupStoreAndService(t)
+	defer store.Close()
+
+	addr := freeTCPAddr(t)
+	server := NewServer(addr, userService)
+
+	go func() {
+		_ = server.ListenAndServe(ctx)
+	}()
+
+	connA := dialWithRetry(t, addr)
+	defer connA.Close()
+	readerA := bufio.NewReader(connA)
+	_ = readServerMessage(t, connA, readerA) // connected
+
+	connB := dialWithRetry(t, addr)
+	defer connB.Close()
+	readerB := bufio.NewReader(connB)
+	_ = readServerMessage(t, connB, readerB) // connected
+
+	server.PublishProgress(models.ProgressUpdate{
+		UserID:  "user-1",
+		MangaID: "manga-1",
+		Chapter: 10,
+	})
+
+	broadcastA := readUntilType(t, connA, readerA, "progress_broadcast")
+	broadcastB := readUntilType(t, connB, readerB, "progress_broadcast")
+
+	if broadcastA.Progress == nil || broadcastA.Progress.Chapter != 10 {
+		t.Fatalf("expected chapter 10 in client A broadcast")
+	}
+	if broadcastB.Progress == nil || broadcastB.Progress.Chapter != 10 {
+		t.Fatalf("expected chapter 10 in client B broadcast")
 	}
 }
 

@@ -11,6 +11,7 @@ import (
 const (
 	ContextUserIDKey   = "user_id"
 	ContextUsernameKey = "username"
+	ContextTokenKey    = "token"
 )
 
 func Middleware(service *Service) gin.HandlerFunc {
@@ -38,6 +39,7 @@ func Middleware(service *Service) gin.HandlerFunc {
 
 		c.Set(ContextUserIDKey, claims.UserID)
 		c.Set(ContextUsernameKey, claims.Username)
+		c.Set(ContextTokenKey, parts[1])
 		c.Next()
 	}
 }
