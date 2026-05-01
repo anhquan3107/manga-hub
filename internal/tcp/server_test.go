@@ -288,7 +288,7 @@ func setupStoreAndService(t *testing.T) (*database.Store, *user.Service) {
 func seedUserAndManga(t *testing.T, store *database.Store) {
 	t.Helper()
 
-	if _, err := store.CreateUser(context.Background(), "user-1", "alice", "hash"); err != nil {
+	if _, err := store.CreateUser(context.Background(), "user-1", "alice", "alice@example.com", "hash"); err != nil {
 		t.Fatalf("create user: %v", err)
 	}
 

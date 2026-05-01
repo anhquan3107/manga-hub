@@ -24,6 +24,7 @@ func (s *Service) AddToLibrary(ctx context.Context, userID string, req models.Ad
 		MangaID:        req.MangaID,
 		CurrentChapter: req.CurrentChapter,
 		Status:         req.Status,
+		Rating:         req.Rating,
 	})
 }
 
@@ -42,6 +43,10 @@ func (s *Service) UpdateProgress(ctx context.Context, userID string, req models.
 
 func (s *Service) GetLibrary(ctx context.Context, userID string) ([]models.LibraryEntry, error) {
 	return s.store.GetUserLibrary(ctx, userID)
+}
+
+func (s *Service) RemoveFromLibrary(ctx context.Context, userID, mangaID string) error {
+	return s.store.DeleteLibraryEntry(ctx, userID, mangaID)
 }
 
 func (s *Service) GetUserByID(ctx context.Context, userID string) (models.User, error) {

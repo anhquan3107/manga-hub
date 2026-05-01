@@ -35,6 +35,8 @@ func (s *Store) InitSchema(ctx context.Context) error {
 		manga_id TEXT NOT NULL,
 		current_chapter INTEGER NOT NULL DEFAULT 0,
 		status TEXT NOT NULL,
+		rating INTEGER,
+		started_at TIMESTAMP,
 		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY (user_id, manga_id),
 		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
