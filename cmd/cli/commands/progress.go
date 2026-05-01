@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+
+	shared "mangahub/cmd/cli/commands/shared"
 )
 
-func progressHandler(args []string) {
+func HandleProgress(args []string) {
 	if len(args) < 1 {
 		fmt.Println("Usage: mangahub progress <update> [flags]")
 		return
@@ -31,7 +33,7 @@ func progressHandler(args []string) {
 			"chapter":  chapter,
 		})
 
-		resp, err := doAuthReq("PUT", "http://localhost:8080/users/progress", data)
+		resp, err := shared.DoAuthReq("PUT", "http://localhost:8080/users/progress", data)
 		if err != nil {
 			fmt.Println("Error:", err)
 			return

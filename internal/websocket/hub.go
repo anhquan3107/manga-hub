@@ -15,22 +15,30 @@ type ClientConnection struct {
 	Conn     *gorillaws.Conn
 	UserID   string
 	Username string
+	RoomID   string
 }
 
 type Hub struct {
 	mu         sync.RWMutex
 	clients    map[*gorillaws.Conn]ClientConnection
+	Rooms      map[string][]ClientConnection
 	Register   chan ClientConnection
 	Unregister chan *gorillaws.Conn
-	Broadcast  chan models.ChatMessage
+	Broadcast  chan RoomMessage
+}
+
+type RoomMessage struct {
+	RoomID  string
+	Message models.ChatMessage
 }
 
 func NewHub() *Hub {
 	return &Hub{
 		clients:    make(map[*gorillaws.Conn]ClientConnection),
+		Rooms:      make(map[string][]ClientConnection),
 		Register:   make(chan ClientConnection),
 		Unregister: make(chan *gorillaws.Conn),
-		Broadcast:  make(chan models.ChatMessage, 32),
+		Broadcast:  make(chan RoomMessage, 32),
 	}
 }
 
@@ -43,36 +51,49 @@ func (h *Hub) Run(ctx context.Context) {
 		case client := <-h.Register:
 			h.mu.Lock()
 			h.clients[client.Conn] = client
+			h.Rooms[client.RoomID] = append(h.Rooms[client.RoomID], client)
 			h.mu.Unlock()
-			h.Broadcast <- models.ChatMessage{
-				UserID:    client.UserID,
-				Username:  client.Username,
-				Message:   "joined the chat",
-				Timestamp: time.Now().Unix(),
+			h.Broadcast <- RoomMessage{
+				RoomID: client.RoomID,
+				Message: models.ChatMessage{
+					UserID:    client.UserID,
+					Username:  client.Username,
+					Message:   "joined the chat",
+					Timestamp: time.Now().Unix(),
+				},
 			}
 		case conn := <-h.Unregister:
 			h.mu.Lock()
 			client, ok := h.clients[conn]
 			if ok {
 				delete(h.clients, conn)
+				for i, c := range h.Rooms[client.RoomID] {
+					if c.Conn == conn {
+						h.Rooms[client.RoomID] = append(h.Rooms[client.RoomID][:i], h.Rooms[client.RoomID][i+1:]...)
+						break
+					}
+				}
 			}
 			h.mu.Unlock()
 			_ = conn.Close()
 			if ok {
-				h.Broadcast <- models.ChatMessage{
-					UserID:    client.UserID,
-					Username:  client.Username,
-					Message:   "left the chat",
-					Timestamp: time.Now().Unix(),
+				h.Broadcast <- RoomMessage{
+					RoomID: client.RoomID,
+					Message: models.ChatMessage{
+						UserID:    client.UserID,
+						Username:  client.Username,
+						Message:   "left the chat",
+						Timestamp: time.Now().Unix(),
+					},
 				}
 			}
-		case message := <-h.Broadcast:
+		case msg := <-h.Broadcast:
 			h.mu.RLock()
 			failed := make([]*gorillaws.Conn, 0)
-			for conn := range h.clients {
-				if err := conn.WriteJSON(message); err != nil {
+			for _, client := range h.Rooms[msg.RoomID] {
+				if err := client.Conn.WriteJSON(msg.Message); err != nil {
 					log.Printf("websocket write error: %v", err)
-					failed = append(failed, conn)
+					failed = append(failed, client.Conn)
 				}
 			}
 			h.mu.RUnlock()
@@ -100,4 +121,13 @@ func (h *Hub) closeAll() {
 		_ = conn.Close()
 		delete(h.clients, conn)
 	}
+}
+
+func (h *Hub) GetRoomUsers(roomID string) []ClientConnection {
+	h.mu.RLock()
+	defer h.mu.RUnlock()
+
+	users := make([]ClientConnection, len(h.Rooms[roomID]))
+	copy(users, h.Rooms[roomID])
+	return users
 }
