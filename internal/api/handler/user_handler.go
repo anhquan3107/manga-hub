@@ -110,6 +110,32 @@ func (h *Handler) RemoveFromLibrary(c *gin.Context) {
 	utils.OK(c, http.StatusOK, gin.H{"message": "removed"})
 }
 
+func (h *Handler) UpdateLibrary(c *gin.Context) {
+	mangaID := c.Param("id")
+	if strings.TrimSpace(mangaID) == "" {
+		utils.Error(c, http.StatusBadRequest, "manga id required")
+		return
+	}
+
+	var req models.UpdateLibraryRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.Error(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	entry, err := h.userService.UpdateLibrary(c.Request.Context(), currentUserID(c), mangaID, req)
+	if err != nil {
+		status := http.StatusInternalServerError
+		if isNotFound(err) || strings.Contains(strings.ToLower(err.Error()), "not found") {
+			status = http.StatusNotFound
+		}
+		utils.Error(c, status, err.Error())
+		return
+	}
+
+	utils.OK(c, http.StatusOK, entry)
+}
+
 func currentUserID(c *gin.Context) string {
 	value, _ := c.Get(auth.ContextUserIDKey)
 	if userID, ok := value.(string); ok {

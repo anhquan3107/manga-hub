@@ -32,3 +32,8 @@ type UpdateProgressRequest struct {
 	CurrentChapter int    `json:"current_chapter" binding:"required,min=0"`
 	Status         string `json:"status" binding:"omitempty,oneof=reading completed plan-to-read on-hold dropped"`
 }
+
+type UpdateLibraryRequest struct {
+	Status string `json:"status" binding:"omitempty,oneof=reading completed plan-to-read on-hold dropped"`
+	Rating int    `json:"rating" binding:"omitempty,min=1,max=10"`
+}
