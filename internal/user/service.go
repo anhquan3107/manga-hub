@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"errors"
 
 	"mangahub/pkg/database"
 	"mangahub/pkg/models"
@@ -47,6 +48,31 @@ func (s *Service) GetLibrary(ctx context.Context, userID string) ([]models.Libra
 
 func (s *Service) RemoveFromLibrary(ctx context.Context, userID, mangaID string) error {
 	return s.store.DeleteLibraryEntry(ctx, userID, mangaID)
+}
+
+func (s *Service) UpdateLibrary(ctx context.Context, userID, mangaID string, req models.UpdateLibraryRequest) (models.LibraryEntry, error) {
+	library, err := s.store.GetUserLibrary(ctx, userID)
+	if err != nil {
+		return models.LibraryEntry{}, err
+	}
+
+	for _, entry := range library {
+		if entry.MangaID != mangaID {
+			continue
+		}
+
+		updated := entry
+		if req.Status != "" {
+			updated.Status = req.Status
+		}
+		if req.Rating > 0 {
+			updated.Rating = req.Rating
+		}
+
+		return s.store.UpsertLibraryEntry(ctx, userID, updated)
+	}
+
+	return models.LibraryEntry{}, errors.New("library entry not found")
 }
 
 func (s *Service) GetUserByID(ctx context.Context, userID string) (models.User, error) {
