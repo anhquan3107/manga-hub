@@ -3,6 +3,10 @@ package main
 import (
 	"fmt"
 	"mangahub/cmd/cli/commands"
+	authcmd "mangahub/cmd/cli/commands/auth"
+	chatcmd "mangahub/cmd/cli/commands/chat"
+	librarycmd "mangahub/cmd/cli/commands/library"
+	mangacmd "mangahub/cmd/cli/commands/manga"
 	"os"
 )
 
@@ -17,17 +21,17 @@ func main() {
 
 	switch command {
 	case "auth":
-		commands.HandleAuth(args)
+		authcmd.HandleAuth(args)
 	case "manga":
-		commands.HandleManga(args)
+		mangacmd.HandleManga(args)
 	case "server":
 		commands.HandleServer(args)
 	case "library":
-		commands.HandleLibrary(args)
+		librarycmd.HandleLibrary(args)
 	case "progress":
 		commands.HandleProgress(args)
 	case "chat":
-		commands.HandleChat(args)
+		chatcmd.HandleChat(args)
 	default:
 		fmt.Printf("Unknown command: %s\n", command)
 		printUsage()
@@ -43,5 +47,5 @@ func printUsage() {
 	fmt.Println("  manga      Manage manga (search, info)")
 	fmt.Println("  library    Manage your library (add, list, remove, update)")
 	fmt.Println("  progress   Manage your reading progress (update)")
-	fmt.Println("  chat       Join the chat")
+	fmt.Println("  chat       Chat with community (join, send)")
 }

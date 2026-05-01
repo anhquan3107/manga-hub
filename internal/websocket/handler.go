@@ -43,10 +43,16 @@ func Handler(hub *Hub, authService *auth.Service) gin.HandlerFunc {
 			return
 		}
 
+		roomID := c.Query("room")
+		if roomID == "" {
+			roomID = "general"
+		}
+
 		client := ClientConnection{
 			Conn:     conn,
 			UserID:   claims.UserID,
 			Username: claims.Username,
+			RoomID:   roomID,
 		}
 		hub.Register <- client
 
@@ -58,11 +64,14 @@ func Handler(hub *Hub, authService *auth.Service) gin.HandlerFunc {
 				return
 			}
 
-			hub.Broadcast <- models.ChatMessage{
-				UserID:    claims.UserID,
-				Username:  claims.Username,
-				Message:   incoming.Message,
-				Timestamp: time.Now().Unix(),
+			hub.Broadcast <- RoomMessage{
+				RoomID: roomID,
+				Message: models.ChatMessage{
+					UserID:    claims.UserID,
+					Username:  claims.Username,
+					Message:   incoming.Message,
+					Timestamp: time.Now().Unix(),
+				},
 			}
 		}
 	}

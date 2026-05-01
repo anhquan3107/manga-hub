@@ -42,6 +42,18 @@ func (s *Store) InitSchema(ctx context.Context) error {
 		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
 		FOREIGN KEY (manga_id) REFERENCES manga(id) ON DELETE CASCADE
 	);
+
+	CREATE TABLE IF NOT EXISTS chat_messages (
+		id TEXT PRIMARY KEY,
+		user_id TEXT NOT NULL,
+		username TEXT NOT NULL,
+		room_id TEXT NOT NULL,
+		message TEXT NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+	);
+
+	CREATE INDEX IF NOT EXISTS idx_chat_messages_room ON chat_messages(room_id, created_at DESC);
 	`
 
 	if _, err := s.db.ExecContext(ctx, schema); err != nil {
