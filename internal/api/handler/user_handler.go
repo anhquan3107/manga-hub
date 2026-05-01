@@ -91,6 +91,25 @@ func (h *Handler) UpdateProgress(c *gin.Context) {
 	utils.OK(c, http.StatusOK, entry)
 }
 
+func (h *Handler) RemoveFromLibrary(c *gin.Context) {
+	mangaID := c.Param("id")
+	if strings.TrimSpace(mangaID) == "" {
+		utils.Error(c, http.StatusBadRequest, "manga id required")
+		return
+	}
+
+	if err := h.userService.RemoveFromLibrary(c.Request.Context(), currentUserID(c), mangaID); err != nil {
+		status := http.StatusInternalServerError
+		if isNotFound(err) || strings.Contains(strings.ToLower(err.Error()), "not found") {
+			status = http.StatusNotFound
+		}
+		utils.Error(c, status, err.Error())
+		return
+	}
+
+	utils.OK(c, http.StatusOK, gin.H{"message": "removed"})
+}
+
 func currentUserID(c *gin.Context) string {
 	value, _ := c.Get(auth.ContextUserIDKey)
 	if userID, ok := value.(string); ok {
@@ -103,11 +122,17 @@ func buildReadingLists(items []models.LibraryEntry) gin.H {
 	reading := make([]models.LibraryEntry, 0)
 	completed := make([]models.LibraryEntry, 0)
 	planToRead := make([]models.LibraryEntry, 0)
+	onHold := make([]models.LibraryEntry, 0)
+	dropped := make([]models.LibraryEntry, 0)
 
 	for _, item := range items {
 		switch strings.ToLower(strings.TrimSpace(item.Status)) {
 		case "completed":
 			completed = append(completed, item)
+		case "on-hold", "on_hold", "on hold":
+			onHold = append(onHold, item)
+		case "dropped":
+			dropped = append(dropped, item)
 		case "plan_to_read", "plantoread", "planned":
 			planToRead = append(planToRead, item)
 		default:
@@ -119,5 +144,7 @@ func buildReadingLists(items []models.LibraryEntry) gin.H {
 		"reading":      reading,
 		"completed":    completed,
 		"plan_to_read": planToRead,
+		"on_hold":      onHold,
+		"dropped":      dropped,
 	}
 }

@@ -1,11 +1,14 @@
 package commands
 
 import (
+	"bytes"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 )
 
 func getSessionID() string {
@@ -56,4 +59,21 @@ func deleteToken() error {
 func printRespBody(body io.ReadCloser) {
 	b, _ := io.ReadAll(body)
 	fmt.Println(string(b))
+}
+
+func getAuthClient() *http.Client {
+	return &http.Client{}
+}
+
+func doAuthReq(method, url string, body []byte) (*http.Response, error) {
+	req, err := http.NewRequest(method, url, bytes.NewBuffer(body))
+	if err != nil {
+		return nil, err
+	}
+	token := strings.TrimSpace(loadToken())
+	if token != "" {
+		req.Header.Set("Authorization", "Bearer "+token)
+	}
+	req.Header.Set("Content-Type", "application/json")
+	return getAuthClient().Do(req)
 }
