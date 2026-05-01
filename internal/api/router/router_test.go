@@ -209,6 +209,14 @@ func TestMangaCRUDAndLibraryProgressFlow(t *testing.T) {
 		t.Fatalf("add library status = %d, body=%s", addLibraryResp.Code, addLibraryResp.Body.String())
 	}
 
+	updateLibraryResp := performJSONRequest(t, router, http.MethodPut, fmt.Sprintf("/users/library/%s", createdManga.ID), map[string]any{
+		"status": "completed",
+		"rating": 10,
+	}, token)
+	if updateLibraryResp.Code != http.StatusOK {
+		t.Fatalf("update library status = %d, body=%s", updateLibraryResp.Code, updateLibraryResp.Body.String())
+	}
+
 	libraryResp := performJSONRequest(t, router, http.MethodGet, "/users/library", nil, token)
 	if libraryResp.Code != http.StatusOK {
 		t.Fatalf("get library status = %d, body=%s", libraryResp.Code, libraryResp.Body.String())

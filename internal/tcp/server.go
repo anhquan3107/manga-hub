@@ -46,6 +46,11 @@ type serverMessage struct {
 	Message   string                 `json:"message,omitempty"`
 	Error     string                 `json:"error,omitempty"`
 	Progress  *models.ProgressUpdate `json:"progress,omitempty"`
+	SessionID   string `json:"session_id,omitempty"`
+	Username    string `json:"username,omitempty"`
+	UserID      string `json:"user_id,omitempty"`
+	Devices     int    `json:"devices,omitempty"`
+	ConnectedAt int64  `json:"connected_at,omitempty"`
 	Timestamp int64                  `json:"timestamp"`
 }
 
@@ -102,12 +107,6 @@ func (s *Server) handleConn(ctx context.Context, c *client) {
 		log.Printf("tcp client disconnected: id=%s user_id=%s", c.id, c.userID)
 	}()
 
-	_ = s.send(c, serverMessage{
-		Type:      "connected",
-		Message:   "connected to mangahub tcp server",
-		Timestamp: time.Now().Unix(),
-	})
-
 	log.Printf("tcp client connected: id=%s", c.id)
 
 	scanner := bufio.NewScanner(c.conn)
@@ -140,8 +139,34 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 		if strings.TrimSpace(msg.UserID) == "" {
 			return errors.New("user_id is required for hello")
 		}
+
 		c.userID = strings.TrimSpace(msg.UserID)
-		return s.send(c, serverMessage{Type: "hello_ack", RequestID: msg.RequestID, Message: "registered client user", Timestamp: time.Now().Unix()})
+
+		sessionID := fmt.Sprintf("sess-%d", time.Now().UnixNano())
+		username := c.userID
+		if s.userService != nil {
+			user, err := s.userService.GetUserByID(ctx, c.userID)
+			if err == nil  {
+				username = user.Username
+			}
+		}
+		// count devices for this user
+		deviceCount := 0
+		for _, client := range s.clients {
+			if client.userID == c.userID {
+				deviceCount++
+			}
+		}
+		return s.send(c, serverMessage{
+			Type:        "connected",
+			Message:     "connected successfully",
+			SessionID:   sessionID,
+			UserID:      c.userID,
+			Username:    username,
+			Devices:     deviceCount,
+			ConnectedAt: time.Now().Unix(),
+			Timestamp:   time.Now().Unix(),
+		})
 	case "ping":
 		return s.send(c, serverMessage{Type: "pong", RequestID: msg.RequestID, Timestamp: time.Now().Unix()})
 	case "progress":
@@ -186,9 +211,17 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 
 		s.PublishProgress(update)
 		return s.send(c, serverMessage{Type: "ack", RequestID: msg.RequestID, Message: "progress updated", Progress: &update, Timestamp: time.Now().Unix()})
+	case "disconnect":
+		log.Printf("user %s requested disconnect", c.userID)
+		return s.send(c, serverMessage{
+			Type:      "ack",
+			Message:   "disconnected",
+			Timestamp: time.Now().Unix(),
+		})
 	default:
 		return fmt.Errorf("unsupported message type %q", msg.Type)
 	}
+
 }
 
 func (s *Server) PublishProgress(update models.ProgressUpdate) {

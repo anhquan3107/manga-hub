@@ -28,6 +28,10 @@ func main() {
 		commands.HandleProgress(args)
 	case "chat":
 		commands.HandleChat(args)
+	case "sync":
+		commands.HandleSync(args)
+	case "notify":
+		commands.HandleNotify(args)
 	default:
 		fmt.Printf("Unknown command: %s\n", command)
 		printUsage()
@@ -41,7 +45,9 @@ func printUsage() {
 	fmt.Println("\nCommands:")
 	fmt.Println("  auth       Manage authentication (register, login, logout, status)")
 	fmt.Println("  manga      Manage manga (search, info)")
-	fmt.Println("  library    Manage your library (add, list)")
+	fmt.Println("  library    Manage your library (add, list, remove, update)")
 	fmt.Println("  progress   Manage your reading progress (update)")
-	fmt.Println("  chat       Join the chat")
+	fmt.Println("  chat       Chat with community (join, send)")
+	fmt.Println("  sync       Manage TCP synchronization (connect, disconnect, status, monitor)")
+	fmt.Println("  notify     Manage UDP notifications (subscribe, unsubscribe, preferences, test)")
 }

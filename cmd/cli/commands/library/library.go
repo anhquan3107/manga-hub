@@ -4,7 +4,7 @@ import "fmt"
 
 func HandleLibrary(args []string) {
 	if len(args) < 1 {
-		fmt.Println("Usage: mangahub library <add|list|remove> [flags]")
+		fmt.Println("Usage: mangahub library <add|list|remove|update> [flags]")
 		return
 	}
 	sub := args[0]
@@ -15,6 +15,8 @@ func HandleLibrary(args []string) {
 		libraryList(args[1:])
 	case "remove":
 		libraryRemove(args[1:])
+	case "update":
+		libraryUpdate(args[1:])
 	default:
 		fmt.Println("Unknown subcommand:", sub)
 	}
