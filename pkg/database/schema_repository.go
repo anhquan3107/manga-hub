@@ -60,6 +60,50 @@ func (s *Store) InitSchema(ctx context.Context) error {
 		return fmt.Errorf("initialize schema: %w", err)
 	}
 
+	if err := s.ensureUsersEmailColumn(ctx); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *Store) ensureUsersEmailColumn(ctx context.Context) error {
+	rows, err := s.db.QueryContext(ctx, `PRAGMA table_info(users)`)
+	if err != nil {
+		return fmt.Errorf("inspect users schema: %w", err)
+	}
+	defer rows.Close()
+
+	hasEmail := false
+	for rows.Next() {
+		var (
+			cid       int
+			name      string
+			columnType string
+			notNull   int
+			defaultVal any
+			pk        int
+		)
+		if err := rows.Scan(&cid, &name, &columnType, &notNull, &defaultVal, &pk); err != nil {
+			return fmt.Errorf("scan users schema: %w", err)
+		}
+		if name == "email" {
+			hasEmail = true
+			break
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return fmt.Errorf("iterate users schema: %w", err)
+	}
+
+	if hasEmail {
+		return nil
+	}
+
+	if _, err := s.db.ExecContext(ctx, `ALTER TABLE users ADD COLUMN email TEXT NOT NULL DEFAULT ''`); err != nil {
+		return fmt.Errorf("add users.email column: %w", err)
+	}
+
 	return nil
 }
 
