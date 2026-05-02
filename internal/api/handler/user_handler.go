@@ -73,22 +73,44 @@ func (h *Handler) UpdateProgress(c *gin.Context) {
 		return
 	}
 
-	entry, err := h.userService.UpdateProgress(c.Request.Context(), currentUserID(c), req)
+	result, err := h.userService.UpdateProgress(c.Request.Context(), currentUserID(c), req)
 	if err != nil {
-		utils.Error(c, http.StatusInternalServerError, err.Error())
+		utils.Error(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	if h.broadcaster != nil {
 		h.broadcaster.PublishProgress(models.ProgressUpdate{
 			UserID:    currentUserID(c),
-			MangaID:   entry.MangaID,
-			Chapter:   entry.CurrentChapter,
+			MangaID:   result.Entry.MangaID,
+			Chapter:   result.Entry.CurrentChapter,
 			Timestamp: time.Now().Unix(),
 		})
 	}
 
-	utils.OK(c, http.StatusOK, entry)
+	utils.OK(c, http.StatusOK, gin.H{
+		"manga_id":         result.Entry.MangaID,
+		"title":            result.MangaTitle,
+		"previous_chapter": result.PreviousChapter,
+		"current_chapter":  result.Entry.CurrentChapter,
+		"previous_volume":  result.PreviousVolume,
+		"current_volume":   result.Entry.CurrentVolume,
+		"updated_at":       result.Entry.UpdatedAt,
+		"total_chapters":   result.TotalChapters,
+		"notes":            result.Entry.Notes,
+		"status":           result.Entry.Status,
+	})
+}
+
+func (h *Handler) GetProgressHistory(c *gin.Context) {
+	mangaID := strings.TrimSpace(c.Query("manga_id"))
+	items, err := h.userService.GetProgressHistory(c.Request.Context(), currentUserID(c), mangaID)
+	if err != nil {
+		utils.Error(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	utils.OK(c, http.StatusOK, gin.H{"items": items})
 }
 
 func (h *Handler) RemoveFromLibrary(c *gin.Context) {

@@ -31,12 +31,11 @@ func main() {
 	case "progress":
 		commands.HandleProgress(args)
 	case "chat":
-		commands.HandleChat(args)
+		chatcmd.HandleChat(args)
 	case "sync":
 		commands.HandleSync(args)
 	case "notify":
 		commands.HandleNotify(args)
-		chatcmd.HandleChat(args)
 	default:
 		fmt.Printf("Unknown command: %s\n", command)
 		printUsage()

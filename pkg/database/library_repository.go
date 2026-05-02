@@ -68,19 +68,23 @@ func (s *Store) UpsertLibraryEntry(ctx context.Context, userID string, entry mod
 	// Use COALESCE for started_at so that when not provided it defaults to CURRENT_TIMESTAMP on insert
 	_, err := s.db.ExecContext(
 		ctx,
-		`INSERT INTO user_progress (user_id, manga_id, current_chapter, status, updated_at, rating, started_at)
-		VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?, COALESCE(?, CURRENT_TIMESTAMP))
+		`INSERT INTO user_progress (user_id, manga_id, current_chapter, current_volume, status, updated_at, rating, started_at, notes)
+		VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, COALESCE(?, CURRENT_TIMESTAMP), ?)
 		ON CONFLICT(user_id, manga_id) DO UPDATE SET
 			current_chapter = excluded.current_chapter,
+			current_volume = excluded.current_volume,
 			status = excluded.status,
 			updated_at = CURRENT_TIMESTAMP,
-			rating = excluded.rating`,
+			rating = excluded.rating,
+			notes = excluded.notes`,
 		userID,
 		entry.MangaID,
 		entry.CurrentChapter,
+		entry.CurrentVolume,
 		entry.Status,
 		nullableInt(entry.Rating),
 		nullableTime(entry.StartedAt),
+		entry.Notes,
 	)
 	if err != nil {
 		return models.LibraryEntry{}, fmt.Errorf("upsert library entry: %w", err)
@@ -103,7 +107,7 @@ func (s *Store) UpsertLibraryEntry(ctx context.Context, userID string, entry mod
 func (s *Store) GetUserLibrary(ctx context.Context, userID string) ([]models.LibraryEntry, error) {
 	rows, err := s.db.QueryContext(
 		ctx,
-		`SELECT up.user_id, up.manga_id, m.title, up.current_chapter, up.status, up.updated_at, up.rating, up.started_at
+		`SELECT up.user_id, up.manga_id, m.title, up.current_chapter, up.current_volume, up.status, up.updated_at, up.rating, up.started_at, up.notes
 		FROM user_progress up
 		JOIN manga m ON m.id = up.manga_id
 		WHERE up.user_id = ?
@@ -125,10 +129,12 @@ func (s *Store) GetUserLibrary(ctx context.Context, userID string) ([]models.Lib
 			&item.MangaID,
 			&item.Title,
 			&item.CurrentChapter,
+			&item.CurrentVolume,
 			&item.Status,
 			&item.UpdatedAt,
 			&rating,
 			&started,
+			&item.Notes,
 		); err != nil {
 			return nil, fmt.Errorf("scan library entry: %w", err)
 		}
@@ -142,6 +148,44 @@ func (s *Store) GetUserLibrary(ctx context.Context, userID string) ([]models.Lib
 	}
 
 	return results, rows.Err()
+}
+
+func (s *Store) GetLibraryEntry(ctx context.Context, userID, mangaID string) (models.LibraryEntry, error) {
+	row := s.db.QueryRowContext(
+		ctx,
+		`SELECT up.user_id, up.manga_id, m.title, up.current_chapter, up.current_volume, up.status, up.updated_at, up.rating, up.started_at, up.notes
+		FROM user_progress up
+		JOIN manga m ON m.id = up.manga_id
+		WHERE up.user_id = ? AND up.manga_id = ?`,
+		userID,
+		mangaID,
+	)
+
+	var item models.LibraryEntry
+	var rating sqlNullInt
+	var started sqlNullTime
+	if err := row.Scan(
+		&item.UserID,
+		&item.MangaID,
+		&item.Title,
+		&item.CurrentChapter,
+		&item.CurrentVolume,
+		&item.Status,
+		&item.UpdatedAt,
+		&rating,
+		&started,
+		&item.Notes,
+	); err != nil {
+		return models.LibraryEntry{}, fmt.Errorf("get library entry: %w", err)
+	}
+	if rating.Valid {
+		item.Rating = int(rating.Int64)
+	}
+	if started.Valid {
+		item.StartedAt = started.Time
+	}
+
+	return item, nil
 }
 
 func (s *Store) DeleteLibraryEntry(ctx context.Context, userID, mangaID string) error {

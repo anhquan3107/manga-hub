@@ -46,6 +46,7 @@ func NewRouter(
 		protected.POST("/library", h.AddToLibrary)
 		protected.GET("/library", h.GetLibrary)
 		protected.PUT("/progress", h.UpdateProgress)
+		protected.GET("/progress/history", h.GetProgressHistory)
 		protected.PUT("/library/:id", h.UpdateLibrary)
 		protected.DELETE("/library/:id", h.RemoveFromLibrary)
 	}

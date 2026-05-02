@@ -34,11 +34,27 @@ func (s *Store) InitSchema(ctx context.Context) error {
 		user_id TEXT NOT NULL,
 		manga_id TEXT NOT NULL,
 		current_chapter INTEGER NOT NULL DEFAULT 0,
+		current_volume INTEGER NOT NULL DEFAULT 0,
 		status TEXT NOT NULL,
 		rating INTEGER,
 		started_at TIMESTAMP,
+		notes TEXT NOT NULL DEFAULT '',
 		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY (user_id, manga_id),
+		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+		FOREIGN KEY (manga_id) REFERENCES manga(id) ON DELETE CASCADE
+	);
+
+	CREATE TABLE IF NOT EXISTS user_progress_history (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		user_id TEXT NOT NULL,
+		manga_id TEXT NOT NULL,
+		previous_chapter INTEGER NOT NULL,
+		current_chapter INTEGER NOT NULL,
+		previous_volume INTEGER NOT NULL,
+		current_volume INTEGER NOT NULL,
+		notes TEXT NOT NULL DEFAULT '',
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
 		FOREIGN KEY (manga_id) REFERENCES manga(id) ON DELETE CASCADE
 	);
@@ -61,6 +77,9 @@ func (s *Store) InitSchema(ctx context.Context) error {
 	}
 
 	if err := s.ensureUsersEmailColumn(ctx); err != nil {
+		return err
+	}
+	if err := s.ensureUserProgressColumns(ctx); err != nil {
 		return err
 	}
 
@@ -102,6 +121,68 @@ func (s *Store) ensureUsersEmailColumn(ctx context.Context) error {
 
 	if _, err := s.db.ExecContext(ctx, `ALTER TABLE users ADD COLUMN email TEXT NOT NULL DEFAULT ''`); err != nil {
 		return fmt.Errorf("add users.email column: %w", err)
+	}
+
+	return nil
+}
+
+func (s *Store) ensureUserProgressColumns(ctx context.Context) error {
+	rows, err := s.db.QueryContext(ctx, `PRAGMA table_info(user_progress)`)
+	if err != nil {
+		return fmt.Errorf("inspect user_progress schema: %w", err)
+	}
+	defer rows.Close()
+
+	hasVolume := false
+	hasNotes := false
+	hasRating := false
+	hasStartedAt := false
+	for rows.Next() {
+		var (
+			cid       int
+			name      string
+			columnType string
+			notNull   int
+			defaultVal any
+			pk        int
+		)
+		if err := rows.Scan(&cid, &name, &columnType, &notNull, &defaultVal, &pk); err != nil {
+			return fmt.Errorf("scan user_progress schema: %w", err)
+		}
+		switch name {
+		case "current_volume":
+			hasVolume = true
+		case "notes":
+			hasNotes = true
+		case "rating":
+			hasRating = true
+		case "started_at":
+			hasStartedAt = true
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return fmt.Errorf("iterate user_progress schema: %w", err)
+	}
+
+	if !hasVolume {
+		if _, err := s.db.ExecContext(ctx, `ALTER TABLE user_progress ADD COLUMN current_volume INTEGER NOT NULL DEFAULT 0`); err != nil {
+			return fmt.Errorf("add user_progress.current_volume column: %w", err)
+		}
+	}
+	if !hasNotes {
+		if _, err := s.db.ExecContext(ctx, `ALTER TABLE user_progress ADD COLUMN notes TEXT NOT NULL DEFAULT ''`); err != nil {
+			return fmt.Errorf("add user_progress.notes column: %w", err)
+		}
+	}
+	if !hasRating {
+		if _, err := s.db.ExecContext(ctx, `ALTER TABLE user_progress ADD COLUMN rating INTEGER`); err != nil {
+			return fmt.Errorf("add user_progress.rating column: %w", err)
+		}
+	}
+	if !hasStartedAt {
+		if _, err := s.db.ExecContext(ctx, `ALTER TABLE user_progress ADD COLUMN started_at TIMESTAMP`); err != nil {
+			return fmt.Errorf("add user_progress.started_at column: %w", err)
+		}
 	}
 
 	return nil
