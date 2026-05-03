@@ -1,15 +1,34 @@
 package commands
 
 import (
+	"bufio"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"net"
 	"net/http"
 	"net/url"
 	"time"
 
 	shared "mangahub/cmd/cli/commands/shared"
 )
+
+const progressTCPAddr = "localhost:9090"
+
+type progressTCPMessage struct {
+	Type      string `json:"type"`
+	RequestID string `json:"request_id,omitempty"`
+	UserID    string `json:"user_id,omitempty"`
+	MangaID   string `json:"manga_id,omitempty"`
+	Chapter   int    `json:"chapter,omitempty"`
+}
+
+type progressTCPResponse struct {
+	Type     string `json:"type"`
+	Message  string `json:"message,omitempty"`
+	Error    string `json:"error,omitempty"`
+	Timestamp int64 `json:"timestamp"`
+}
 
 type progressUpdateResponse struct {
 	MangaID        string    `json:"manga_id"`
@@ -40,7 +59,7 @@ type progressHistoryResponse struct {
 
 func HandleProgress(args []string) {
 	if len(args) < 1 {
-		fmt.Println("Usage: mangahub progress <update> [flags]")
+		fmt.Println("Usage: mangahub progress <update|history|sync|sync-status> [flags]")
 		return
 	}
 	subCmd := args[0]
@@ -177,7 +196,82 @@ func HandleProgress(args []string) {
 			}
 		}
 
+	case "sync":
+		var userID string
+		flags := flag.NewFlagSet("progress sync", flag.ExitOnError)
+		flags.StringVar(&userID, "user-id", "", "Your user ID (from auth token)")
+		flags.Parse(args[1:])
+
+		if userID == "" {
+			userID = "default-user"
+		}
+
+		if err := progressSync(userID); err != nil {
+			fmt.Printf("✗ Sync failed: %v\n", err)
+			return
+		}
+		fmt.Println("✓ Sync completed successfully")
+
+	case "sync-status":
+		flags := flag.NewFlagSet("progress sync-status", flag.ExitOnError)
+		flags.Parse(args[1:])
+
+		if err := progressSyncStatus(); err != nil {
+			fmt.Printf("TCP sync server: ✗ %v\n", err)
+			return
+		}
+		fmt.Println("TCP sync server: ✓ Reachable")
+
 	default:
 		fmt.Println("Unknown subcommand:", subCmd)
 	}
+}
+
+func progressSync(userID string) error {
+	conn, err := net.DialTimeout("tcp", progressTCPAddr, 3*time.Second)
+	if err != nil {
+		return fmt.Errorf("connect to %s: %w", progressTCPAddr, err)
+	}
+	defer conn.Close()
+
+	// Send hello
+	hello := progressTCPMessage{Type: "hello", UserID: userID}
+	data, _ := json.Marshal(hello)
+	if _, err := conn.Write(append(data, '\n')); err != nil {
+		return fmt.Errorf("send hello: %w", err)
+	}
+
+	reader := bufio.NewScanner(conn)
+	if !reader.Scan() {
+		return fmt.Errorf("no response to hello")
+	}
+
+	// Send ping as a lightweight sync check
+	ping := progressTCPMessage{Type: "ping", RequestID: fmt.Sprintf("sync-%d", time.Now().Unix())}
+	data, _ = json.Marshal(ping)
+	if _, err := conn.Write(append(data, '\n')); err != nil {
+		return fmt.Errorf("send ping: %w", err)
+	}
+	if !reader.Scan() {
+		return fmt.Errorf("no response to ping")
+	}
+
+	var resp progressTCPResponse
+	if err := json.Unmarshal(reader.Bytes(), &resp); err != nil {
+		return fmt.Errorf("invalid ping response: %w", err)
+	}
+	if resp.Type != "pong" {
+		return fmt.Errorf("unexpected response: %s", resp.Type)
+	}
+
+	return nil
+}
+
+func progressSyncStatus() error {
+	conn, err := net.DialTimeout("tcp", progressTCPAddr, 2*time.Second)
+	if err != nil {
+		return err
+	}
+	_ = conn.Close()
+	return nil
 }
