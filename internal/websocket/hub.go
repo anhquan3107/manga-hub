@@ -106,9 +106,7 @@ func (h *Hub) Run(ctx context.Context) {
 
 func (h *Hub) removeClient(conn *gorillaws.Conn) {
 	h.mu.Lock()
-	if _, ok := h.clients[conn]; ok {
-		delete(h.clients, conn)
-	}
+	delete(h.clients, conn)
 	h.mu.Unlock()
 	_ = conn.Close()
 }
@@ -130,4 +128,18 @@ func (h *Hub) GetRoomUsers(roomID string) []ClientConnection {
 	users := make([]ClientConnection, len(h.Rooms[roomID]))
 	copy(users, h.Rooms[roomID])
 	return users
+}
+
+func (h *Hub) GetAllRoomUsers() map[string][]ClientConnection {
+	h.mu.RLock()
+	defer h.mu.RUnlock()
+
+	rooms := make(map[string][]ClientConnection, len(h.Rooms))
+	for roomID, users := range h.Rooms {
+		copied := make([]ClientConnection, len(users))
+		copy(copied, users)
+		rooms[roomID] = copied
+	}
+
+	return rooms
 }

@@ -2,8 +2,10 @@ package chat
 
 import (
 	"bufio"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"net/http"
 	"net/url"
 	"os"
 	"strings"
@@ -13,6 +15,16 @@ import (
 
 	shared "mangahub/cmd/cli/commands/shared"
 )
+
+type chatMessageEvent struct {
+	gen int
+	msg map[string]interface{}
+}
+
+type chatErrorEvent struct {
+	gen int
+	err error
+}
 
 func handleChatJoin(args []string) {
 	fs := flag.NewFlagSet("chat join", flag.ContinueOnError)
@@ -29,87 +41,166 @@ func handleChatJoin(args []string) {
 		return
 	}
 
+	// Resolve current username from server (GET /users/me). Fallback to session ID.
+	username := shared.GetSessionID()
+	reqUser, _ := http.NewRequest(http.MethodGet, "http://localhost:8080/users/me", nil)
+	reqUser.Header.Set("Authorization", "Bearer "+token)
+	if respUser, err := http.DefaultClient.Do(reqUser); err == nil {
+		defer respUser.Body.Close()
+		if respUser.StatusCode == 200 {
+			var u struct{ ID, Username, Email string }
+			_ = json.NewDecoder(respUser.Body).Decode(&u)
+			if u.Username != "" {
+				username = u.Username
+			}
+		}
+	}
+
 	roomID := "general"
 	if *mangaID != "" {
 		roomID = *mangaID
 	}
 
-	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/ws/chat"}
-	q := u.Query()
-	q.Set("token", token)
-	q.Set("room", roomID)
-	u.RawQuery = q.Encode()
+	dialRoom := func(targetRoom string) (*websocket.Conn, *http.Response, error) {
+		u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/ws/chat"}
+		q := u.Query()
+		q.Set("token", token)
+		q.Set("room", targetRoom)
+		u.RawQuery = q.Encode()
+		return websocket.DefaultDialer.Dial(u.String(), nil)
+	}
 
 	fmt.Printf("Connecting to WebSocket chat server at ws://localhost:8080/ws/chat...\n")
 
-	conn, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
+	conn, _, err := dialRoom(roomID)
 	if err != nil {
 		fmt.Printf("✗ Connection failed: %v\n", err)
 		return
 	}
-	defer conn.Close()
+	defer func() {
+		_ = conn.Close()
+	}()
 
-	roomName := "General Chat"
-	if *mangaID != "" {
-		roomName = fmt.Sprintf("%s Discussion", strings.Title(*mangaID))
-	}
+	roomName := chatRoomLabel(roomID)
 
 	fmt.Printf("✓ Connected to %s\n", roomName)
 	fmt.Printf("Chat Room: #%s\n", roomID)
-	fmt.Println("Connected users: 1")
 	fmt.Println("Your status: Online")
-	fmt.Println("\nRecent messages:")
+	if history, err := fetchRoomHistory(roomID, 50); err == nil {
+		printRoomHistory(roomID, history)
+	} else {
+		fmt.Printf("\n(History unavailable: %v)\n", err)
+	}
 	fmt.Println("───────────────────────────────────────────────────────────────")
 
-	messages := make(chan interface{}, 10)
-	errors := make(chan error, 1)
+	messages := make(chan chatMessageEvent, 16)
+	errors := make(chan chatErrorEvent, 4)
+	readerGen := 1
 
-	go func() {
-		for {
-			var msg map[string]interface{}
-			if err := conn.ReadJSON(&msg); err != nil {
-				errors <- err
-				return
+	startReader := func(c *websocket.Conn, gen int) {
+		go func() {
+			for {
+				var msg map[string]interface{}
+				if err := c.ReadJSON(&msg); err != nil {
+					errors <- chatErrorEvent{gen: gen, err: err}
+					return
+				}
+				messages <- chatMessageEvent{gen: gen, msg: msg}
 			}
-			messages <- msg
+		}()
+	}
+
+	// Reader goroutine: reads messages from websocket and forwards to channel
+	startReader(conn, readerGen)
+
+	// Input goroutine: reads stdin lines and forwards to inputChan
+	inputChan := make(chan string)
+	go func() {
+		scanner := bufio.NewScanner(os.Stdin)
+		for scanner.Scan() {
+			inputChan <- scanner.Text()
 		}
+		close(inputChan)
 	}()
 
-	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Print("\njohndoe> ")
+	fmt.Printf("\n%s> ", username)
 
 	for {
 		select {
-		case <-errors:
+		case evt := <-errors:
+			if evt.gen != readerGen {
+				continue
+			}
 			fmt.Println("\n✗ Connection lost")
 			return
-		case msg := <-messages:
-			if msgData, ok := msg.(map[string]interface{}); ok {
-				username, _ := msgData["username"].(string)
+		case evt := <-messages:
+			if evt.gen != readerGen {
+				continue
+			}
+			if msgData := evt.msg; msgData != nil {
+				sender, _ := msgData["username"].(string)
 				message, _ := msgData["message"].(string)
 				timestamp, _ := msgData["timestamp"].(float64)
 				msgTime := time.Unix(int64(timestamp), 0).Format("15:04")
-				fmt.Printf("\n[%s] %s: %s\n", msgTime, username, message)
-				fmt.Print("johndoe> ")
+				fmt.Printf("\n[%s] %s: %s\n", msgTime, sender, message)
+				fmt.Printf("%s> ", username)
 			}
-		default:
-			if scanner.Scan() {
-				input := scanner.Text()
-				if strings.HasPrefix(input, "/") {
-					handleChatCommand(input, conn, roomID)
-					fmt.Print("johndoe> ")
-					continue
-				}
+		case input, ok := <-inputChan:
+			if !ok {
+				// stdin closed
+				fmt.Println("\nInput closed")
+				return
+			}
+			if strings.HasPrefix(input, "/") {
+				nextRoom, shouldSwitch := handleChatCommand(input, roomID)
+				if shouldSwitch {
+					nextRoom = strings.TrimSpace(nextRoom)
+					if nextRoom == "" {
+						fmt.Println("✗ Usage: /manga <manga-id>")
+						fmt.Printf("%s> ", username)
+						continue
+					}
+					if nextRoom == roomID {
+						fmt.Printf("✓ Already in #%s\n", roomID)
+						fmt.Printf("%s> ", username)
+						continue
+					}
 
-				if input != "" {
-					msgPayload := map[string]interface{}{"message": input}
-					if err := conn.WriteJSON(msgPayload); err != nil {
-						fmt.Printf("✗ Failed to send message: %v\n", err)
-						return
+					nextConn, _, switchErr := dialRoom(nextRoom)
+					if switchErr != nil {
+						fmt.Printf("✗ Failed to switch room: %v\n", switchErr)
+						fmt.Printf("%s> ", username)
+						continue
+					}
+
+					oldConn := conn
+					conn = nextConn
+					roomID = nextRoom
+					readerGen++
+					startReader(conn, readerGen)
+					_ = oldConn.Close()
+
+					roomLabel := chatRoomLabel(roomID)
+					fmt.Printf("✓ Switched to %s\n", roomLabel)
+					fmt.Printf("Chat Room: #%s\n", roomID)
+					if history, err := fetchRoomHistory(roomID, 50); err == nil {
+						printRoomHistory(roomID, history)
+					} else {
+						fmt.Printf("(History unavailable: %v)\n", err)
 					}
 				}
-				fmt.Print("johndoe> ")
+				fmt.Printf("%s> ", username)
+				continue
 			}
+
+			if input != "" {
+				msgPayload := map[string]interface{}{"message": input}
+				if err := conn.WriteJSON(msgPayload); err != nil {
+					fmt.Printf("✗ Failed to send message: %v\n", err)
+					return
+				}
+			}
+			fmt.Printf("%s> ", username)
 		}
 	}
 }

@@ -21,30 +21,31 @@ type tcpMessage struct {
 }
 
 type tcpResponse struct {
-	Type      string `json:"type"`
-	RequestID string `json:"request_id,omitempty"`
-	Message   string `json:"message,omitempty"`
-	Error     string `json:"error,omitempty"`
-	Progress  *models.ProgressUpdate `json:"progress,omitempty"`
-	Username    string `json:"username,omitempty"`
-	UserID      string `json:"user_id,omitempty"`
-	SessionID   string `json:"session_id,omitempty"`
-	ConnectedAt int64  `json:"connected_at,omitempty"`
-	Devices     int    `json:"devices,omitempty"`
-	Timestamp int64  `json:"timestamp"`
+	Type        string                 `json:"type"`
+	RequestID   string                 `json:"request_id,omitempty"`
+	Message     string                 `json:"message,omitempty"`
+	Error       string                 `json:"error,omitempty"`
+	Progress    *models.ProgressUpdate `json:"progress,omitempty"`
+	Username    string                 `json:"username,omitempty"`
+	UserID      string                 `json:"user_id,omitempty"`
+	SessionID   string                 `json:"session_id,omitempty"`
+	ConnectedAt int64                  `json:"connected_at,omitempty"`
+	Devices     int                    `json:"devices,omitempty"`
+	Timestamp   int64                  `json:"timestamp"`
 }
 type Session struct {
 	SessionID   string `json:"session_id"`
 	ConnectedAt int64  `json:"connected_at"`
 }
+
 var (
-	tcpConn        net.Conn
-	tcpAddr        = "localhost:9090"
-	sessionID      string
-	connectedAt    time.Time
-	lastHeartbeat  time.Time
-	messagesSent   int
-	messagesRecv   int
+	tcpConn       net.Conn
+	tcpAddr       = "localhost:9090"
+	sessionID     string
+	connectedAt   time.Time
+	lastHeartbeat time.Time
+	messagesSent  int
+	messagesRecv  int
 )
 
 func HandleSync(args []string) {
@@ -82,7 +83,7 @@ func HandleSync(args []string) {
 
 		if err := syncDisconnect(userID); err != nil {
 			fmt.Printf("Disconnect error: %v\n", err)
-		return
+			return
 		}
 
 		fmt.Println("✓ Disconnect request sent")
@@ -201,7 +202,7 @@ func syncConnect(userID string) error {
 	fmt.Printf(" User: %s (%s)\n", resp.Username, resp.UserID)
 	fmt.Printf(" Session ID: %s\n", resp.SessionID)
 	fmt.Printf(" Connected at: %s\n",
-    connectedAt.UTC().Format("2006-01-02 15:04:05 UTC"))
+		connectedAt.UTC().Format("2006-01-02 15:04:05 UTC"))
 
 	fmt.Println()
 	fmt.Println("Sync Status:")
@@ -214,14 +215,14 @@ func syncConnect(userID string) error {
 	if err := syncPing(); err != nil {
 		fmt.Println(" Ping failed:", err)
 	} else {
-	fmt.Println("✓ Connection is healthy")
+		fmt.Println("✓ Connection is healthy")
 	}
 	go func() {
-    scanner := bufio.NewScanner(conn)
-    for scanner.Scan() {
-        messagesRecv++
-        lastHeartbeat = time.Now()
-    }
+		scanner := bufio.NewScanner(conn)
+		for scanner.Scan() {
+			messagesRecv++
+			lastHeartbeat = time.Now()
+		}
 	}()
 
 	// 👇 BLOCK AT THE VERY END

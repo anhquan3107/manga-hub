@@ -3,12 +3,14 @@ package websocket
 import (
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	gorillaws "github.com/gorilla/websocket"
 
 	"mangahub/internal/auth"
+	"mangahub/internal/chat"
 	"mangahub/pkg/models"
 	"mangahub/pkg/utils"
 )
@@ -23,7 +25,7 @@ type inboundMessage struct {
 	Message string `json:"message"`
 }
 
-func Handler(hub *Hub, authService *auth.Service) gin.HandlerFunc {
+func Handler(hub *Hub, authService *auth.Service, chatService *chat.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.Query("token")
 		if token == "" {
@@ -64,14 +66,26 @@ func Handler(hub *Hub, authService *auth.Service) gin.HandlerFunc {
 				return
 			}
 
+			if strings.TrimSpace(incoming.Message) == "" {
+				continue
+			}
+
+			msg := models.ChatMessage{
+				UserID:    claims.UserID,
+				Username:  claims.Username,
+				Message:   incoming.Message,
+				Timestamp: time.Now().Unix(),
+			}
+
+			if chatService != nil {
+				if err := chatService.SaveMessage(c.Request.Context(), msg, roomID); err != nil {
+					log.Printf("chat save error: %v", err)
+				}
+			}
+
 			hub.Broadcast <- RoomMessage{
-				RoomID: roomID,
-				Message: models.ChatMessage{
-					UserID:    claims.UserID,
-					Username:  claims.Username,
-					Message:   incoming.Message,
-					Timestamp: time.Now().Unix(),
-				},
+				RoomID:  roomID,
+				Message: msg,
 			}
 		}
 	}
