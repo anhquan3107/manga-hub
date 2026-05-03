@@ -2,11 +2,14 @@ package main
 
 import (
 	"fmt"
-	"mangahub/cmd/cli/commands"
 	authcmd "mangahub/cmd/cli/commands/auth"
 	chatcmd "mangahub/cmd/cli/commands/chat"
 	librarycmd "mangahub/cmd/cli/commands/library"
 	mangacmd "mangahub/cmd/cli/commands/manga"
+	notifycmd "mangahub/cmd/cli/commands/notify"
+	progresscmd "mangahub/cmd/cli/commands/progress"
+	servercmd "mangahub/cmd/cli/commands/server"
+	synccmd "mangahub/cmd/cli/commands/sync"
 	"os"
 )
 
@@ -25,18 +28,17 @@ func main() {
 	case "manga":
 		mangacmd.HandleManga(args)
 	case "server":
-		commands.HandleServer(args)
+		servercmd.HandleServer(args)
 	case "library":
 		librarycmd.HandleLibrary(args)
 	case "progress":
-		commands.HandleProgress(args)
+		progresscmd.HandleProgress(args)
 	case "chat":
-		commands.HandleChat(args)
-	case "sync":
-		commands.HandleSync(args)
-	case "notify":
-		commands.HandleNotify(args)
 		chatcmd.HandleChat(args)
+	case "sync":
+		synccmd.HandleSync(args)
+	case "notify":
+		notifycmd.HandleNotify(args)
 	default:
 		fmt.Printf("Unknown command: %s\n", command)
 		printUsage()

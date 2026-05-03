@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"mangahub/pkg/database"
 	"mangahub/pkg/models"
@@ -24,22 +25,78 @@ func (s *Service) AddToLibrary(ctx context.Context, userID string, req models.Ad
 	return s.store.UpsertLibraryEntry(ctx, userID, models.LibraryEntry{
 		MangaID:        req.MangaID,
 		CurrentChapter: req.CurrentChapter,
+		CurrentVolume:  req.CurrentVolume,
 		Status:         req.Status,
 		Rating:         req.Rating,
+		Notes:          req.Notes,
 	})
 }
 
-func (s *Service) UpdateProgress(ctx context.Context, userID string, req models.UpdateProgressRequest) (models.LibraryEntry, error) {
+func (s *Service) UpdateProgress(ctx context.Context, userID string, req models.UpdateProgressRequest) (models.ProgressUpdateResult, error) {
 	status := req.Status
 	if status == "" {
 		status = "reading"
 	}
 
-	return s.store.UpsertLibraryEntry(ctx, userID, models.LibraryEntry{
+	manga, err := s.store.GetMangaByID(ctx, req.MangaID)
+	if err != nil {
+		return models.ProgressUpdateResult{}, fmt.Errorf("manga not found")
+	}
+
+	entry, err := s.store.GetLibraryEntry(ctx, userID, req.MangaID)
+	if err != nil {
+		return models.ProgressUpdateResult{}, fmt.Errorf("manga '%s' not found in your library", req.MangaID)
+	}
+
+	if manga.TotalChapters > 0 && req.CurrentChapter > manga.TotalChapters {
+		return models.ProgressUpdateResult{}, fmt.Errorf("chapter %d exceeds manga's total chapters (%d)", req.CurrentChapter, manga.TotalChapters)
+	}
+
+	if req.CurrentChapter < entry.CurrentChapter && !req.Force {
+		return models.ProgressUpdateResult{}, fmt.Errorf("chapter %d is behind your current progress (chapter %d)", req.CurrentChapter, entry.CurrentChapter)
+	}
+
+	newVolume := entry.CurrentVolume
+	if req.CurrentVolume > 0 {
+		if req.CurrentVolume < entry.CurrentVolume && !req.Force {
+			return models.ProgressUpdateResult{}, fmt.Errorf("volume %d is behind your current progress (volume %d)", req.CurrentVolume, entry.CurrentVolume)
+		}
+		newVolume = req.CurrentVolume
+	}
+
+	newNotes := entry.Notes
+	if req.Notes != "" {
+		newNotes = req.Notes
+	}
+
+	updated, err := s.store.UpsertLibraryEntry(ctx, userID, models.LibraryEntry{
 		MangaID:        req.MangaID,
 		CurrentChapter: req.CurrentChapter,
+		CurrentVolume:  newVolume,
 		Status:         status,
+		Notes:          newNotes,
 	})
+	if err != nil {
+		return models.ProgressUpdateResult{}, err
+	}
+
+	_ = s.store.InsertProgressHistory(ctx, models.ProgressHistoryEntry{
+		UserID:         userID,
+		MangaID:        req.MangaID,
+		PreviousChapter: entry.CurrentChapter,
+		CurrentChapter: req.CurrentChapter,
+		PreviousVolume: entry.CurrentVolume,
+		CurrentVolume:  newVolume,
+		Notes:          req.Notes,
+	})
+
+	return models.ProgressUpdateResult{
+		Entry:           updated,
+		PreviousChapter: entry.CurrentChapter,
+		PreviousVolume:  entry.CurrentVolume,
+		TotalChapters:   manga.TotalChapters,
+		MangaTitle:      manga.Title,
+	}, nil
 }
 
 func (s *Service) GetLibrary(ctx context.Context, userID string) ([]models.LibraryEntry, error) {
@@ -73,6 +130,10 @@ func (s *Service) UpdateLibrary(ctx context.Context, userID, mangaID string, req
 	}
 
 	return models.LibraryEntry{}, errors.New("library entry not found")
+}
+
+func (s *Service) GetProgressHistory(ctx context.Context, userID, mangaID string) ([]models.ProgressHistoryEntry, error) {
+	return s.store.GetProgressHistory(ctx, userID, mangaID)
 }
 
 func (s *Service) GetUserByID(ctx context.Context, userID string) (models.User, error) {

@@ -193,7 +193,7 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 			status = "reading"
 		}
 
-		entry, err := s.userService.UpdateProgress(ctx, userID, models.UpdateProgressRequest{
+		result, err := s.userService.UpdateProgress(ctx, userID, models.UpdateProgressRequest{
 			MangaID:        strings.TrimSpace(msg.MangaID),
 			CurrentChapter: msg.Chapter,
 			Status:         status,
@@ -204,8 +204,8 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 
 		update := models.ProgressUpdate{
 			UserID:    userID,
-			MangaID:   entry.MangaID,
-			Chapter:   entry.CurrentChapter,
+			MangaID:   result.Entry.MangaID,
+			Chapter:   result.Entry.CurrentChapter,
 			Timestamp: time.Now().Unix(),
 		}
 
