@@ -1,111 +1,167 @@
 # MangaHub
 
-MangaHub is a platform and CLI tool to discover, track, and discuss Manga.
+MangaHub is a Go-based manga platform with a CLI for authentication, manga browsing, library tracking, progress sync, chat, and notifications.
 
-## Getting Started
+## Quick Start
 
-### Starting the Server
-
-The main API server must be running for the CLI to work.
+### 1. Build the CLI
 
 ```bash
-# Go to your project root
-go run cmd/api-server/main.go
+go build -o build/mangahub ./cmd/cli/app
 ```
 
-### Installing the CLI
+### 2. Start the backend services
 
-**Option 1: Quick Local Use (Recommended)**
-Build the executable into the build folder and run it directly:
+The CLI talks to the API server and the realtime services. Start the server from the build directory:
 
 ```bash
-# Build the executable into the build folder
-go build -o build/mangahub cmd/cli/main.go
-
-# Navigate to build folder
 cd build
-
-# Now you can use it like:
-./mangahub auth login --username <your_user> --password <your_password>
+./mangahub server start
 ```
 
-**Option 2: Global Installation**
-Install it globally so you can use `mangahub` from anywhere:
+## CLI Overview
 
 ```bash
-# Build the executable into the build folder
-go build -o build/mangahub cmd/cli/main.go
-
-# Move it to your system path (Linux/macOS)
-sudo mv build/mangahub /usr/local/bin/
-
-# Now you can use it from anywhere:
-mangahub auth login --username <your_user> --password <your_password>
+mangahub auth <register|login|logout|status|change-password>
+mangahub manga <search|list|info>
+mangahub library <add|list|remove|update>
+mangahub progress <update|history|sync|sync-status>
+mangahub chat <join|send|history>
+mangahub sync <connect|disconnect|status|monitor>
+mangahub notify <subscribe|unsubscribe|preferences|test>
 ```
 
-*(Alternatively, you can set up an alias: `alias mangahub="$(pwd)/build/mangahub"`)*
+## Authentication
 
-## CLI Usage
+Auth tokens are saved per terminal session under `~/.mangahub/<session_id>/token`, so two terminals can stay logged in as different users at the same time.
 
-The CLI commands are mapped directly to the active endpoints, designed with clean architecture and stored in `cmd/cli/commands/`.
+### Register
 
-### 1. Authentication
-
-Authentication generates a token securely saved to `~/.mangahub/token` for subsequent requests.
-
-**Register:**
 ```bash
-mangahub auth register --username <your_user> --email <your_email>
+mangahub auth register --username <username> --email <email>
 ```
 
-The CLI will prompt for the password and confirmation with hidden input. The `--email` flag is accepted for compatibility but is not sent to the current API.
+The CLI prompts for password and confirmation.
 
-**Login:**
+### Login
+
 ```bash
-mangahub auth login --username <your_user> --password <your_password>
+mangahub auth login --username <username>
 ```
 
-### 2. Manga Management
+The CLI prompts for the password and stores the returned token for the current terminal session.
 
-**Search and List:**
+### Status
+
 ```bash
+mangahub auth status
+```
+
+Shows the active session, token status, and current user information.
+
+### Logout
+
+```bash
+mangahub auth logout
+```
+
+Clears the token for the current terminal session only.
+
+## Manga
+
+```bash
+mangahub manga search "one piece"
 mangahub manga list
-mangahub manga search --query "One Piece"
-```
-
-**View Details:**
-```bash
 mangahub manga info <manga_id>
 ```
 
-### 3. Library & Progress
+## Library
 
-_Note: Requires you to be logged in first via `auth login`._
+Requires login.
 
-**Add Manga to Library:**
 ```bash
 mangahub library add --manga-id <manga_id> --status reading
-```
-
-**List your Library:**
-```bash
 mangahub library list
+mangahub library remove <manga_id>
+mangahub library update --manga-id <manga_id> --status completed --rating 9
 ```
 
-**Update Reading Progress:**
+## Progress
+
+Requires login.
+
 ```bash
-mangahub progress update --manga-id <manga_id> --chapter <chapter_number>
+mangahub progress update --manga-id <manga_id> --chapter 12
+mangahub progress history --manga-id <manga_id>
+mangahub progress sync --user-id <user_id>
+mangahub progress sync-status
 ```
 
-### 4. Interactive Chat
+The progress update command also broadcasts updates to the TCP sync service.
 
-Join real-time discussion across MangaHub via WebSocket.
+## Chat
+
+Join a realtime room over WebSocket:
 
 ```bash
 mangahub chat join
 ```
-- Type any message and press enter to send.
-- Use `/users` to list online users.
-- Use `/quit` to exit the chat room.
+
+Inside chat:
+- Type any message and press Enter to send
+- Use `/users` to list online users
+- Use `/history` to show recent messages
+- Use `/manga <manga_id>` to switch rooms
+- Use `/pm <username> <message>` to send a private message
+- Use `/quit` to leave chat
+
+Examples:
+
+```bash
+mangahub chat send "hello everyone"
+mangahub chat history --limit 20
+```
+
+Private messages are stored in the database and pushed in realtime to connected recipients.
+
+## Sync
+
+TCP sync is available for progress coordination.
+
+```bash
+mangahub sync connect --user-id <user_id>
+mangahub sync disconnect --user-id <user_id>
+mangahub sync status
+mangahub sync monitor
+```
+
+## Notifications
+
+UDP notifications are handled through the `notify` command.
+
+```bash
+mangahub notify subscribe --client-id <client_id>
+mangahub notify unsubscribe --client-id <client_id>
+mangahub notify preferences --client-id <client_id>
+mangahub notify test --manga-id <manga_id>
+```
+
+## Project Structure
+
+- `cmd/api-server` - HTTP API entrypoint
+- `cmd/cli` - CLI entrypoint and commands
+- `internal/api` - HTTP handlers and routing
+- `internal/auth` - JWT auth service and middleware
+- `internal/chat` - chat business logic
+- `internal/websocket` - realtime chat hub and handler
+- `internal/user` - user and library services
+- `pkg/database` - SQLite repositories and schema setup
+- `pkg/models` - request and response models
+
+## Notes
+
+- The API server uses SQLite by default at `./data/mangahub.db`
+- Seed manga data comes from `./data/manga.sample.json`
+- The CLI is designed to work with the current session-scoped token storage so multiple terminals can stay authenticated independently
 
 
