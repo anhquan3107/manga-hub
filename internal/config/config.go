@@ -1,7 +1,10 @@
 package config
 
 import (
+	"fmt"
+	"mangahub/pkg/utils"
 	"os"
+	"strings"
 )
 
 type Config struct {
@@ -16,21 +19,25 @@ type Config struct {
 }
 
 func Load() Config {
+	utils.LoadEnv()
 	return Config{
-		HTTPAddr:      getEnv("HTTP_ADDR", ":8080"),
-		TCPAddr:       getEnv("TCP_ADDR", ":9090"),
-		UDPAddr:       getEnv("UDP_ADDR", ":9091"),
-		GRPCAddr:      getEnv("GRPC_ADDR", ":9092"),
-		DatabasePath:  getEnv("DB_PATH", "./data/mangahub.db"),
-		SeedFile:      getEnv("SEED_FILE", "./data/manga.sample.json"),
-		JWTSecret:     getEnv("JWT_SECRET", "change-this-secret"),
-		AllowedOrigin: getEnv("ALLOWED_ORIGIN", "*"),
+		HTTPAddr:      mustEnv("HTTP_ADDR"),
+		TCPAddr:       mustEnv("TCP_ADDR"),
+		UDPAddr:       mustEnv("UDP_ADDR"),
+		GRPCAddr:      mustEnv("GRPC_ADDR"),
+		DatabasePath:  mustEnv("DB_PATH"),
+		SeedFile:      mustEnv("SEED_FILE"),
+		JWTSecret:     mustEnv("JWT_SECRET"),
+		AllowedOrigin: mustEnv("ALLOWED_ORIGIN"),
 	}
 }
 
-func getEnv(key, fallback string) string {
-	if value := os.Getenv(key); value != "" {
-		return value
+func mustEnv(key string) string {
+	value := strings.TrimSpace(os.Getenv(key))
+	if value == "" {
+		fmt.Fprintf(os.Stderr, "missing required environment variable: %s\n", key)
+		os.Exit(1)
 	}
-	return fallback
+	return value
 }
+

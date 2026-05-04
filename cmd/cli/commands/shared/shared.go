@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"mangahub/pkg/utils"
 	"net"
 	"net/http"
 	"os"
@@ -12,6 +13,10 @@ import (
 	"strings"
 	"unicode/utf8"
 )
+
+func init() {
+	utils.LoadEnv()
+}
 
 func GetSessionID() string {
 	if customPath := os.Getenv("MANGAHUB_TOKEN_PATH"); customPath != "" {
@@ -68,11 +73,17 @@ func APIURL(path string) string { return APIBaseURL() + ensureLeadingSlash(path)
 
 func WebSocketURL(path string) string { return "ws://" + net.JoinHostPort(httpHostFromAddr(httpAddr()), httpPortFromAddr(httpAddr())) + ensureLeadingSlash(path) }
 
-func TCPAddr() string { return clientAddrFromListenAddr(mustEnv("TCP_ADDR"), httpHostFromAddr(httpAddr()), "TCP_ADDR") }
+func TCPAddr() string {
+	return clientAddrFromListenAddr(mustEnv("TCP_ADDR"), httpHostFromAddr(httpAddr()), "TCP_ADDR")
+}
 
-func UDPAddr() string { return clientAddrFromListenAddr(mustEnv("UDP_ADDR"), httpHostFromAddr(httpAddr()), "UDP_ADDR") }
+func UDPAddr() string {
+	return clientAddrFromListenAddr(mustEnv("UDP_ADDR"), httpHostFromAddr(httpAddr()), "UDP_ADDR")
+}
 
-func GRPCAddr() string { return clientAddrFromListenAddr(mustEnv("GRPC_ADDR"), httpHostFromAddr(httpAddr()), "GRPC_ADDR") }
+func GRPCAddr() string {
+	return clientAddrFromListenAddr(mustEnv("GRPC_ADDR"), httpHostFromAddr(httpAddr()), "GRPC_ADDR")
+}
 
 func DoAuthReq(method, url string, body []byte) (*http.Response, error) {
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(body))
@@ -169,6 +180,11 @@ func httpAddr() string { return mustEnv("HTTP_ADDR") }
 func httpHostFromAddr(addr string) string {
 	host, _, err := net.SplitHostPort(addr)
 	if err != nil {
+		// If it's just a port (e.g. :8080), SplitHostPort might fail or return empty host
+		// In Go, net.SplitHostPort(":8080") returns "", "8080", nil
+		if strings.HasPrefix(addr, ":") {
+			return "localhost"
+		}
 		fmt.Fprintf(os.Stderr, "invalid HTTP_ADDR %q: %v\n", addr, err)
 		os.Exit(1)
 	}
@@ -216,3 +232,4 @@ func ensureLeadingSlash(path string) string {
 	}
 	return "/" + path
 }
+
