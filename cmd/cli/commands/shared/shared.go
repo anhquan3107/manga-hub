@@ -26,8 +26,9 @@ func GetTokenPath() string {
 	if customPath := os.Getenv("MANGAHUB_TOKEN_PATH"); customPath != "" {
 		return customPath
 	}
+	sessionID := GetSessionID()
 	home, _ := os.UserHomeDir()
-	dir := filepath.Join(home, ".mangahub")
+	dir := filepath.Join(home, ".mangahub", sessionID)
 	_ = os.MkdirAll(dir, 0o755)
 	return filepath.Join(dir, "token")
 }

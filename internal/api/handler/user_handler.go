@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"mangahub/internal/auth"
 	chatws "mangahub/internal/websocket"
 	"mangahub/pkg/models"
 	"mangahub/pkg/utils"
@@ -16,7 +17,11 @@ import (
 
 // currentUserID extracts the user ID from the request context
 func currentUserID(c *gin.Context) string {
-	userID, exists := c.Get("userID")
+	userID, exists := c.Get(auth.ContextUserIDKey)
+	if !exists {
+		// Backward-compatible fallback for any legacy middleware/tests.
+		userID, exists = c.Get("userID")
+	}
 	if !exists {
 		return ""
 	}
@@ -338,6 +343,13 @@ func (h *Handler) SendPM(c *gin.Context) {
 	if err := h.chatService.SendPrivateMessage(c.Request.Context(), pm); err != nil {
 		utils.Error(c, http.StatusInternalServerError, "failed to send message")
 		return
+	}
+
+	if h.hub != nil {
+		h.hub.Private <- chatws.PrivateDelivery{
+			RecipientID: recipient.ID,
+			Message:     pm,
+		}
 	}
 
 	utils.OK(c, http.StatusCreated, gin.H{"message": "PM sent", "recipient": recipient.Username})
