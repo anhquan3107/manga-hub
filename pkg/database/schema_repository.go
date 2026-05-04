@@ -70,6 +70,20 @@ func (s *Store) InitSchema(ctx context.Context) error {
 	);
 
 	CREATE INDEX IF NOT EXISTS idx_chat_messages_room ON chat_messages(room_id, created_at DESC);
+
+	CREATE TABLE IF NOT EXISTS private_messages (
+		id TEXT PRIMARY KEY,
+		sender_id TEXT NOT NULL,
+		sender_username TEXT NOT NULL,
+		recipient_id TEXT NOT NULL,
+		recipient_username TEXT NOT NULL,
+		message TEXT NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+		FOREIGN KEY (recipient_id) REFERENCES users(id) ON DELETE CASCADE
+	);
+
+	CREATE INDEX IF NOT EXISTS idx_private_messages_recipient ON private_messages(recipient_id, created_at DESC);
 	`
 
 	if _, err := s.db.ExecContext(ctx, schema); err != nil {
@@ -96,12 +110,12 @@ func (s *Store) ensureUsersEmailColumn(ctx context.Context) error {
 	hasEmail := false
 	for rows.Next() {
 		var (
-			cid       int
-			name      string
+			cid        int
+			name       string
 			columnType string
-			notNull   int
+			notNull    int
 			defaultVal any
-			pk        int
+			pk         int
 		)
 		if err := rows.Scan(&cid, &name, &columnType, &notNull, &defaultVal, &pk); err != nil {
 			return fmt.Errorf("scan users schema: %w", err)

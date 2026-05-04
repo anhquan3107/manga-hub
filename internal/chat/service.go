@@ -26,3 +26,13 @@ func (s *Service) SaveMessage(ctx context.Context, msg models.ChatMessage, roomI
 func (s *Service) GetRoomHistory(ctx context.Context, roomID string, limit int) ([]models.ChatMessage, error) {
 	return s.store.ListChatMessages(ctx, roomID, limit)
 }
+
+// SendPrivateMessage sends a private message from one user to another
+func (s *Service) SendPrivateMessage(ctx context.Context, pm models.PrivateMessage) error {
+	return s.store.SendPrivateMessage(ctx, pm)
+}
+
+// GetReceivedMessages retrieves private messages received by a user
+func (s *Service) GetReceivedMessages(ctx context.Context, userID string, limit int) ([]models.PrivateMessage, error) {
+	return s.store.ListPrivateMessages(ctx, userID, limit)
+}

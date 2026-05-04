@@ -35,12 +35,12 @@ type clientMessage struct {
 }
 
 type serverMessage struct {
-	Type      string                `json:"type"`
-	ClientID  string                `json:"client_id,omitempty"`
-	Message   string                `json:"message,omitempty"`
-	Error     string                `json:"error,omitempty"`
-	Payload   *models.Notification  `json:"payload,omitempty"`
-	Timestamp int64                 `json:"timestamp"`
+	Type      string               `json:"type"`
+	ClientID  string               `json:"client_id,omitempty"`
+	Message   string               `json:"message,omitempty"`
+	Error     string               `json:"error,omitempty"`
+	Payload   *models.Notification `json:"payload,omitempty"`
+	Timestamp int64                `json:"timestamp"`
 }
 
 func NewServer(addr string) *Server {

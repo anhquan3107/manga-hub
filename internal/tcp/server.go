@@ -41,17 +41,17 @@ type clientMessage struct {
 }
 
 type serverMessage struct {
-	Type      string                 `json:"type"`
-	RequestID string                 `json:"request_id,omitempty"`
-	Message   string                 `json:"message,omitempty"`
-	Error     string                 `json:"error,omitempty"`
-	Progress  *models.ProgressUpdate `json:"progress,omitempty"`
-	SessionID   string `json:"session_id,omitempty"`
-	Username    string `json:"username,omitempty"`
-	UserID      string `json:"user_id,omitempty"`
-	Devices     int    `json:"devices,omitempty"`
-	ConnectedAt int64  `json:"connected_at,omitempty"`
-	Timestamp int64                  `json:"timestamp"`
+	Type        string                 `json:"type"`
+	RequestID   string                 `json:"request_id,omitempty"`
+	Message     string                 `json:"message,omitempty"`
+	Error       string                 `json:"error,omitempty"`
+	Progress    *models.ProgressUpdate `json:"progress,omitempty"`
+	SessionID   string                 `json:"session_id,omitempty"`
+	Username    string                 `json:"username,omitempty"`
+	UserID      string                 `json:"user_id,omitempty"`
+	Devices     int                    `json:"devices,omitempty"`
+	ConnectedAt int64                  `json:"connected_at,omitempty"`
+	Timestamp   int64                  `json:"timestamp"`
 }
 
 func NewServer(addr string, userService *user.Service) *Server {
@@ -146,7 +146,7 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 		username := c.userID
 		if s.userService != nil {
 			user, err := s.userService.GetUserByID(ctx, c.userID)
-			if err == nil  {
+			if err == nil {
 				username = user.Username
 			}
 		}

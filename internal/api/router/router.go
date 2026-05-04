@@ -6,6 +6,7 @@ import (
 	handler "mangahub/internal/api/handler"
 	"mangahub/internal/api/middleware"
 	"mangahub/internal/auth"
+	"mangahub/internal/chat"
 	"mangahub/internal/config"
 	"mangahub/internal/manga"
 	"mangahub/internal/user"
@@ -15,6 +16,7 @@ import (
 func NewRouter(
 	cfg config.Config,
 	authService *auth.Service,
+	chatService *chat.Service,
 	mangaService *manga.Service,
 	userService *user.Service,
 	hub *chatws.Hub,
@@ -24,6 +26,7 @@ func NewRouter(
 	router.Use(gin.Logger(), gin.Recovery(), middleware.CORS(cfg.AllowedOrigin))
 	h := handler.New(handler.Dependencies{
 		AuthService:  authService,
+		ChatService:  chatService,
 		MangaService: mangaService,
 		UserService:  userService,
 		Hub:          hub,
@@ -38,11 +41,16 @@ func NewRouter(
 	router.GET("/manga", h.ListManga)
 	router.GET("/manga/:id", h.GetManga)
 	router.GET("/ws/chat", h.Chat)
+	// Expose room users (protected)
+	router.GET("/rooms/users", auth.Middleware(authService), h.RoomsUsers)
+	router.GET("/rooms/:room/users", auth.Middleware(authService), h.RoomUsers)
+	router.GET("/rooms/:room/history", auth.Middleware(authService), h.RoomHistory)
 
 	protected := router.Group("/users")
 	protected.Use(auth.Middleware(authService))
 	{
 		protected.GET("/me", h.GetMe)
+		protected.POST("/pm", h.SendPM)
 		protected.POST("/library", h.AddToLibrary)
 		protected.GET("/library", h.GetLibrary)
 		protected.PUT("/progress", h.UpdateProgress)

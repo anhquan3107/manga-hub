@@ -25,11 +25,17 @@ type Hub struct {
 	Register   chan ClientConnection
 	Unregister chan *gorillaws.Conn
 	Broadcast  chan RoomMessage
+	Private    chan PrivateDelivery
 }
 
 type RoomMessage struct {
 	RoomID  string
 	Message models.ChatMessage
+}
+
+type PrivateDelivery struct {
+	RecipientID string
+	Message     models.PrivateMessage
 }
 
 func NewHub() *Hub {
@@ -39,6 +45,7 @@ func NewHub() *Hub {
 		Register:   make(chan ClientConnection),
 		Unregister: make(chan *gorillaws.Conn),
 		Broadcast:  make(chan RoomMessage, 32),
+		Private:    make(chan PrivateDelivery, 32),
 	}
 }
 
@@ -100,15 +107,36 @@ func (h *Hub) Run(ctx context.Context) {
 			for _, conn := range failed {
 				h.removeClient(conn)
 			}
+		case pm := <-h.Private:
+			h.mu.RLock()
+			failed := make([]*gorillaws.Conn, 0)
+			for _, client := range h.clients {
+				if client.UserID != pm.RecipientID {
+					continue
+				}
+				payload := map[string]any{
+					"type":      "pm",
+					"user_id":   pm.Message.SenderID,
+					"username":  pm.Message.SenderUsername,
+					"message":   "[PM] " + pm.Message.Message,
+					"timestamp": pm.Message.Timestamp,
+				}
+				if err := client.Conn.WriteJSON(payload); err != nil {
+					log.Printf("websocket private write error: %v", err)
+					failed = append(failed, client.Conn)
+				}
+			}
+			h.mu.RUnlock()
+			for _, conn := range failed {
+				h.removeClient(conn)
+			}
 		}
 	}
 }
 
 func (h *Hub) removeClient(conn *gorillaws.Conn) {
 	h.mu.Lock()
-	if _, ok := h.clients[conn]; ok {
-		delete(h.clients, conn)
-	}
+	delete(h.clients, conn)
 	h.mu.Unlock()
 	_ = conn.Close()
 }
@@ -130,4 +158,18 @@ func (h *Hub) GetRoomUsers(roomID string) []ClientConnection {
 	users := make([]ClientConnection, len(h.Rooms[roomID]))
 	copy(users, h.Rooms[roomID])
 	return users
+}
+
+func (h *Hub) GetAllRoomUsers() map[string][]ClientConnection {
+	h.mu.RLock()
+	defer h.mu.RUnlock()
+
+	rooms := make(map[string][]ClientConnection, len(h.Rooms))
+	for roomID, users := range h.Rooms {
+		copied := make([]ClientConnection, len(users))
+		copy(copied, users)
+		rooms[roomID] = copied
+	}
+
+	return rooms
 }

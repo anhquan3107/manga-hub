@@ -81,13 +81,13 @@ func (s *Service) UpdateProgress(ctx context.Context, userID string, req models.
 	}
 
 	_ = s.store.InsertProgressHistory(ctx, models.ProgressHistoryEntry{
-		UserID:         userID,
-		MangaID:        req.MangaID,
+		UserID:          userID,
+		MangaID:         req.MangaID,
 		PreviousChapter: entry.CurrentChapter,
-		CurrentChapter: req.CurrentChapter,
-		PreviousVolume: entry.CurrentVolume,
-		CurrentVolume:  newVolume,
-		Notes:          req.Notes,
+		CurrentChapter:  req.CurrentChapter,
+		PreviousVolume:  entry.CurrentVolume,
+		CurrentVolume:   newVolume,
+		Notes:           req.Notes,
 	})
 
 	return models.ProgressUpdateResult{
@@ -138,4 +138,8 @@ func (s *Service) GetProgressHistory(ctx context.Context, userID, mangaID string
 
 func (s *Service) GetUserByID(ctx context.Context, userID string) (models.User, error) {
 	return s.store.GetUserByID(ctx, userID)
+}
+
+func (s *Service) GetUserByUsername(ctx context.Context, username string) (models.User, error) {
+	return s.store.GetUserByUsername(ctx, username)
 }

@@ -2,6 +2,8 @@ package handler
 
 import (
 	"net/http"
+	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -13,8 +15,112 @@ import (
 	"mangahub/pkg/utils"
 )
 
+// currentUserID extracts the user ID from the request context
+func currentUserID(c *gin.Context) string {
+	userID, exists := c.Get(auth.ContextUserIDKey)
+	if !exists {
+		// Backward-compatible fallback for any legacy middleware/tests.
+		userID, exists = c.Get("userID")
+	}
+	if !exists {
+		return ""
+	}
+	id, ok := userID.(string)
+	if !ok {
+		return ""
+	}
+	return id
+}
+
 func (h *Handler) Chat(c *gin.Context) {
-	chatws.Handler(h.hub, h.authService)(c)
+	chatws.Handler(h.hub, h.authService, h.chatService)(c)
+}
+
+// RoomsUsers returns online users grouped by room.
+func (h *Handler) RoomsUsers(c *gin.Context) {
+	allRooms := h.hub.GetAllRoomUsers()
+	roomIDs := make([]string, 0, len(allRooms))
+	for roomID := range allRooms {
+		roomIDs = append(roomIDs, roomID)
+	}
+	sort.Strings(roomIDs)
+
+	total := 0
+	rooms := make([]gin.H, 0, len(roomIDs))
+	for _, roomID := range roomIDs {
+		users := allRooms[roomID]
+		list := make([]gin.H, 0, len(users))
+		for _, u := range users {
+			list = append(list, gin.H{
+				"user_id":  u.UserID,
+				"username": u.Username,
+			})
+		}
+		total += len(list)
+		rooms = append(rooms, gin.H{
+			"room":  roomID,
+			"count": len(list),
+			"users": list,
+		})
+	}
+
+	utils.OK(c, http.StatusOK, gin.H{"rooms": rooms, "total_users": total})
+}
+
+// RoomUsers returns the list of users currently connected to a room
+func (h *Handler) RoomUsers(c *gin.Context) {
+	roomID := c.Param("room")
+	if strings.TrimSpace(roomID) == "" {
+		utils.Error(c, http.StatusBadRequest, "room id required")
+		return
+	}
+
+	users := h.hub.GetRoomUsers(roomID)
+	out := make([]gin.H, 0, len(users))
+	for _, u := range users {
+		out = append(out, gin.H{
+			"user_id":  u.UserID,
+			"username": u.Username,
+			"room":     u.RoomID,
+		})
+	}
+
+	utils.OK(c, http.StatusOK, gin.H{"users": out, "count": len(out)})
+}
+
+// RoomHistory returns recent messages for a room.
+func (h *Handler) RoomHistory(c *gin.Context) {
+	roomID := c.Param("room")
+	if strings.TrimSpace(roomID) == "" {
+		utils.Error(c, http.StatusBadRequest, "room id required")
+		return
+	}
+
+	limit := 50
+	if raw := strings.TrimSpace(c.Query("limit")); raw != "" {
+		parsed, err := strconv.Atoi(raw)
+		if err != nil || parsed <= 0 {
+			utils.Error(c, http.StatusBadRequest, "invalid limit")
+			return
+		}
+		if parsed > 200 {
+			parsed = 200
+		}
+		limit = parsed
+	}
+
+	if h.chatService == nil {
+		utils.Error(c, http.StatusServiceUnavailable, "chat history unavailable")
+		return
+	}
+
+	messages, err := h.chatService.GetRoomHistory(c.Request.Context(), roomID, limit)
+	if err != nil {
+		utils.Error(c, http.StatusInternalServerError, "failed to load chat history")
+		return
+	}
+
+	utils.OK(c, http.StatusOK, gin.H{"room": roomID, "limit": limit, "messages": messages})
 }
 
 func (h *Handler) GetMe(c *gin.Context) {
@@ -158,14 +264,6 @@ func (h *Handler) UpdateLibrary(c *gin.Context) {
 	utils.OK(c, http.StatusOK, entry)
 }
 
-func currentUserID(c *gin.Context) string {
-	value, _ := c.Get(auth.ContextUserIDKey)
-	if userID, ok := value.(string); ok {
-		return userID
-	}
-	return ""
-}
-
 func buildReadingLists(items []models.LibraryEntry) gin.H {
 	reading := make([]models.LibraryEntry, 0)
 	completed := make([]models.LibraryEntry, 0)
@@ -195,4 +293,64 @@ func buildReadingLists(items []models.LibraryEntry) gin.H {
 		"on_hold":      onHold,
 		"dropped":      dropped,
 	}
+}
+
+// SendPM sends a private message to another user.
+func (h *Handler) SendPM(c *gin.Context) {
+	if h.chatService == nil {
+		utils.Error(c, http.StatusServiceUnavailable, "chat service unavailable")
+		return
+	}
+
+	var req models.SendPMRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.Error(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	senderID := currentUserID(c)
+	if senderID == "" {
+		utils.Error(c, http.StatusUnauthorized, "missing user id")
+		return
+	}
+
+	sender, err := h.userService.GetUserByID(c.Request.Context(), senderID)
+	if err != nil {
+		utils.Error(c, http.StatusNotFound, "sender not found")
+		return
+	}
+
+	recipient, err := h.userService.GetUserByUsername(c.Request.Context(), req.RecipientUsername)
+	if err != nil {
+		utils.Error(c, http.StatusNotFound, "recipient not found")
+		return
+	}
+
+	if sender.ID == recipient.ID {
+		utils.Error(c, http.StatusBadRequest, "cannot send message to yourself")
+		return
+	}
+
+	pm := models.PrivateMessage{
+		SenderID:          sender.ID,
+		SenderUsername:    sender.Username,
+		RecipientID:       recipient.ID,
+		RecipientUsername: recipient.Username,
+		Message:           strings.TrimSpace(req.Message),
+		Timestamp:         time.Now().Unix(),
+	}
+
+	if err := h.chatService.SendPrivateMessage(c.Request.Context(), pm); err != nil {
+		utils.Error(c, http.StatusInternalServerError, "failed to send message")
+		return
+	}
+
+	if h.hub != nil {
+		h.hub.Private <- chatws.PrivateDelivery{
+			RecipientID: recipient.ID,
+			Message:     pm,
+		}
+	}
+
+	utils.OK(c, http.StatusCreated, gin.H{"message": "PM sent", "recipient": recipient.Username})
 }

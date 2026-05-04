@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"mangahub/internal/auth"
+	"mangahub/internal/chat"
 	"mangahub/internal/config"
 	"mangahub/internal/manga"
 	"mangahub/internal/user"
@@ -38,12 +39,13 @@ func setupRouterForTest(t *testing.T) *gin.Engine {
 	}
 
 	authService := auth.NewService(store, "test-secret")
+	chatService := chat.NewService(store)
 	mangaService := manga.NewService(store)
 	userService := user.NewService(store)
 	hub := chatws.NewHub()
 
 	cfg := config.Config{AllowedOrigin: "*"}
-	return NewRouter(cfg, authService, mangaService, userService, hub, nil)
+	return NewRouter(cfg, authService, chatService, mangaService, userService, hub, nil)
 }
 
 func performJSONRequest(t *testing.T, router http.Handler, method, path string, payload any, token string) *httptest.ResponseRecorder {

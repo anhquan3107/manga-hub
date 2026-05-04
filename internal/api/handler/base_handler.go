@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"mangahub/internal/auth"
+	"mangahub/internal/chat"
 	"mangahub/internal/manga"
 	"mangahub/internal/user"
 	chatws "mangahub/internal/websocket"
@@ -21,6 +22,7 @@ type ProgressBroadcaster interface {
 
 type Dependencies struct {
 	AuthService  *auth.Service
+	ChatService  *chat.Service
 	MangaService *manga.Service
 	UserService  *user.Service
 	Hub          *chatws.Hub
@@ -29,6 +31,7 @@ type Dependencies struct {
 
 type Handler struct {
 	authService  *auth.Service
+	chatService  *chat.Service
 	mangaService *manga.Service
 	userService  *user.Service
 	hub          *chatws.Hub
@@ -38,6 +41,7 @@ type Handler struct {
 func New(deps Dependencies) *Handler {
 	return &Handler{
 		authService:  deps.AuthService,
+		chatService:  deps.ChatService,
 		mangaService: deps.MangaService,
 		userService:  deps.UserService,
 		hub:          deps.Hub,
