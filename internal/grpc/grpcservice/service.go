@@ -2,174 +2,210 @@ package grpcservice
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"net"
 	"strings"
-	"sync"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"mangahub/internal/grpc/grpcjson"
+	"mangahub/internal/grpc/pb"
 	"mangahub/internal/manga"
 	"mangahub/internal/user"
 	"mangahub/pkg/models"
 )
 
-type Service struct {
-	addr         string
-	mangaService *manga.Service
-	userService  *user.Service
-	server       *grpc.Server
-	listener     net.Listener
-	once         sync.Once
+type Server struct {
+	addr       string
+	grpcServer *grpc.Server
+	manga      *manga.Service
+	user       *user.Service
 }
 
-type MangaRequest struct {
-	Id    string `json:"id,omitempty"`
-	Query string `json:"query,omitempty"`
-	Limit int    `json:"limit,omitempty"`
+func New(addr string, mangaService *manga.Service, userService *user.Service) *Server {
+	return &Server{
+		addr:  addr,
+		manga: mangaService,
+		user:  userService,
+	}
 }
 
-type MangaResponse struct {
-	Manga  *models.Manga `json:"manga,omitempty"`
-	Items  []models.Manga `json:"items,omitempty"`
-	Status string         `json:"status,omitempty"`
-	Error  string         `json:"error,omitempty"`
-}
-
-type ProgressRequest struct {
-	UserID  string `json:"user_id,omitempty"`
-	MangaID string `json:"manga_id,omitempty"`
-	Chapter int    `json:"chapter,omitempty"`
-	Volume  int    `json:"volume,omitempty"`
-	Notes   string `json:"notes,omitempty"`
-	Force   bool   `json:"force,omitempty"`
-}
-
-type ProgressResponse struct {
-	Result *models.ProgressUpdateResult `json:"result,omitempty"`
-	Error  string                       `json:"error,omitempty"`
-}
-
-type mangaHubServer struct {
-	mangaService *manga.Service
-	userService  *user.Service
-}
-
-type mangaHubService interface {
-	GetManga(context.Context, *MangaRequest) (*MangaResponse, error)
-	SearchManga(context.Context, *MangaRequest) (*MangaResponse, error)
-	UpdateProgress(context.Context, *ProgressRequest) (*ProgressResponse, error)
-}
-
-func New(addr string, mangaService *manga.Service, userService *user.Service) *Service {
-	return &Service{addr: addr, mangaService: mangaService, userService: userService}
-}
-
-func (s *Service) Start(ctx context.Context) error {
+func (s *Server) Start(ctx context.Context) error {
 	listener, err := net.Listen("tcp", s.addr)
 	if err != nil {
-		return fmt.Errorf("listen grpc: %w", err)
+		return err
 	}
-	s.listener = listener
 
-	grpcServer := grpc.NewServer(grpc.ForceServerCodec(grpcjson.Codec{}))
-	s.server = grpcServer
-	grpcServer.RegisterService(&mangaHubServiceDesc, &mangaHubServer{mangaService: s.mangaService, userService: s.userService})
+	s.grpcServer = grpc.NewServer()
+	pb.RegisterMangaServiceServer(s.grpcServer, &mangaServer{manga: s.manga, user: s.user})
+	pb.RegisterUserServiceServer(s.grpcServer, &userServer{user: s.user})
 
 	go func() {
 		<-ctx.Done()
-		grpcServer.Stop()
-		_ = listener.Close()
+		s.grpcServer.GracefulStop()
 	}()
 
-	log.Printf("grpc server listening on %s", s.addr)
-	return grpcServer.Serve(listener)
+	return s.grpcServer.Serve(listener)
 }
 
-func (s *Service) Stop() {
-	s.once.Do(func() {
-		if s.server != nil {
-			s.server.Stop()
-		}
-		if s.listener != nil {
-			_ = s.listener.Close()
-		}
-	})
+func (s *Server) Stop() {
+	if s.grpcServer != nil {
+		s.grpcServer.GracefulStop()
+	}
 }
 
-func (h *mangaHubServer) GetManga(ctx context.Context, req *MangaRequest) (*MangaResponse, error) {
-	if strings.TrimSpace(req.Id) == "" {
+type mangaServer struct {
+	pb.UnimplementedMangaServiceServer
+	manga *manga.Service
+	user  *user.Service
+}
+
+func (s *mangaServer) GetManga(ctx context.Context, req *pb.GetMangaRequest) (*pb.MangaResponse, error) {
+	mangaID := strings.TrimSpace(req.GetId())
+	if mangaID == "" {
 		return nil, status.Error(codes.InvalidArgument, "id is required")
 	}
-	item, err := h.mangaService.GetByID(ctx, req.Id)
+
+	result, err := s.manga.GetByID(ctx, mangaID)
 	if err != nil {
-		return nil, status.Error(codes.NotFound, err.Error())
+		return nil, status.Error(codes.NotFound, "manga not found")
 	}
-	return &MangaResponse{Manga: &item, Status: "ok"}, nil
+
+	return &pb.MangaResponse{
+		Manga:  mapManga(result),
+		Status: "ok",
+	}, nil
 }
 
-func (h *mangaHubServer) SearchManga(ctx context.Context, req *MangaRequest) (*MangaResponse, error) {
-	items, err := h.mangaService.List(ctx, models.MangaQuery{Query: req.Query, Limit: req.Limit})
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
+func (s *mangaServer) SearchManga(ctx context.Context, req *pb.SearchRequest) (*pb.SearchResponse, error) {
+	query := strings.TrimSpace(req.GetQuery())
+	if query == "" {
+		return nil, status.Error(codes.InvalidArgument, "query is required")
 	}
-	return &MangaResponse{Items: items, Status: "ok"}, nil
+
+	limit := int(req.GetLimit())
+	if limit <= 0 {
+		limit = 20
+	}
+
+	items, err := s.manga.List(ctx, models.MangaQuery{Query: query, Limit: limit})
+	if err != nil {
+		return nil, status.Error(codes.Internal, "search failed")
+	}
+
+	resp := &pb.SearchResponse{Status: "ok"}
+	for _, item := range items {
+		resp.Items = append(resp.Items, mapManga(item))
+	}
+	return resp, nil
 }
 
-func (h *mangaHubServer) UpdateProgress(ctx context.Context, req *ProgressRequest) (*ProgressResponse, error) {
-	userID := strings.TrimSpace(req.UserID)
-	if userID == "" {
-		userID = "default-user"
+func (s *mangaServer) UpdateProgress(ctx context.Context, req *pb.ProgressRequest) (*pb.ProgressResponse, error) {
+	userID := strings.TrimSpace(req.GetUserId())
+	mangaID := strings.TrimSpace(req.GetMangaId())
+	if userID == "" || mangaID == "" || req.GetChapter() <= 0 {
+		return nil, status.Error(codes.InvalidArgument, "user_id, manga_id, and chapter are required")
 	}
-	result, err := h.userService.UpdateProgress(ctx, userID, models.UpdateProgressRequest{
-		MangaID:        req.MangaID,
-		CurrentChapter: req.Chapter,
-		CurrentVolume:  req.Volume,
-		Notes:          req.Notes,
-		Force:          req.Force,
+
+	result, err := s.user.UpdateProgress(ctx, userID, models.UpdateProgressRequest{
+		MangaID:        mangaID,
+		CurrentChapter: int(req.GetChapter()),
+		CurrentVolume:  int(req.GetVolume()),
+		Notes:          req.GetNotes(),
+		Force:          req.GetForce(),
 	})
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	return &ProgressResponse{Result: &result}, nil
+
+	return &pb.ProgressResponse{Result: mapProgressResult(result)}, nil
 }
 
-var mangaHubServiceDesc = grpc.ServiceDesc{
-	ServiceName: "mangahub.MangaHub",
-	HandlerType: (*mangaHubService)(nil),
-	Methods: []grpc.MethodDesc{
-		{MethodName: "GetManga", Handler: getMangaHandler},
-		{MethodName: "SearchManga", Handler: searchMangaHandler},
-		{MethodName: "UpdateProgress", Handler: updateProgressHandler},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "mangahub",
+type userServer struct {
+	pb.UnimplementedUserServiceServer
+	user *user.Service
 }
 
-func getMangaHandler(srv any, ctx context.Context, dec func(any) error, _ grpc.UnaryServerInterceptor) (any, error) {
-	req := new(MangaRequest)
-	if err := dec(req); err != nil {
-		return nil, err
+func (s *userServer) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.UserResponse, error) {
+	userID := strings.TrimSpace(req.GetUserId())
+	username := strings.TrimSpace(req.GetUsername())
+	if userID == "" && username == "" {
+		return nil, status.Error(codes.InvalidArgument, "user_id or username is required")
 	}
-	return srv.(*mangaHubServer).GetManga(ctx, req)
+
+	var result models.User
+	var err error
+	if userID != "" {
+		result, err = s.user.GetUserByID(ctx, userID)
+	} else {
+		result, err = s.user.GetUserByUsername(ctx, username)
+	}
+	if err != nil {
+		return nil, status.Error(codes.NotFound, "user not found")
+	}
+
+	return &pb.UserResponse{User: mapUser(result)}, nil
 }
 
-func searchMangaHandler(srv any, ctx context.Context, dec func(any) error, _ grpc.UnaryServerInterceptor) (any, error) {
-	req := new(MangaRequest)
-	if err := dec(req); err != nil {
-		return nil, err
+func (s *userServer) GetLibrary(ctx context.Context, req *pb.GetLibraryRequest) (*pb.LibraryResponse, error) {
+	userID := strings.TrimSpace(req.GetUserId())
+	if userID == "" {
+		return nil, status.Error(codes.InvalidArgument, "user_id is required")
 	}
-	return srv.(*mangaHubServer).SearchManga(ctx, req)
+
+	items, err := s.user.GetLibrary(ctx, userID)
+	if err != nil {
+		return nil, status.Error(codes.Internal, "library lookup failed")
+	}
+
+	resp := &pb.LibraryResponse{}
+	for _, item := range items {
+		resp.Entries = append(resp.Entries, mapLibraryEntry(item))
+	}
+	return resp, nil
 }
 
-func updateProgressHandler(srv any, ctx context.Context, dec func(any) error, _ grpc.UnaryServerInterceptor) (any, error) {
-	req := new(ProgressRequest)
-	if err := dec(req); err != nil {
-		return nil, err
+func mapManga(m models.Manga) *pb.Manga {
+	return &pb.Manga{
+		Id:            m.ID,
+		Title:         m.Title,
+		Author:        m.Author,
+		Genres:        m.Genres,
+		Status:        m.Status,
+		TotalChapters: int32(m.TotalChapters),
+		Description:   m.Description,
+		CoverUrl:      m.CoverURL,
 	}
-	return srv.(*mangaHubServer).UpdateProgress(ctx, req)
+}
+
+func mapLibraryEntry(e models.LibraryEntry) *pb.LibraryEntry {
+	return &pb.LibraryEntry{
+		UserId:         e.UserID,
+		MangaId:        e.MangaID,
+		Title:          e.Title,
+		CurrentChapter: int32(e.CurrentChapter),
+		CurrentVolume:  int32(e.CurrentVolume),
+		Status:         e.Status,
+		Rating:         int32(e.Rating),
+		Notes:          e.Notes,
+	}
+}
+
+func mapProgressResult(r models.ProgressUpdateResult) *pb.ProgressResult {
+	return &pb.ProgressResult{
+		Entry:           mapLibraryEntry(r.Entry),
+		PreviousChapter: int32(r.PreviousChapter),
+		PreviousVolume:  int32(r.PreviousVolume),
+		TotalChapters:   int32(r.TotalChapters),
+		MangaTitle:      r.MangaTitle,
+	}
+}
+
+func mapUser(u models.User) *pb.User {
+	return &pb.User{
+		Id:        u.ID,
+		Username:  u.Username,
+		Email:     u.Email,
+		CreatedAt: u.CreatedAt.Format("2006-01-02T15:04:05Z"),
+	}
 }

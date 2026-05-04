@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package mangahub;
+
+option go_package = "mangahub/internal/grpc/pb;pb";
+
+message Manga {
+  string id = 1;
+  string title = 2;
+  string author = 3;
+  repeated string genres = 4;
+  string status = 5;
+  int32 total_chapters = 6;
+  string description = 7;
+  string cover_url = 8;
+}
+
+message LibraryEntry {
+  string user_id = 1;
+  string manga_id = 2;
+  string title = 3;
+  int32 current_chapter = 4;
+  int32 current_volume = 5;
+  string status = 6;
+  int32 rating = 7;
+  string notes = 8;
+}
+
+message ProgressResult {
+  LibraryEntry entry = 1;
+  int32 previous_chapter = 2;
+  int32 previous_volume = 3;
+  int32 total_chapters = 4;
+  string manga_title = 5;
+}
+
+message GetMangaRequest {
+  string id = 1;
+}
+
+message MangaResponse {
+  Manga manga = 1;
+  string status = 2;
+  string error = 3;
+}
+
+message SearchRequest {
+  string query = 1;
+  int32 limit = 2;
+}
+
+message SearchResponse {
+  repeated Manga items = 1;
+  string status = 2;
+  string error = 3;
+}
+
+message ProgressRequest {
+  string user_id = 1;
+  string manga_id = 2;
+  int32 chapter = 3;
+  int32 volume = 4;
+  string notes = 5;
+  bool force = 6;
+}
+
+message ProgressResponse {
+  ProgressResult result = 1;
+  string error = 2;
+}
+
+message User {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string created_at = 4;
+}
+
+message GetUserRequest {
+  string user_id = 1;
+  string username = 2;
+}
+
+message UserResponse {
+  User user = 1;
+  string error = 2;
+}
+
+message GetLibraryRequest {
+  string user_id = 1;
+}
+
+message LibraryResponse {
+  repeated LibraryEntry entries = 1;
+  string error = 2;
+}
+
+service MangaService {
+  rpc GetManga(GetMangaRequest) returns (MangaResponse);
+  rpc SearchManga(SearchRequest) returns (SearchResponse);
+  rpc UpdateProgress(ProgressRequest) returns (ProgressResponse);
+}
+
+service UserService {
+  rpc GetUser(GetUserRequest) returns (UserResponse);
+  rpc GetLibrary(GetLibraryRequest) returns (LibraryResponse);
+}

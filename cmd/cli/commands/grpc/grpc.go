@@ -11,37 +11,13 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
 
 	shared "mangahub/cmd/cli/commands/shared"
-	"mangahub/internal/grpc/grpcjson"
+	"mangahub/internal/grpc/pb"
 )
-
-type MangaRequest struct {
-	Id    string `json:"id,omitempty"`
-	Query string `json:"query,omitempty"`
-	Limit int    `json:"limit,omitempty"`
-}
-
-type MangaResponse struct {
-	Manga  any    `json:"manga,omitempty"`
-	Items  any    `json:"items,omitempty"`
-	Status string `json:"status,omitempty"`
-	Error  string `json:"error,omitempty"`
-}
-
-type ProgressRequest struct {
-	UserID  string `json:"user_id,omitempty"`
-	MangaID string `json:"manga_id,omitempty"`
-	Chapter int    `json:"chapter,omitempty"`
-	Volume  int    `json:"volume,omitempty"`
-	Notes   string `json:"notes,omitempty"`
-	Force   bool   `json:"force,omitempty"`
-}
-
-type ProgressResponse struct {
-	Result any    `json:"result,omitempty"`
-	Error  string `json:"error,omitempty"`
-}
 
 func HandleGrpc(args []string) {
 	if len(args) < 1 {
@@ -50,7 +26,7 @@ func HandleGrpc(args []string) {
 	}
 
 	subCmd := args[0]
-	if subCmd != "manga" && subCmd != "progress" {
+	if subCmd != "manga" && subCmd != "progress" && subCmd != "user" {
 		printUsage()
 		return
 	}
@@ -60,10 +36,7 @@ func HandleGrpc(args []string) {
 	_ = flags.Parse(args[1:])
 	remaining := flags.Args()
 
-	conn, err := grpc.NewClient(*addr,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithDefaultCallOptions(grpc.ForceCodec(grpcjson.Codec{})),
-	)
+	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Printf("Error connecting to gRPC server: %v\n", err)
 		return
@@ -72,13 +45,15 @@ func HandleGrpc(args []string) {
 
 	switch subCmd {
 	case "manga":
-		handleGrpcManga(conn, remaining)
+		handleGrpcManga(pb.NewMangaServiceClient(conn), remaining)
 	case "progress":
-		handleGrpcProgress(conn, remaining)
+		handleGrpcProgress(pb.NewMangaServiceClient(conn), remaining)
+	case "user":
+		handleGrpcUser(pb.NewUserServiceClient(conn), remaining)
 	}
 }
 
-func handleGrpcManga(conn *grpc.ClientConn, args []string) {
+func handleGrpcManga(client pb.MangaServiceClient, args []string) {
 	if len(args) < 1 {
 		fmt.Println("Usage: mangahub grpc manga <get|search> [flags]")
 		return
@@ -97,13 +72,12 @@ func handleGrpcManga(conn *grpc.ClientConn, args []string) {
 
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		var resp MangaResponse
-		if err := conn.Invoke(ctx, "/mangahub.MangaHub/GetManga", &MangaRequest{Id: *id}, &resp); err != nil {
-			fmt.Printf("Error: %v\n", err)
+		resp, err := client.GetManga(ctx, &pb.GetMangaRequest{Id: *id})
+		if err != nil {
+			printGrpcError(err)
 			return
 		}
-		b, _ := json.MarshalIndent(resp.Manga, "", "  ")
-		fmt.Println(string(b))
+		printProto(resp.Manga)
 
 	case "search":
 		fs := flag.NewFlagSet("grpc manga search", flag.ExitOnError)
@@ -113,20 +87,19 @@ func handleGrpcManga(conn *grpc.ClientConn, args []string) {
 
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		var resp MangaResponse
-		if err := conn.Invoke(ctx, "/mangahub.MangaHub/SearchManga", &MangaRequest{Query: *query, Limit: *limit}, &resp); err != nil {
-			fmt.Printf("Error: %v\n", err)
+		resp, err := client.SearchManga(ctx, &pb.SearchRequest{Query: *query, Limit: int32(*limit)})
+		if err != nil {
+			printGrpcError(err)
 			return
 		}
-		items, _ := json.MarshalIndent(resp.Items, "", "  ")
-		fmt.Println(string(items))
+		printProto(resp)
 
 	default:
 		fmt.Println("Usage: mangahub grpc manga <get|search> [flags]")
 	}
 }
 
-func handleGrpcProgress(conn *grpc.ClientConn, args []string) {
+func handleGrpcProgress(client pb.MangaServiceClient, args []string) {
 	if len(args) < 1 {
 		fmt.Println("Usage: mangahub grpc progress update --manga-id <id> --chapter <number>")
 		return
@@ -162,29 +135,100 @@ func handleGrpcProgress(conn *grpc.ClientConn, args []string) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-	var resp ProgressResponse
-	if err := conn.Invoke(ctx, "/mangahub.MangaHub/UpdateProgress", &ProgressRequest{
-		UserID:  resolvedUserID,
-		MangaID: *mangaID,
-		Chapter: *chapter,
-		Volume:  *volume,
+	resp, err := client.UpdateProgress(ctx, &pb.ProgressRequest{
+		UserId:  resolvedUserID,
+		MangaId: *mangaID,
+		Chapter: int32(*chapter),
+		Volume:  int32(*volume),
 		Notes:   *notes,
 		Force:   *force,
-	}, &resp); err != nil {
-		fmt.Printf("Error: %v\n", err)
+	})
+	if err != nil {
+		printGrpcError(err)
 		return
 	}
 
-	b, _ := json.MarshalIndent(resp.Result, "", "  ")
-	fmt.Println(string(b))
+	printProto(resp.Result)
+}
+
+func handleGrpcUser(client pb.UserServiceClient, args []string) {
+	if len(args) < 1 {
+		fmt.Println("Usage: mangahub grpc user <get|library> [flags]")
+		return
+	}
+
+	sub := args[0]
+	switch sub {
+	case "get":
+		fs := flag.NewFlagSet("grpc user get", flag.ExitOnError)
+		userID := fs.String("user-id", "", "User ID")
+		username := fs.String("username", "", "Username")
+		_ = fs.Parse(args[1:])
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		resp, err := client.GetUser(ctx, &pb.GetUserRequest{UserId: *userID, Username: *username})
+		if err != nil {
+			printGrpcError(err)
+			return
+		}
+		printProto(resp.User)
+
+	case "library":
+		fs := flag.NewFlagSet("grpc user library", flag.ExitOnError)
+		userID := fs.String("user-id", "", "User ID")
+		_ = fs.Parse(args[1:])
+
+		if strings.TrimSpace(*userID) == "" {
+			fmt.Println("--user-id is required")
+			return
+		}
+
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		resp, err := client.GetLibrary(ctx, &pb.GetLibraryRequest{UserId: *userID})
+		if err != nil {
+			printGrpcError(err)
+			return
+		}
+		printProto(resp)
+
+	default:
+		fmt.Println("Usage: mangahub grpc user <get|library> [flags]")
+	}
 }
 
 func printUsage() {
-	fmt.Println("Usage: mangahub grpc <manga|progress> ...")
+	fmt.Println("Usage: mangahub grpc <manga|progress|user> ...")
 	fmt.Println("Examples:")
 	fmt.Println("  mangahub grpc manga get --id one-piece")
 	fmt.Println("  mangahub grpc manga search --query gintama")
 	fmt.Println("  mangahub grpc progress update --manga-id one-piece --chapter 1095")
+	fmt.Println("  mangahub grpc user get --user-id user-123")
+}
+
+func printProto(msg proto.Message) {
+	if msg == nil {
+		fmt.Println("<empty>")
+		return
+	}
+
+	data, err := protojson.MarshalOptions{Indent: "  "}.Marshal(msg)
+	if err != nil {
+		fallback, _ := json.MarshalIndent(msg, "", "  ")
+		fmt.Println(string(fallback))
+		return
+	}
+	fmt.Println(string(data))
+}
+
+func printGrpcError(err error) {
+	statusInfo, ok := status.FromError(err)
+	if !ok {
+		fmt.Printf("Error: %v\n", err)
+		return
+	}
+	fmt.Printf("Error (%s): %s\n", statusInfo.Code().String(), statusInfo.Message())
 }
 
 func resolveUserIDFromToken() string {
