@@ -12,6 +12,7 @@ import (
 	"mangahub/internal/api/router"
 	"mangahub/internal/auth"
 	"mangahub/internal/config"
+	grpcservice "mangahub/internal/grpc/grpcservice"
 	"mangahub/internal/manga"
 	"mangahub/internal/tcp"
 	"mangahub/internal/user"
@@ -41,12 +42,18 @@ func main() {
 	mangaService := manga.NewService(store)
 	userService := user.NewService(store)
 	tcpServer := tcp.NewServer(cfg.TCPAddr, userService)
+	grpcServer := grpcservice.New(cfg.GRPCAddr, mangaService, userService)
 	hub := websocket.NewHub()
 
 	go hub.Run(ctx)
 	go func() {
 		if err := tcpServer.ListenAndServe(ctx); err != nil {
 			log.Printf("tcp server error: %v", err)
+		}
+	}()
+	go func() {
+		if err := grpcServer.Start(ctx); err != nil {
+			log.Printf("grpc server error: %v", err)
 		}
 	}()
 
@@ -69,4 +76,5 @@ func main() {
 	if err := server.Shutdown(shutdownCtx); err != nil {
 		log.Printf("http shutdown error: %v", err)
 	}
+	grpcServer.Stop()
 }

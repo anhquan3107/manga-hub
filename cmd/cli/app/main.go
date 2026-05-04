@@ -4,6 +4,7 @@ import (
 	"fmt"
 	authcmd "mangahub/cmd/cli/commands/auth"
 	chatcmd "mangahub/cmd/cli/commands/chat"
+	grpccmd "mangahub/cmd/cli/commands/grpc"
 	librarycmd "mangahub/cmd/cli/commands/library"
 	mangacmd "mangahub/cmd/cli/commands/manga"
 	notifycmd "mangahub/cmd/cli/commands/notify"
@@ -35,6 +36,8 @@ func main() {
 		progresscmd.HandleProgress(args)
 	case "chat":
 		chatcmd.HandleChat(args)
+	case "grpc":
+		grpccmd.HandleGrpc(args)
 	case "sync":
 		synccmd.HandleSync(args)
 	case "notify":
@@ -55,6 +58,7 @@ func printUsage() {
 	fmt.Println("  library    Manage your library (add, list, remove, update)")
 	fmt.Println("  progress   Manage your reading progress (update)")
 	fmt.Println("  chat       Chat with community (join, send)")
+	fmt.Println("  grpc       Query manga and progress via gRPC")
 	fmt.Println("  sync       Manage TCP synchronization (connect, disconnect, status, monitor)")
 	fmt.Println("  notify     Manage UDP notifications (subscribe, unsubscribe, preferences, test)")
 }
