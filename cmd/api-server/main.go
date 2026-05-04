@@ -16,6 +16,7 @@ import (
 	grpcservice "mangahub/internal/grpc/grpcservice"
 	"mangahub/internal/manga"
 	"mangahub/internal/tcp"
+	"mangahub/internal/udp"
 	"mangahub/internal/user"
 	"mangahub/internal/websocket"
 	"mangahub/pkg/database"
@@ -45,6 +46,7 @@ func main() {
 	userService := user.NewService(store)
 	tcpServer := tcp.NewServer(cfg.TCPAddr, userService)
 	grpcServer := grpcservice.New(cfg.GRPCAddr, mangaService, userService)
+	udpServer := udp.NewServer(cfg.UDPAddr)
 	hub := websocket.NewHub()
 
 	go hub.Run(ctx)
@@ -56,6 +58,11 @@ func main() {
 	go func() {
 		if err := grpcServer.Start(ctx); err != nil {
 			log.Printf("grpc server error: %v", err)
+		}
+	}()
+	go func() {
+		if err := udpServer.ListenAndServe(ctx); err != nil {
+			log.Printf("udp server error: %v", err)
 		}
 	}()
 
