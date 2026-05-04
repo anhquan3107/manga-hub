@@ -16,7 +16,7 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	shared "mangahub/cmd/cli/commands/shared"
-	"mangahub/proto"
+	pb "mangahub/proto"
 )
 
 func HandleGrpc(args []string) {
@@ -36,7 +36,7 @@ func HandleGrpc(args []string) {
 	_ = flags.Parse(args[1:])
 	remaining := flags.Args()
 
-	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Printf("Error connecting to gRPC server: %v\n", err)
 		return
