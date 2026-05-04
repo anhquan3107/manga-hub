@@ -19,6 +19,16 @@ cd build
 ./mangahub server start
 ```
 
+### 3. Configure Environment Variables
+
+Copy the example environment file and adjust values as needed:
+
+```bash
+cp .env.example .env
+```
+
+The server reads `HTTP_ADDR`, `TCP_ADDR`, `UDP_ADDR`, `GRPC_ADDR`, `DB_PATH`, `SEED_FILE`, `JWT_SECRET`, and `ALLOWED_ORIGIN` from the environment. The CLI derives its API, WebSocket, TCP, UDP, and gRPC targets from `HTTP_ADDR`, so you only need to keep that server address in sync.
+
 ## CLI Overview
 
 ```bash
@@ -163,5 +173,6 @@ mangahub notify test --manga-id <manga_id>
 - The API server uses SQLite by default at `./data/mangahub.db`
 - Seed manga data comes from `./data/manga.sample.json`
 - The CLI is designed to work with the current session-scoped token storage so multiple terminals can stay authenticated independently
+- Environment-based configuration is supported through `.env` and `.env.example`
 
 

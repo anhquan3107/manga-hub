@@ -16,8 +16,6 @@ import (
 	"mangahub/internal/grpc/grpcjson"
 )
 
-const defaultAddr = "localhost:9092"
-
 type MangaRequest struct {
 	Id    string `json:"id,omitempty"`
 	Query string `json:"query,omitempty"`
@@ -25,8 +23,8 @@ type MangaRequest struct {
 }
 
 type MangaResponse struct {
-	Manga any `json:"manga,omitempty"`
-	Items any `json:"items,omitempty"`
+	Manga  any    `json:"manga,omitempty"`
+	Items  any    `json:"items,omitempty"`
 	Status string `json:"status,omitempty"`
 	Error  string `json:"error,omitempty"`
 }
@@ -58,7 +56,7 @@ func HandleGrpc(args []string) {
 	}
 
 	flags := flag.NewFlagSet("grpc "+subCmd, flag.ExitOnError)
-	addr := flags.String("addr", defaultAddr, "gRPC server address")
+	addr := flags.String("addr", shared.GRPCAddr(), "gRPC server address")
 	_ = flags.Parse(args[1:])
 	remaining := flags.Args()
 
@@ -194,7 +192,7 @@ func resolveUserIDFromToken() string {
 	if token == "" {
 		return ""
 	}
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8080/users/me", nil)
+	req, err := http.NewRequest(http.MethodGet, shared.APIURL("/users/me"), nil)
 	if err != nil {
 		return ""
 	}

@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	shared "mangahub/cmd/cli/commands/shared"
 	"mangahub/pkg/models"
 )
 
@@ -40,7 +41,7 @@ type Session struct {
 
 var (
 	tcpConn       net.Conn
-	tcpAddr       = "localhost:9090"
+	tcpAddr       = shared.TCPAddr()
 	sessionID     string
 	connectedAt   time.Time
 	lastHeartbeat time.Time

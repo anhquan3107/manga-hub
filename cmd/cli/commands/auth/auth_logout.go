@@ -14,7 +14,7 @@ func handleLogout() {
 		fmt.Println("No active session found")
 		return
 	}
-	req, _ := http.NewRequest(http.MethodPost, "http://localhost:8080/auth/logout", nil)
+	req, _ := http.NewRequest(http.MethodPost, shared.APIURL("/auth/logout"), nil)
 	req.Header.Set("Authorization", "Bearer "+token)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {

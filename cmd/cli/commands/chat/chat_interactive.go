@@ -65,7 +65,7 @@ func handleChatCommand(input string, roomID string) (string, bool) {
 		return "", false
 	case "/status":
 		fmt.Println("\nConnection Status:")
-		fmt.Println("✓ Connected to ws://localhost:8080/ws/chat")
+		fmt.Printf("✓ Connected to %s\n", shared.WebSocketURL("/ws/chat"))
 		fmt.Println("Room: #" + roomID)
 		fmt.Println("Status: Online")
 		return "", false
@@ -84,12 +84,12 @@ func sendPrivateMessage(recipient, message string) error {
 	}
 
 	client := &http.Client{Timeout: 10 * time.Second}
-	
+
 	// Create JSON payload
 	escapedMsg := strings.ReplaceAll(message, `"`, `\"`)
 	jsonData := fmt.Sprintf(`{"recipient_username":"%s","message":"%s"}`, recipient, escapedMsg)
-	
-	req, err := http.NewRequest("POST", "http://localhost:8080/users/pm", bytes.NewReader([]byte(jsonData)))
+
+	req, err := http.NewRequest("POST", shared.APIURL("/users/pm"), bytes.NewReader([]byte(jsonData)))
 	if err != nil {
 		return fmt.Errorf("failed to create request: %w", err)
 	}

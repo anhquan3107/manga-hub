@@ -36,7 +36,7 @@ func handleChangePassword() {
 		return
 	}
 	data, _ := json.Marshal(map[string]string{"current_password": currentPassword, "new_password": newPassword})
-	req, _ := http.NewRequest(http.MethodPost, "http://localhost:8080/auth/change-password", bytes.NewBuffer(data))
+	req, _ := http.NewRequest(http.MethodPost, shared.APIURL("/auth/change-password"), bytes.NewBuffer(data))
 	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := http.DefaultClient.Do(req)

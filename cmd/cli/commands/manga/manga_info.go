@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	shared "mangahub/cmd/cli/commands/shared"
 )
 
 func handleInfo(args []string) {
@@ -12,7 +14,7 @@ func handleInfo(args []string) {
 		return
 	}
 	id := args[0]
-	resp, err := http.Get("http://localhost:8080/manga/" + id)
+	resp, err := http.Get(shared.APIURL("/manga/" + id))
 	if err != nil {
 		fmt.Println("Error:", err)
 		return

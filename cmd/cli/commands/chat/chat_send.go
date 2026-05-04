@@ -38,7 +38,11 @@ func handleChatSend(args []string) {
 		roomID = *mangaID
 	}
 
-	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/ws/chat"}
+	u, err := url.Parse(shared.WebSocketURL("/ws/chat"))
+	if err != nil {
+		fmt.Println("✗ Invalid websocket URL:", err)
+		return
+	}
 	q := u.Query()
 	q.Set("token", token)
 	q.Set("room", roomID)

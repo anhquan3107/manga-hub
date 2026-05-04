@@ -14,7 +14,7 @@ func printAllRoomsUsers() error {
 		return fmt.Errorf("you must login first")
 	}
 
-	req, _ := http.NewRequest(http.MethodGet, "http://localhost:8080/rooms/users", nil)
+	req, _ := http.NewRequest(http.MethodGet, shared.APIURL("/rooms/users"), nil)
 	req.Header.Set("Authorization", "Bearer "+token)
 
 	resp, err := http.DefaultClient.Do(req)

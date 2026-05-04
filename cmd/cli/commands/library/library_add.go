@@ -34,7 +34,7 @@ func libraryAdd(args []string) {
 	}
 	data, _ := json.Marshal(payload)
 
-	resp, err := shared.DoAuthReq("POST", "http://localhost:8080/users/library", data)
+	resp, err := shared.DoAuthReq("POST", shared.APIURL("/users/library"), data)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return

@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net"
 	"time"
+
+	shared "mangahub/cmd/cli/commands/shared"
 )
 
 type udpClientMessage struct {
@@ -24,7 +26,7 @@ type udpServerMessage struct {
 	Timestamp int64  `json:"timestamp"`
 }
 
-var udpAddr = "localhost:9091"
+var udpAddr = shared.UDPAddr()
 var registeredClientID = ""
 
 func HandleNotify(args []string) {

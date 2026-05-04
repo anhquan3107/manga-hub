@@ -22,7 +22,7 @@ func libraryList(args []string) {
 	flags.BoolVar(&verbose, "verbose", false, "Verbose output with descriptions")
 	flags.Parse(args)
 
-	u := "http://localhost:8080/users/library"
+	u := shared.APIURL("/users/library")
 	if statusFilter != "" || sortBy != "" || order != "" {
 		params := "?"
 		if statusFilter != "" {

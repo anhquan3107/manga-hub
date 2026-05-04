@@ -30,7 +30,7 @@ func fetchRoomHistory(roomID string, limit int) ([]historyMessage, error) {
 		return nil, fmt.Errorf("you must login first")
 	}
 
-	reqURL := fmt.Sprintf("http://localhost:8080/rooms/%s/history?limit=%d", roomID, limit)
+	reqURL := fmt.Sprintf("%s/rooms/%s/history?limit=%d", shared.APIBaseURL(), roomID, limit)
 	req, _ := http.NewRequest(http.MethodGet, reqURL, nil)
 	req.Header.Set("Authorization", "Bearer "+token)
 

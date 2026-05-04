@@ -19,7 +19,7 @@ func libraryRemove(args []string) {
 		return
 	}
 
-	resp, err := shared.DoAuthReq("DELETE", "http://localhost:8080/users/library/"+mangaID, nil)
+	resp, err := shared.DoAuthReq("DELETE", shared.APIURL("/users/library/"+mangaID), nil)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return

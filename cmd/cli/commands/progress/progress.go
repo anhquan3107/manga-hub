@@ -13,7 +13,7 @@ import (
 	shared "mangahub/cmd/cli/commands/shared"
 )
 
-const progressTCPAddr = "localhost:9090"
+var progressTCPAddr = shared.TCPAddr()
 
 type progressTCPMessage struct {
 	Type      string `json:"type"`
@@ -24,23 +24,23 @@ type progressTCPMessage struct {
 }
 
 type progressTCPResponse struct {
-	Type     string `json:"type"`
-	Message  string `json:"message,omitempty"`
-	Error    string `json:"error,omitempty"`
-	Timestamp int64 `json:"timestamp"`
+	Type      string `json:"type"`
+	Message   string `json:"message,omitempty"`
+	Error     string `json:"error,omitempty"`
+	Timestamp int64  `json:"timestamp"`
 }
 
 type progressUpdateResponse struct {
-	MangaID        string    `json:"manga_id"`
-	Title          string    `json:"title"`
-	PreviousChapter int      `json:"previous_chapter"`
-	CurrentChapter int       `json:"current_chapter"`
-	PreviousVolume int       `json:"previous_volume"`
-	CurrentVolume  int       `json:"current_volume"`
-	UpdatedAt      time.Time `json:"updated_at"`
-	TotalChapters  int       `json:"total_chapters"`
-	Notes          string    `json:"notes"`
-	Status         string    `json:"status"`
+	MangaID         string    `json:"manga_id"`
+	Title           string    `json:"title"`
+	PreviousChapter int       `json:"previous_chapter"`
+	CurrentChapter  int       `json:"current_chapter"`
+	PreviousVolume  int       `json:"previous_volume"`
+	CurrentVolume   int       `json:"current_volume"`
+	UpdatedAt       time.Time `json:"updated_at"`
+	TotalChapters   int       `json:"total_chapters"`
+	Notes           string    `json:"notes"`
+	Status          string    `json:"status"`
 }
 
 type progressHistoryResponse struct {
@@ -87,11 +87,11 @@ func HandleProgress(args []string) {
 			"manga_id":        mangaID,
 			"current_chapter": chapter,
 			"current_volume":  volume,
-			"notes":            notes,
-			"force":            force,
+			"notes":           notes,
+			"force":           force,
 		})
 
-		resp, err := shared.DoAuthReq("PUT", "http://localhost:8080/users/progress", data)
+		resp, err := shared.DoAuthReq("PUT", shared.APIURL("/users/progress"), data)
 		if err != nil {
 			fmt.Println("Error:", err)
 			return
@@ -147,7 +147,7 @@ func HandleProgress(args []string) {
 		flags.StringVar(&mangaID, "manga-id", "", "ID of manga (optional)")
 		flags.Parse(args[1:])
 
-		u, _ := url.Parse("http://localhost:8080/users/progress/history")
+		u, _ := url.Parse(shared.APIURL("/users/progress/history"))
 		if mangaID != "" {
 			q := u.Query()
 			q.Set("manga_id", mangaID)

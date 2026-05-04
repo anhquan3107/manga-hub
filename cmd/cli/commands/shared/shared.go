@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -60,6 +61,18 @@ func PrintRespBody(body io.ReadCloser) {
 }
 
 func GetAuthClient() *http.Client { return &http.Client{} }
+
+func APIBaseURL() string { return "http://" + net.JoinHostPort(httpHostFromAddr(httpAddr()), httpPortFromAddr(httpAddr())) }
+
+func APIURL(path string) string { return APIBaseURL() + ensureLeadingSlash(path) }
+
+func WebSocketURL(path string) string { return "ws://" + net.JoinHostPort(httpHostFromAddr(httpAddr()), httpPortFromAddr(httpAddr())) + ensureLeadingSlash(path) }
+
+func TCPAddr() string { return clientAddrFromListenAddr(mustEnv("TCP_ADDR"), httpHostFromAddr(httpAddr()), "TCP_ADDR") }
+
+func UDPAddr() string { return clientAddrFromListenAddr(mustEnv("UDP_ADDR"), httpHostFromAddr(httpAddr()), "UDP_ADDR") }
+
+func GRPCAddr() string { return clientAddrFromListenAddr(mustEnv("GRPC_ADDR"), httpHostFromAddr(httpAddr()), "GRPC_ADDR") }
 
 func DoAuthReq(method, url string, body []byte) (*http.Response, error) {
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(body))
@@ -140,4 +153,66 @@ func CenterText(s string, width int) string {
 	left := pad / 2
 	right := pad - left
 	return strings.Repeat(" ", left) + trimmed + strings.Repeat(" ", right)
+}
+
+func mustEnv(key string) string {
+	value := strings.TrimSpace(os.Getenv(key))
+	if value == "" {
+		fmt.Fprintf(os.Stderr, "missing required environment variable: %s\n", key)
+		os.Exit(1)
+	}
+	return value
+}
+
+func httpAddr() string { return mustEnv("HTTP_ADDR") }
+
+func httpHostFromAddr(addr string) string {
+	host, _, err := net.SplitHostPort(addr)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "invalid HTTP_ADDR %q: %v\n", addr, err)
+		os.Exit(1)
+	}
+	if strings.TrimSpace(host) == "" {
+		return "localhost"
+	}
+	if host == "0.0.0.0" || host == "::" || host == "[::]" {
+		return "localhost"
+	}
+	return host
+}
+
+func httpPortFromAddr(addr string) string {
+	_, port, err := net.SplitHostPort(addr)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "invalid HTTP_ADDR %q: %v\n", addr, err)
+		os.Exit(1)
+	}
+	if strings.TrimSpace(port) == "" {
+		fmt.Fprintf(os.Stderr, "invalid HTTP_ADDR %q: missing port\n", addr)
+		os.Exit(1)
+	}
+	return port
+}
+
+func clientAddrFromListenAddr(listenAddr, fallbackHost, envName string) string {
+	host, port, err := net.SplitHostPort(listenAddr)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "invalid %s %q: %v\n", envName, listenAddr, err)
+		os.Exit(1)
+	}
+	host = strings.TrimSpace(host)
+	if host == "" || host == "0.0.0.0" || host == "::" || host == "[::]" {
+		host = fallbackHost
+	}
+	return net.JoinHostPort(host, port)
+}
+
+func ensureLeadingSlash(path string) string {
+	if path == "" {
+		return ""
+	}
+	if strings.HasPrefix(path, "/") {
+		return path
+	}
+	return "/" + path
 }

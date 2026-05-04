@@ -36,7 +36,7 @@ func handleSearch(args []string) {
 
 	fmt.Printf("Searching for \"%s\"...\n", query)
 
-	u, _ := url.Parse("http://localhost:8080/manga")
+	u, _ := url.Parse(shared.APIURL("/manga"))
 	q := u.Query()
 	if query != "" {
 		q.Set("q", query)
@@ -98,7 +98,7 @@ func handleList(args []string) {
 
 	flags.Parse(args)
 
-	u, _ := url.Parse("http://localhost:8080/manga")
+	u, _ := url.Parse(shared.APIURL("/manga"))
 	q := u.Query()
 	if genre != "" {
 		q.Set("genre", genre)

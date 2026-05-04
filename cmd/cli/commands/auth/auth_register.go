@@ -36,7 +36,7 @@ func handleRegister(username, email string) {
 	}
 
 	data, _ := json.Marshal(map[string]string{"username": username, "password": password, "email": email})
-	resp, err := http.Post("http://localhost:8080/auth/register", "application/json", bytes.NewBuffer(data))
+	resp, err := http.Post(shared.APIURL("/auth/register"), "application/json", bytes.NewBuffer(data))
 	if err != nil {
 		fmt.Println("Error:", err)
 		return

@@ -17,7 +17,7 @@ func handleStatus() {
 		fmt.Println("Use: mangahub auth login --username <username> to login")
 		return
 	}
-	req, _ := http.NewRequest(http.MethodGet, "http://localhost:8080/health", nil)
+	req, _ := http.NewRequest(http.MethodGet, shared.APIURL("/health"), nil)
 	req.Header.Set("Authorization", "Bearer "+token)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -36,7 +36,7 @@ func handleStatus() {
 		ID, Username, Email string
 		CreatedAt           time.Time
 	}
-	req2, _ := http.NewRequest(http.MethodGet, "http://localhost:8080/users/me", nil)
+	req2, _ := http.NewRequest(http.MethodGet, shared.APIURL("/users/me"), nil)
 	req2.Header.Set("Authorization", "Bearer "+token)
 	resp2, err := http.DefaultClient.Do(req2)
 	if err == nil && resp2.StatusCode == 200 {

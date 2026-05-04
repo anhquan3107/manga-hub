@@ -43,7 +43,7 @@ func handleChatJoin(args []string) {
 
 	// Resolve current username from server (GET /users/me). Fallback to session ID.
 	username := shared.GetSessionID()
-	reqUser, _ := http.NewRequest(http.MethodGet, "http://localhost:8080/users/me", nil)
+	reqUser, _ := http.NewRequest(http.MethodGet, shared.APIURL("/users/me"), nil)
 	reqUser.Header.Set("Authorization", "Bearer "+token)
 	if respUser, err := http.DefaultClient.Do(reqUser); err == nil {
 		defer respUser.Body.Close()
@@ -62,7 +62,10 @@ func handleChatJoin(args []string) {
 	}
 
 	dialRoom := func(targetRoom string) (*websocket.Conn, *http.Response, error) {
-		u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/ws/chat"}
+		u, err := url.Parse(shared.WebSocketURL("/ws/chat"))
+		if err != nil {
+			return nil, nil, err
+		}
 		q := u.Query()
 		q.Set("token", token)
 		q.Set("room", targetRoom)
@@ -70,7 +73,7 @@ func handleChatJoin(args []string) {
 		return websocket.DefaultDialer.Dial(u.String(), nil)
 	}
 
-	fmt.Printf("Connecting to WebSocket chat server at ws://localhost:8080/ws/chat...\n")
+	fmt.Printf("Connecting to WebSocket chat server at %s...\n", shared.WebSocketURL("/ws/chat"))
 
 	conn, _, err := dialRoom(roomID)
 	if err != nil {

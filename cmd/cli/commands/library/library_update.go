@@ -41,7 +41,7 @@ func libraryUpdate(args []string) {
 	}
 	data, _ := json.Marshal(payload)
 
-	resp, err := shared.DoAuthReq("PUT", "http://localhost:8080/users/library/"+mangaID, data)
+	resp, err := shared.DoAuthReq("PUT", shared.APIURL("/users/library/"+mangaID), data)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return

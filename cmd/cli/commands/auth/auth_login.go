@@ -27,7 +27,7 @@ func handleLogin(username string) {
 		return
 	}
 	data, _ := json.Marshal(map[string]string{"username": username, "password": password})
-	resp, err := http.Post("http://localhost:8080/auth/login", "application/json", bytes.NewBuffer(data))
+	resp, err := http.Post(shared.APIURL("/auth/login"), "application/json", bytes.NewBuffer(data))
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
