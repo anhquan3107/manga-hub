@@ -14,6 +14,19 @@ import (
 	"mangahub/pkg/utils"
 )
 
+// currentUserID extracts the user ID from the request context
+func currentUserID(c *gin.Context) string {
+	userID, exists := c.Get("userID")
+	if !exists {
+		return ""
+	}
+	id, ok := userID.(string)
+	if !ok {
+		return ""
+	}
+	return id
+}
+
 func (h *Handler) Chat(c *gin.Context) {
 	chatws.Handler(h.hub, h.authService, h.chatService)(c)
 }
@@ -168,7 +181,7 @@ func (h *Handler) UpdateProgress(c *gin.Context) {
 	}
 
 	if h.broadcaster != nil {
-		h.broadcaster.Broadcast(models.ProgressUpdate{
+		h.broadcaster.PublishProgress(models.ProgressUpdate{
 			UserID:    currentUserID(c),
 			MangaID:   result.Entry.MangaID,
 			Chapter:   result.Entry.CurrentChapter,
@@ -279,8 +292,8 @@ func buildReadingLists(items []models.LibraryEntry) gin.H {
 
 // SendPM sends a private message to another user.
 func (h *Handler) SendPM(c *gin.Context) {
-	if h.pmService == nil {
-		utils.Error(c, http.StatusServiceUnavailable, "PM service unavailable")
+	if h.chatService == nil {
+		utils.Error(c, http.StatusServiceUnavailable, "chat service unavailable")
 		return
 	}
 
@@ -314,15 +327,15 @@ func (h *Handler) SendPM(c *gin.Context) {
 	}
 
 	pm := models.PrivateMessage{
-		SenderID:        sender.ID,
-		SenderUsername:  sender.Username,
-		RecipientID:     recipient.ID,
+		SenderID:          sender.ID,
+		SenderUsername:    sender.Username,
+		RecipientID:       recipient.ID,
 		RecipientUsername: recipient.Username,
-		Message:         strings.TrimSpace(req.Message),
-		Timestamp:       time.Now().Unix(),
+		Message:           strings.TrimSpace(req.Message),
+		Timestamp:         time.Now().Unix(),
 	}
 
-	if err := h.pmService.SendMessage(c.Request.Context(), pm); err != nil {
+	if err := h.chatService.SendPrivateMessage(c.Request.Context(), pm); err != nil {
 		utils.Error(c, http.StatusInternalServerError, "failed to send message")
 		return
 	}

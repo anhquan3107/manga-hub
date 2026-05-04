@@ -21,3 +21,17 @@ type ChatMessage struct {
 	Message   string `json:"message"`
 	Timestamp int64  `json:"timestamp"`
 }
+
+type PrivateMessage struct {
+	SenderID          string `json:"sender_id"`
+	SenderUsername    string `json:"sender_username"`
+	RecipientID       string `json:"recipient_id"`
+	RecipientUsername string `json:"recipient_username"`
+	Message           string `json:"message"`
+	Timestamp         int64  `json:"timestamp"`
+}
+
+type SendPMRequest struct {
+	RecipientUsername string `json:"recipient_username" binding:"required"`
+	Message           string `json:"message" binding:"required"`
+}

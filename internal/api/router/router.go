@@ -50,6 +50,7 @@ func NewRouter(
 	protected.Use(auth.Middleware(authService))
 	{
 		protected.GET("/me", h.GetMe)
+		protected.POST("/pm", h.SendPM)
 		protected.POST("/library", h.AddToLibrary)
 		protected.GET("/library", h.GetLibrary)
 		protected.PUT("/progress", h.UpdateProgress)

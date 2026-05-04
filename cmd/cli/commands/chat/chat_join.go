@@ -34,7 +34,7 @@ func handleChatJoin(args []string) {
 		return
 	}
 
-	token := shared.LoadToken()
+	token := strings.TrimSpace(shared.LoadToken())
 	if token == "" {
 		fmt.Println("✗ You must login first.")
 		fmt.Println("  Try: mangahub auth login --username <username>")

@@ -37,7 +37,21 @@ func (s *Store) GetUserByID(ctx context.Context, userID string) (models.User, er
 	return user, nil
 }
 
-func (s *Store) GetUserByUsername(ctx context.Context, username string) (models.User, string, error) {
+func (s *Store) GetUserByUsername(ctx context.Context, username string) (models.User, error) {
+	var user models.User
+	err := s.db.QueryRowContext(
+		ctx,
+		`SELECT id, username, email, created_at FROM users WHERE username = ?`,
+		username,
+	).Scan(&user.ID, &user.Username, &user.Email, &user.CreatedAt)
+	if err != nil {
+		return models.User{}, fmt.Errorf("get user by username: %w", err)
+	}
+
+	return user, nil
+}
+
+func (s *Store) GetUserByUsernameWithPassword(ctx context.Context, username string) (models.User, string, error) {
 	var user models.User
 	var passwordHash string
 	err := s.db.QueryRowContext(

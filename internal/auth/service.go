@@ -36,7 +36,7 @@ func NewService(store *database.Store, jwtSecret string) *Service {
 }
 
 func (s *Service) Register(ctx context.Context, req models.RegisterRequest) (models.AuthResponse, error) {
-	if _, _, err := s.store.GetUserByUsername(ctx, req.Username); err == nil {
+	if _, _, err := s.store.GetUserByUsernameWithPassword(ctx, req.Username); err == nil {
 		return models.AuthResponse{}, errors.New("username already exists")
 	}
 
@@ -60,7 +60,7 @@ func (s *Service) Register(ctx context.Context, req models.RegisterRequest) (mod
 }
 
 func (s *Service) Login(ctx context.Context, req models.LoginRequest) (models.AuthResponse, error) {
-	user, passwordHash, err := s.store.GetUserByUsername(ctx, req.Username)
+	user, passwordHash, err := s.store.GetUserByUsernameWithPassword(ctx, req.Username)
 	if err != nil {
 		return models.AuthResponse{}, errors.New("account not found")
 	}

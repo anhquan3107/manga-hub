@@ -78,7 +78,7 @@ func handleChatCommand(input string, roomID string) (string, bool) {
 }
 
 func sendPrivateMessage(recipient, message string) error {
-	token := shared.LoadToken()
+	token := strings.TrimSpace(shared.LoadToken())
 	if token == "" {
 		return fmt.Errorf("not authenticated")
 	}
