@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"mangahub/internal/grpc/pb"
+	"mangahub/proto"
 	"mangahub/internal/manga"
 	"mangahub/internal/user"
 	"mangahub/pkg/models"

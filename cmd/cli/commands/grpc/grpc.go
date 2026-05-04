@@ -16,7 +16,7 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	shared "mangahub/cmd/cli/commands/shared"
-	"mangahub/internal/grpc/pb"
+	"mangahub/proto"
 )
 
 func HandleGrpc(args []string) {

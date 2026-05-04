@@ -13,7 +13,7 @@ import (
 	"mangahub/internal/auth"
 	"mangahub/internal/chat"
 	"mangahub/internal/config"
-	grpcservice "mangahub/internal/grpc/grpcservice"
+	grpcservice "mangahub/internal/grpc"
 	"mangahub/internal/manga"
 	"mangahub/internal/tcp"
 	"mangahub/internal/udp"
@@ -56,6 +56,7 @@ func main() {
 		}
 	}()
 	go func() {
+		log.Printf("grpc server listening on %s", cfg.GRPCAddr)
 		if err := grpcServer.Start(ctx); err != nil {
 			log.Printf("grpc server error: %v", err)
 		}

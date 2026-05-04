@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package mangahub;
 
-option go_package = "mangahub/internal/grpc/pb;pb";
+option go_package = "mangahub/proto;pb";
 
 message Manga {
   string id = 1;
