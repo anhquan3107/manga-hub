@@ -60,6 +60,10 @@ type progressUpdateResponse struct {
 	Status          string `json:"status"`
 }
 
+type reviewListResponse struct {
+	Items []models.Review `json:"items"`
+}
+
 // Keep Swagger schema-only types referenced so static analysis doesn't flag them as unused.
 var (
 	_ = errorResponse{}
@@ -73,4 +77,5 @@ var (
 	_ = roomHistoryResponse{}
 	_ = progressHistoryResponse{}
 	_ = progressUpdateResponse{}
+	_ = reviewListResponse{}
 )

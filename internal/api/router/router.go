@@ -11,6 +11,7 @@ import (
 	"mangahub/internal/chat"
 	"mangahub/internal/config"
 	"mangahub/internal/manga"
+	"mangahub/internal/review"
 	"mangahub/internal/user"
 	chatws "mangahub/internal/websocket"
 )
@@ -20,6 +21,7 @@ func NewRouter(
 	authService *auth.Service,
 	chatService *chat.Service,
 	mangaService *manga.Service,
+	reviewService *review.Service,
 	userService *user.Service,
 	hub *chatws.Hub,
 	progressBroadcaster handler.ProgressBroadcaster,
@@ -30,6 +32,7 @@ func NewRouter(
 		AuthService:  authService,
 		ChatService:  chatService,
 		MangaService: mangaService,
+		ReviewService: reviewService,
 		UserService:  userService,
 		Hub:          hub,
 		Broadcaster:  progressBroadcaster,
@@ -43,6 +46,7 @@ func NewRouter(
 	router.POST("/auth/change-password", auth.Middleware(authService), h.ChangePassword)
 	router.GET("/manga", h.ListManga)
 	router.GET("/manga/:id", h.GetManga)
+	router.GET("/manga/:id/reviews", h.ListReviews)
 	router.GET("/ws/chat", h.Chat)
 	// Expose room users (protected)
 	router.GET("/rooms/users", auth.Middleware(authService), h.RoomsUsers)
@@ -68,6 +72,9 @@ func NewRouter(
 		mangaProtected.POST("", h.CreateManga)
 		mangaProtected.PUT("/:id", h.UpdateManga)
 		mangaProtected.DELETE("/:id", h.DeleteManga)
+		mangaProtected.POST("/:id/reviews", h.UpsertReview)
+		mangaProtected.GET("/:id/reviews/me", h.GetMyReview)
+		mangaProtected.POST("/:id/reviews/:user_id/helpful", h.MarkReviewHelpful)
 	}
 
 	return router

@@ -16,6 +16,7 @@ import (
 	"mangahub/internal/config"
 	grpcservice "mangahub/internal/grpc"
 	"mangahub/internal/manga"
+	"mangahub/internal/review"
 	"mangahub/internal/tcp"
 	"mangahub/internal/udp"
 	"mangahub/internal/user"
@@ -53,6 +54,7 @@ func main() {
 	authService := auth.NewService(store, cfg.JWTSecret)
 	chatService := chat.NewService(store)
 	mangaService := manga.NewService(store)
+	reviewService := review.NewService(store)
 	userService := user.NewService(store)
 	tcpServer := tcp.NewServer(cfg.TCPAddr, userService)
 	grpcServer := grpcservice.New(cfg.GRPCAddr, mangaService, userService)
@@ -79,7 +81,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:    cfg.HTTPAddr,
-		Handler: router.NewRouter(cfg, authService, chatService, mangaService, userService, hub, tcpServer),
+		Handler: router.NewRouter(cfg, authService, chatService, mangaService, reviewService, userService, hub, tcpServer),
 	}
 
 	go func() {

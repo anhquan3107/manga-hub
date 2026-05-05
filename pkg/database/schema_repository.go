@@ -83,6 +83,21 @@ func (s *Store) InitSchema(ctx context.Context) error {
 		FOREIGN KEY (manga_id) REFERENCES manga(id) ON DELETE CASCADE
 	);
 
+	CREATE TABLE IF NOT EXISTS reviews (
+		user_id TEXT NOT NULL,
+		manga_id TEXT NOT NULL,
+		rating INTEGER NOT NULL,
+		text TEXT NOT NULL,
+		timestamp INTEGER NOT NULL DEFAULT (strftime('%s','now')),
+		helpful INTEGER NOT NULL DEFAULT 0,
+		PRIMARY KEY (user_id, manga_id),
+		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+		FOREIGN KEY (manga_id) REFERENCES manga(id) ON DELETE CASCADE
+	);
+
+	CREATE INDEX IF NOT EXISTS idx_reviews_manga ON reviews(manga_id, timestamp DESC);
+	CREATE INDEX IF NOT EXISTS idx_reviews_helpful ON reviews(manga_id, helpful DESC, timestamp DESC);
+
 	CREATE TABLE IF NOT EXISTS chat_messages (
 		id TEXT PRIMARY KEY,
 		user_id TEXT NOT NULL,
