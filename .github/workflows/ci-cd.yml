@@ -34,6 +34,7 @@ jobs:
         uses: golangci/golangci-lint-action@v6
         with:
           version: latest
+          install-mode: goinstall
 
   build-and-push:
     name: Build and Push Docker Image
