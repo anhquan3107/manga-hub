@@ -3,8 +3,8 @@ package shared
 import (
 	"bytes"
 	"fmt"
+	"github.com/joho/godotenv"
 	"io"
-	"mangahub/pkg/utils"
 	"net"
 	"net/http"
 	"os"
@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	utils.LoadEnv()
+	_ = godotenv.Load(".env", "../.env", "../../.env")
 }
 
 func GetSessionID() string {

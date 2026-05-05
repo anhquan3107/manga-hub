@@ -1,0 +1,46 @@
+services:
+  http:
+    build: .
+    command: api-server
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - mangahub-data:/app/data
+    restart: unless-stopped
+
+  tcp:
+    build: .
+    command: tcp-server
+    env_file:
+      - .env
+    ports:
+      - "9090:9090"
+    volumes:
+      - mangahub-data:/app/data
+    restart: unless-stopped
+
+  udp:
+    build: .
+    command: udp-server
+    env_file:
+      - .env
+    ports:
+      - "9091:9091/udp"
+    restart: unless-stopped
+
+  grpc:
+    build: .
+    command: grpc-server
+    env_file:
+      - .env
+    ports:
+      - "9092:9092"
+    volumes:
+      - mangahub-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  mangahub-data:
+    driver: local

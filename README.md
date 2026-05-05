@@ -29,6 +29,28 @@ cp .env.example .env
 
 The server reads `HTTP_ADDR`, `TCP_ADDR`, `UDP_ADDR`, `GRPC_ADDR`, `DB_PATH`, `SEED_FILE`, `JWT_SECRET`, and `ALLOWED_ORIGIN` from the environment. The CLI derives its API, WebSocket, TCP, UDP, and gRPC targets from `HTTP_ADDR`, so you only need to keep that server address in sync.
 
+### 4. Run with Docker Compose
+
+To run all services in containers:
+
+```bash
+docker compose up --build
+```
+
+This starts:
+- **http**: API server on port 8080
+- **tcp**: Sync service on port 9090
+- **udp**: Notification service on port 9091
+- **grpc**: gRPC service on port 9092
+
+All services use a shared SQLite volume (`mangahub-data`) for data persistence.
+
+To run the CLI inside the container (optional):
+
+```bash
+docker compose --profile tools run --rm cli mangahub auth status
+```
+
 ## CLI Overview
 
 ```bash

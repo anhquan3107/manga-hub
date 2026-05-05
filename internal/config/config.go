@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"mangahub/pkg/utils"
+	"github.com/joho/godotenv"
 	"os"
 	"strings"
 )
@@ -19,7 +19,7 @@ type Config struct {
 }
 
 func Load() Config {
-	utils.LoadEnv()
+	_ = godotenv.Load()
 	return Config{
 		HTTPAddr:      mustEnv("HTTP_ADDR"),
 		TCPAddr:       mustEnv("TCP_ADDR"),
