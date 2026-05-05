@@ -27,6 +27,9 @@ func TestUDPRegisterAndBroadcast(t *testing.T) {
 		_ = server.ListenAndServe(ctx)
 	}()
 
+	// Allow server time to start listening
+	time.Sleep(10 * time.Millisecond)
+
 	clientA := dialUDPClient(t, addr)
 	defer clientA.Close()
 
@@ -84,6 +87,9 @@ func TestUDPRejectsUnregisteredNotify(t *testing.T) {
 	go func() {
 		_ = server.ListenAndServe(ctx)
 	}()
+
+	// Allow server time to start listening
+	time.Sleep(10 * time.Millisecond)
 
 	client := dialUDPClient(t, addr)
 	defer client.Close()
