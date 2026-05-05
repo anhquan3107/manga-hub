@@ -140,7 +140,7 @@ func TestUpdateMangaModifiesExistingRecord(t *testing.T) {
 		Description:   "Original description",
 		CoverURL:      "http://example.com/old.jpg",
 	}
-	store.InsertManga(ctx, manga)
+	mustInsertManga(t, store, ctx, manga)
 
 	// Update manga
 	updateReq := models.UpdateMangaRequest{
@@ -177,7 +177,7 @@ func TestDeleteMangaRemovesRecord(t *testing.T) {
 		Author: "Author",
 		Status: "ongoing",
 	}
-	store.InsertManga(ctx, manga)
+	mustInsertManga(t, store, ctx, manga)
 
 	err := service.Delete(ctx, "manga-1")
 	if err != nil {
@@ -197,13 +197,13 @@ func TestSearchMangaByQuery(t *testing.T) {
 	ctx := context.Background()
 
 	// Insert test manga
-	store.InsertManga(ctx, models.Manga{
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Attack on Titan",
 		Author: "Hajime",
 		Status: "completed",
 	})
-	store.InsertManga(ctx, models.Manga{
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-2",
 		Title:  "Death Note",
 		Author: "Tsugumi",

@@ -42,7 +42,10 @@ func HandleNotify(args []string) {
 	case "subscribe":
 		var clientID string
 		flags.StringVar(&clientID, "client-id", "", "Client ID for notifications")
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		if clientID == "" {
 			clientID = fmt.Sprintf("cli-user-%d", time.Now().Unix())
@@ -55,7 +58,10 @@ func HandleNotify(args []string) {
 	case "unsubscribe":
 		var clientID string
 		flags.StringVar(&clientID, "client-id", "", "Client ID")
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		if clientID != "" {
 			registeredClientID = clientID
@@ -73,7 +79,10 @@ func HandleNotify(args []string) {
 	case "preferences":
 		var clientID string
 		flags.StringVar(&clientID, "client-id", "", "Client ID")
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		if clientID != "" {
 			registeredClientID = clientID
@@ -93,7 +102,10 @@ func HandleNotify(args []string) {
 		var clientID string
 		flags.StringVar(&mangaID, "manga-id", "test-manga", "Manga ID to test notification")
 		flags.StringVar(&clientID, "client-id", "", "Client ID")
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		if clientID != "" {
 			registeredClientID = clientID
