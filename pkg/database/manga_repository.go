@@ -12,20 +12,40 @@ import (
 
 func (s *Store) ListManga(ctx context.Context, query models.MangaQuery) ([]models.Manga, error) {
 	clauses := []string{"1=1"}
-	args := make([]any, 0, 4)
+	args := make([]any, 0, 8)
+	from := "manga"
+	filters := query.Filters
 
 	if query.Query != "" {
-		clauses = append(clauses, "(LOWER(title) LIKE ? OR LOWER(author) LIKE ?)")
-		search := "%" + strings.ToLower(query.Query) + "%"
-		args = append(args, search, search)
+		from = "manga JOIN manga_fts ON manga_fts.rowid = manga.rowid"
+		clauses = append(clauses, "manga_fts MATCH ?")
+		args = append(args, query.Query)
 	}
-	if query.Genre != "" {
-		clauses = append(clauses, "LOWER(genres) LIKE ?")
-		args = append(args, "%"+strings.ToLower(query.Genre)+"%")
+	if len(filters.Genres) > 0 {
+		for _, genre := range filters.Genres {
+			genre = strings.TrimSpace(genre)
+			if genre == "" {
+				continue
+			}
+			clauses = append(clauses, "LOWER(manga.genres) LIKE ?")
+			args = append(args, "%"+strings.ToLower(genre)+"%")
+		}
 	}
-	if query.Status != "" {
-		clauses = append(clauses, "LOWER(status) = ?")
-		args = append(args, strings.ToLower(query.Status))
+	if filters.Status != "" {
+			clauses = append(clauses, "LOWER(manga.status) = ?")
+		args = append(args, strings.ToLower(filters.Status))
+	}
+	if filters.YearRange[0] > 0 {
+			clauses = append(clauses, "manga.year >= ?")
+		args = append(args, filters.YearRange[0])
+	}
+	if filters.YearRange[1] > 0 {
+			clauses = append(clauses, "manga.year <= ?")
+		args = append(args, filters.YearRange[1])
+	}
+	if filters.Rating > 0 {
+			clauses = append(clauses, "manga.rating >= ?")
+		args = append(args, filters.Rating)
 	}
 
 	limit := query.Limit
@@ -33,16 +53,19 @@ func (s *Store) ListManga(ctx context.Context, query models.MangaQuery) ([]model
 		limit = 20
 	}
 	args = append(args, limit)
+	orderBy := buildMangaOrder(filters.SortBy)
 
 	rows, err := s.db.QueryContext(
 		ctx,
 		fmt.Sprintf(
-			`SELECT id, title, author, genres, status, total_chapters, description, cover_url
-			FROM manga
+			`SELECT manga.id, manga.title, manga.author, manga.genres, manga.status, manga.year, manga.rating, manga.popularity, manga.total_chapters, manga.description, manga.cover_url
+			FROM %s
 			WHERE %s
-			ORDER BY title ASC
+			ORDER BY %s
 			LIMIT ?`,
+			from,
 			strings.Join(clauses, " AND "),
+			orderBy,
 		),
 		args...,
 	)
@@ -66,7 +89,7 @@ func (s *Store) ListManga(ctx context.Context, query models.MangaQuery) ([]model
 func (s *Store) GetMangaByID(ctx context.Context, mangaID string) (models.Manga, error) {
 	row := s.db.QueryRowContext(
 		ctx,
-		`SELECT id, title, author, genres, status, total_chapters, description, cover_url
+		`SELECT id, title, author, genres, status, year, rating, popularity, total_chapters, description, cover_url
 		FROM manga WHERE id = ?`,
 		mangaID,
 	)
@@ -87,13 +110,16 @@ func (s *Store) CreateManga(ctx context.Context, manga models.Manga) (models.Man
 
 	_, err = s.db.ExecContext(
 		ctx,
-		`INSERT OR REPLACE INTO manga (id, title, author, genres, status, total_chapters, description, cover_url)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+		`INSERT OR REPLACE INTO manga (id, title, author, genres, status, year, rating, popularity, total_chapters, description, cover_url)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 		manga.ID,
 		manga.Title,
 		manga.Author,
 		string(genres),
 		manga.Status,
+		manga.Year,
+		manga.Rating,
+		manga.Popularity,
 		manga.TotalChapters,
 		manga.Description,
 		manga.CoverURL,
@@ -114,12 +140,15 @@ func (s *Store) UpdateMangaByID(ctx context.Context, mangaID string, manga model
 	result, err := s.db.ExecContext(
 		ctx,
 		`UPDATE manga
-		SET title = ?, author = ?, genres = ?, status = ?, total_chapters = ?, description = ?, cover_url = ?
+		SET title = ?, author = ?, genres = ?, status = ?, year = ?, rating = ?, popularity = ?, total_chapters = ?, description = ?, cover_url = ?
 		WHERE id = ?`,
 		manga.Title,
 		manga.Author,
 		string(genres),
 		manga.Status,
+		manga.Year,
+		manga.Rating,
+		manga.Popularity,
 		manga.TotalChapters,
 		manga.Description,
 		manga.CoverURL,
@@ -171,6 +200,9 @@ func scanManga(scanner mangaScanner) (models.Manga, error) {
 		&manga.Author,
 		&genresRaw,
 		&manga.Status,
+		&manga.Year,
+		&manga.Rating,
+		&manga.Popularity,
 		&manga.TotalChapters,
 		&manga.Description,
 		&manga.CoverURL,
@@ -184,4 +216,17 @@ func scanManga(scanner mangaScanner) (models.Manga, error) {
 	}
 
 	return manga, nil
+}
+
+func buildMangaOrder(sortBy string) string {
+	switch strings.ToLower(strings.TrimSpace(sortBy)) {
+	case "popularity":
+		return "manga.popularity DESC, manga.rating DESC, manga.title ASC"
+	case "rating":
+		return "manga.rating DESC, manga.popularity DESC, manga.title ASC"
+	case "recent":
+		return "manga.year DESC, manga.title ASC"
+	default:
+		return "manga.title ASC"
+	}
 }

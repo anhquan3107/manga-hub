@@ -13,11 +13,18 @@ import (
 
 func handleSearch(args []string) {
 	flags := flag.NewFlagSet("manga search", flag.ExitOnError)
-	var query, genre, status string
+	var query, genre, genres, status, sortBy string
 	var limit, page int
+	var yearMin, yearMax int
+	var ratingMin float64
 	flags.StringVar(&query, "query", "", "Search query for manga")
 	flags.StringVar(&genre, "genre", "", "Filter by genre")
+	flags.StringVar(&genres, "genres", "", "Filter by genres (comma-separated)")
 	flags.StringVar(&status, "status", "", "Filter by status (ongoing, completed)")
+	flags.IntVar(&yearMin, "year-min", 0, "Filter by release year (min)")
+	flags.IntVar(&yearMax, "year-max", 0, "Filter by release year (max)")
+	flags.Float64Var(&ratingMin, "rating-min", 0, "Filter by minimum rating")
+	flags.StringVar(&sortBy, "sort", "", "Sort by: popularity, rating, recent")
 	flags.IntVar(&limit, "limit", 20, "Number of results per page")
 	flags.IntVar(&page, "page", 1, "Page number for pagination")
 
@@ -30,7 +37,7 @@ func handleSearch(args []string) {
 	flags.Parse(parseArgs)
 
 	if strings.TrimSpace(query) == "" {
-		fmt.Println("Usage: mangahub manga search <query> [--genre <genre>] [--status <status>] [--limit <n>]")
+		fmt.Println("Usage: mangahub manga search <query> [--genres <a,b>] [--status <status>] [--year-min <n>] [--year-max <n>] [--rating-min <n>] [--sort <key>] [--limit <n>]")
 		return
 	}
 
@@ -41,11 +48,26 @@ func handleSearch(args []string) {
 	if query != "" {
 		q.Set("q", query)
 	}
-	if genre != "" {
-		q.Set("genre", genre)
+	if genres == "" && genre != "" {
+		genres = genre
+	}
+	if genres != "" {
+		q.Set("genres", genres)
 	}
 	if status != "" {
 		q.Set("status", status)
+	}
+	if yearMin > 0 {
+		q.Set("year_min", fmt.Sprintf("%d", yearMin))
+	}
+	if yearMax > 0 {
+		q.Set("year_max", fmt.Sprintf("%d", yearMax))
+	}
+	if ratingMin > 0 {
+		q.Set("rating_min", fmt.Sprintf("%.2f", ratingMin))
+	}
+	if strings.TrimSpace(sortBy) != "" {
+		q.Set("sort", sortBy)
 	}
 	q.Set("limit", fmt.Sprintf("%d", limit))
 	if page > 0 {

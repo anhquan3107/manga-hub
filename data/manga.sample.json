@@ -12,7 +12,10 @@
         "status":  "ongoing",
         "total_chapters":  1112,
         "description":  "One Piece is a popular Shounen manga series by Eiichiro Oda.",
-        "cover_url":  "https://example.com/covers/one-piece.jpg"
+        "cover_url":  "https://example.com/covers/one-piece.jpg",
+        "year":  1997,
+        "rating":  9.1,
+        "popularity":  1500
     },
     {
         "id":  "naruto",
@@ -27,7 +30,10 @@
         "status":  "completed",
         "total_chapters":  700,
         "description":  "Naruto is a popular Shounen manga series by Masashi Kishimoto.",
-        "cover_url":  "https://example.com/covers/naruto.jpg"
+        "cover_url":  "https://example.com/covers/naruto.jpg",
+        "year":  1991,
+        "rating":  6.1,
+        "popularity":  990
     },
     {
         "id":  "bleach",
@@ -42,7 +48,10 @@
         "status":  "completed",
         "total_chapters":  686,
         "description":  "Bleach is a popular Shounen manga series by Tite Kubo.",
-        "cover_url":  "https://example.com/covers/bleach.jpg"
+        "cover_url":  "https://example.com/covers/bleach.jpg",
+        "year":  1992,
+        "rating":  6.2,
+        "popularity":  980
     },
     {
         "id":  "dragon-ball",
@@ -57,7 +66,10 @@
         "status":  "completed",
         "total_chapters":  519,
         "description":  "Dragon Ball is a popular Shounen manga series by Akira Toriyama.",
-        "cover_url":  "https://example.com/covers/dragon-ball.jpg"
+        "cover_url":  "https://example.com/covers/dragon-ball.jpg",
+        "year":  1993,
+        "rating":  6.3,
+        "popularity":  970
     },
     {
         "id":  "attack-on-titan",
@@ -72,7 +84,10 @@
         "status":  "completed",
         "total_chapters":  139,
         "description":  "Attack on Titan is a popular Shounen manga series by Hajime Isayama.",
-        "cover_url":  "https://example.com/covers/attack-on-titan.jpg"
+        "cover_url":  "https://example.com/covers/attack-on-titan.jpg",
+        "year":  1994,
+        "rating":  6.4,
+        "popularity":  960
     },
     {
         "id":  "demon-slayer",
@@ -87,7 +102,10 @@
         "status":  "completed",
         "total_chapters":  205,
         "description":  "Demon Slayer is a popular Shounen manga series by Koyoharu Gotouge.",
-        "cover_url":  "https://example.com/covers/demon-slayer.jpg"
+        "cover_url":  "https://example.com/covers/demon-slayer.jpg",
+        "year":  1995,
+        "rating":  6.5,
+        "popularity":  950
     },
     {
         "id":  "jujutsu-kaisen",
@@ -102,7 +120,10 @@
         "status":  "ongoing",
         "total_chapters":  260,
         "description":  "Jujutsu Kaisen is a popular Shounen manga series by Gege Akutami.",
-        "cover_url":  "https://example.com/covers/jujutsu-kaisen.jpg"
+        "cover_url":  "https://example.com/covers/jujutsu-kaisen.jpg",
+        "year":  1996,
+        "rating":  6.6,
+        "popularity":  940
     },
     {
         "id":  "my-hero-academia",
@@ -117,7 +138,10 @@
         "status":  "ongoing",
         "total_chapters":  430,
         "description":  "My Hero Academia is a popular Shounen manga series by Kohei Horikoshi.",
-        "cover_url":  "https://example.com/covers/my-hero-academia.jpg"
+        "cover_url":  "https://example.com/covers/my-hero-academia.jpg",
+        "year":  1997,
+        "rating":  6.7,
+        "popularity":  930
     },
     {
         "id":  "hunter-x-hunter",
@@ -132,7 +156,10 @@
         "status":  "hiatus",
         "total_chapters":  400,
         "description":  "Hunter x Hunter is a popular Shounen manga series by Yoshihiro Togashi.",
-        "cover_url":  "https://example.com/covers/hunter-x-hunter.jpg"
+        "cover_url":  "https://example.com/covers/hunter-x-hunter.jpg",
+        "year":  1998,
+        "rating":  6.8,
+        "popularity":  920
     },
     {
         "id":  "fullmetal-alchemist",
@@ -147,7 +174,10 @@
         "status":  "completed",
         "total_chapters":  116,
         "description":  "Fullmetal Alchemist is a popular Shounen manga series by Hiromu Arakawa.",
-        "cover_url":  "https://example.com/covers/fullmetal-alchemist.jpg"
+        "cover_url":  "https://example.com/covers/fullmetal-alchemist.jpg",
+        "year":  1999,
+        "rating":  6.9,
+        "popularity":  910
     },
     {
         "id":  "haikyu",
@@ -162,7 +192,10 @@
         "status":  "completed",
         "total_chapters":  402,
         "description":  "Haikyu!! is a popular Shounen manga series by Haruichi Furudate.",
-        "cover_url":  "https://example.com/covers/haikyu.jpg"
+        "cover_url":  "https://example.com/covers/haikyu.jpg",
+        "year":  2000,
+        "rating":  7,
+        "popularity":  900
     },
     {
         "id":  "the-promised-neverland",
@@ -177,7 +210,10 @@
         "status":  "completed",
         "total_chapters":  181,
         "description":  "The Promised Neverland is a popular Shounen manga series by Kaiu Shirai.",
-        "cover_url":  "https://example.com/covers/the-promised-neverland.jpg"
+        "cover_url":  "https://example.com/covers/the-promised-neverland.jpg",
+        "year":  2001,
+        "rating":  7.1,
+        "popularity":  890
     },
     {
         "id":  "dr-stone",
@@ -192,7 +228,10 @@
         "status":  "completed",
         "total_chapters":  232,
         "description":  "Dr. Stone is a popular Shounen manga series by Riichiro Inagaki.",
-        "cover_url":  "https://example.com/covers/dr-stone.jpg"
+        "cover_url":  "https://example.com/covers/dr-stone.jpg",
+        "year":  2002,
+        "rating":  7.2,
+        "popularity":  880
     },
     {
         "id":  "black-clover",
@@ -207,7 +246,10 @@
         "status":  "ongoing",
         "total_chapters":  370,
         "description":  "Black Clover is a popular Shounen manga series by Yuki Tabata.",
-        "cover_url":  "https://example.com/covers/black-clover.jpg"
+        "cover_url":  "https://example.com/covers/black-clover.jpg",
+        "year":  2003,
+        "rating":  7.3,
+        "popularity":  870
     },
     {
         "id":  "chainsaw-man",
@@ -222,7 +264,10 @@
         "status":  "ongoing",
         "total_chapters":  190,
         "description":  "Chainsaw Man is a popular Shounen manga series by Tatsuki Fujimoto.",
-        "cover_url":  "https://example.com/covers/chainsaw-man.jpg"
+        "cover_url":  "https://example.com/covers/chainsaw-man.jpg",
+        "year":  2004,
+        "rating":  7.4,
+        "popularity":  860
     },
     {
         "id":  "blue-lock",
@@ -237,7 +282,10 @@
         "status":  "ongoing",
         "total_chapters":  300,
         "description":  "Blue Lock is a popular Shounen manga series by Muneyuki Kaneshiro.",
-        "cover_url":  "https://example.com/covers/blue-lock.jpg"
+        "cover_url":  "https://example.com/covers/blue-lock.jpg",
+        "year":  2005,
+        "rating":  7.5,
+        "popularity":  850
     },
     {
         "id":  "spy-x-family",
@@ -252,7 +300,10 @@
         "status":  "ongoing",
         "total_chapters":  105,
         "description":  "Spy x Family is a popular Shounen manga series by Tatsuya Endo.",
-        "cover_url":  "https://example.com/covers/spy-x-family.jpg"
+        "cover_url":  "https://example.com/covers/spy-x-family.jpg",
+        "year":  2006,
+        "rating":  7.6,
+        "popularity":  840
     },
     {
         "id":  "fairy-tail",
@@ -267,7 +318,10 @@
         "status":  "completed",
         "total_chapters":  545,
         "description":  "Fairy Tail is a popular Shounen manga series by Hiro Mashima.",
-        "cover_url":  "https://example.com/covers/fairy-tail.jpg"
+        "cover_url":  "https://example.com/covers/fairy-tail.jpg",
+        "year":  2007,
+        "rating":  7.7,
+        "popularity":  830
     },
     {
         "id":  "the-seven-deadly-sins",
@@ -282,7 +336,10 @@
         "status":  "completed",
         "total_chapters":  346,
         "description":  "The Seven Deadly Sins is a popular Shounen manga series by Nakaba Suzuki.",
-        "cover_url":  "https://example.com/covers/the-seven-deadly-sins.jpg"
+        "cover_url":  "https://example.com/covers/the-seven-deadly-sins.jpg",
+        "year":  2008,
+        "rating":  7.8,
+        "popularity":  820
     },
     {
         "id":  "gintama",
@@ -297,7 +354,10 @@
         "status":  "completed",
         "total_chapters":  704,
         "description":  "Gintama is a popular Shounen manga series by Hideaki Sorachi.",
-        "cover_url":  "https://example.com/covers/gintama.jpg"
+        "cover_url":  "https://example.com/covers/gintama.jpg",
+        "year":  2009,
+        "rating":  7.9,
+        "popularity":  810
     },
     {
         "id":  "magi",
@@ -312,7 +372,10 @@
         "status":  "completed",
         "total_chapters":  369,
         "description":  "Magi is a popular Shounen manga series by Shinobu Ohtaka.",
-        "cover_url":  "https://example.com/covers/magi.jpg"
+        "cover_url":  "https://example.com/covers/magi.jpg",
+        "year":  2010,
+        "rating":  8,
+        "popularity":  800
     },
     {
         "id":  "soul-eater",
@@ -327,7 +390,10 @@
         "status":  "completed",
         "total_chapters":  113,
         "description":  "Soul Eater is a popular Shounen manga series by Atsushi Ohkubo.",
-        "cover_url":  "https://example.com/covers/soul-eater.jpg"
+        "cover_url":  "https://example.com/covers/soul-eater.jpg",
+        "year":  2011,
+        "rating":  8.1,
+        "popularity":  790
     },
     {
         "id":  "fire-force",
@@ -342,7 +408,10 @@
         "status":  "completed",
         "total_chapters":  304,
         "description":  "Fire Force is a popular Shounen manga series by Atsushi Ohkubo.",
-        "cover_url":  "https://example.com/covers/fire-force.jpg"
+        "cover_url":  "https://example.com/covers/fire-force.jpg",
+        "year":  2012,
+        "rating":  8.2,
+        "popularity":  780
     },
     {
         "id":  "katekyo-hitman-reborn",
@@ -357,7 +426,10 @@
         "status":  "completed",
         "total_chapters":  409,
         "description":  "Katekyo Hitman Reborn! is a popular Shounen manga series by Akira Amano.",
-        "cover_url":  "https://example.com/covers/katekyo-hitman-reborn.jpg"
+        "cover_url":  "https://example.com/covers/katekyo-hitman-reborn.jpg",
+        "year":  2013,
+        "rating":  8.3,
+        "popularity":  770
     },
     {
         "id":  "assassination-classroom",
@@ -372,7 +444,10 @@
         "status":  "completed",
         "total_chapters":  180,
         "description":  "Assassination Classroom is a popular Shounen manga series by Yusei Matsui.",
-        "cover_url":  "https://example.com/covers/assassination-classroom.jpg"
+        "cover_url":  "https://example.com/covers/assassination-classroom.jpg",
+        "year":  2014,
+        "rating":  8.4,
+        "popularity":  760
     },
     {
         "id":  "fruits-basket",
@@ -387,7 +462,10 @@
         "status":  "completed",
         "total_chapters":  136,
         "description":  "Fruits Basket is a popular Shoujo manga series by Natsuki Takaya.",
-        "cover_url":  "https://example.com/covers/fruits-basket.jpg"
+        "cover_url":  "https://example.com/covers/fruits-basket.jpg",
+        "year":  2015,
+        "rating":  8.5,
+        "popularity":  750
     },
     {
         "id":  "sailor-moon",
@@ -402,7 +480,10 @@
         "status":  "completed",
         "total_chapters":  60,
         "description":  "Sailor Moon is a popular Shoujo manga series by Naoko Takeuchi.",
-        "cover_url":  "https://example.com/covers/sailor-moon.jpg"
+        "cover_url":  "https://example.com/covers/sailor-moon.jpg",
+        "year":  2016,
+        "rating":  8.6,
+        "popularity":  740
     },
     {
         "id":  "ouran-high-school-host-club",
@@ -417,7 +498,10 @@
         "status":  "completed",
         "total_chapters":  83,
         "description":  "Ouran High School Host Club is a popular Shoujo manga series by Bisco Hatori.",
-        "cover_url":  "https://example.com/covers/ouran-high-school-host-club.jpg"
+        "cover_url":  "https://example.com/covers/ouran-high-school-host-club.jpg",
+        "year":  2017,
+        "rating":  8.7,
+        "popularity":  730
     },
     {
         "id":  "cardcaptor-sakura",
@@ -432,7 +516,10 @@
         "status":  "completed",
         "total_chapters":  50,
         "description":  "Cardcaptor Sakura is a popular Shoujo manga series by CLAMP.",
-        "cover_url":  "https://example.com/covers/cardcaptor-sakura.jpg"
+        "cover_url":  "https://example.com/covers/cardcaptor-sakura.jpg",
+        "year":  2018,
+        "rating":  8.8,
+        "popularity":  720
     },
     {
         "id":  "kimi-ni-todoke",
@@ -447,7 +534,10 @@
         "status":  "completed",
         "total_chapters":  123,
         "description":  "Kimi ni Todoke is a popular Shoujo manga series by Karuho Shiina.",
-        "cover_url":  "https://example.com/covers/kimi-ni-todoke.jpg"
+        "cover_url":  "https://example.com/covers/kimi-ni-todoke.jpg",
+        "year":  2019,
+        "rating":  8.9,
+        "popularity":  710
     },
     {
         "id":  "ao-haru-ride",
@@ -462,7 +552,10 @@
         "status":  "completed",
         "total_chapters":  53,
         "description":  "Ao Haru Ride is a popular Shoujo manga series by Io Sakisaka.",
-        "cover_url":  "https://example.com/covers/ao-haru-ride.jpg"
+        "cover_url":  "https://example.com/covers/ao-haru-ride.jpg",
+        "year":  1990,
+        "rating":  9,
+        "popularity":  700
     },
     {
         "id":  "maid-sama",
@@ -477,7 +570,10 @@
         "status":  "completed",
         "total_chapters":  85,
         "description":  "Maid-Sama! is a popular Shoujo manga series by Hiro Fujiwara.",
-        "cover_url":  "https://example.com/covers/maid-sama.jpg"
+        "cover_url":  "https://example.com/covers/maid-sama.jpg",
+        "year":  1991,
+        "rating":  9.1,
+        "popularity":  690
     },
     {
         "id":  "skip-beat",
@@ -492,7 +588,10 @@
         "status":  "ongoing",
         "total_chapters":  320,
         "description":  "Skip Beat! is a popular Shoujo manga series by Yoshiki Nakamura.",
-        "cover_url":  "https://example.com/covers/skip-beat.jpg"
+        "cover_url":  "https://example.com/covers/skip-beat.jpg",
+        "year":  1992,
+        "rating":  9.2,
+        "popularity":  680
     },
     {
         "id":  "vampire-knight",
@@ -507,7 +606,10 @@
         "status":  "completed",
         "total_chapters":  93,
         "description":  "Vampire Knight is a popular Shoujo manga series by Matsuri Hino.",
-        "cover_url":  "https://example.com/covers/vampire-knight.jpg"
+        "cover_url":  "https://example.com/covers/vampire-knight.jpg",
+        "year":  1993,
+        "rating":  9.3,
+        "popularity":  670
     },
     {
         "id":  "yona-of-the-dawn",
@@ -522,7 +624,10 @@
         "status":  "ongoing",
         "total_chapters":  260,
         "description":  "Yona of the Dawn is a popular Shoujo manga series by Mizuho Kusanagi.",
-        "cover_url":  "https://example.com/covers/yona-of-the-dawn.jpg"
+        "cover_url":  "https://example.com/covers/yona-of-the-dawn.jpg",
+        "year":  1994,
+        "rating":  9.4,
+        "popularity":  660
     },
     {
         "id":  "orange",
@@ -537,7 +642,10 @@
         "status":  "completed",
         "total_chapters":  26,
         "description":  "Orange is a popular Shoujo manga series by Ichigo Takano.",
-        "cover_url":  "https://example.com/covers/orange.jpg"
+        "cover_url":  "https://example.com/covers/orange.jpg",
+        "year":  1995,
+        "rating":  9.5,
+        "popularity":  650
     },
     {
         "id":  "kamisama-kiss",
@@ -552,7 +660,10 @@
         "status":  "completed",
         "total_chapters":  149,
         "description":  "Kamisama Kiss is a popular Shoujo manga series by Julietta Suzuki.",
-        "cover_url":  "https://example.com/covers/kamisama-kiss.jpg"
+        "cover_url":  "https://example.com/covers/kamisama-kiss.jpg",
+        "year":  1996,
+        "rating":  9.6,
+        "popularity":  640
     },
     {
         "id":  "lovely-complex",
@@ -567,7 +678,10 @@
         "status":  "completed",
         "total_chapters":  68,
         "description":  "Lovely Complex is a popular Shoujo manga series by Aya Nakahara.",
-        "cover_url":  "https://example.com/covers/lovely-complex.jpg"
+        "cover_url":  "https://example.com/covers/lovely-complex.jpg",
+        "year":  1997,
+        "rating":  9.7,
+        "popularity":  630
     },
     {
         "id":  "special-a",
@@ -582,7 +696,10 @@
         "status":  "completed",
         "total_chapters":  99,
         "description":  "Special A is a popular Shoujo manga series by Maki Minami.",
-        "cover_url":  "https://example.com/covers/special-a.jpg"
+        "cover_url":  "https://example.com/covers/special-a.jpg",
+        "year":  1998,
+        "rating":  9.8,
+        "popularity":  620
     },
     {
         "id":  "itazura-na-kiss",
@@ -597,7 +714,10 @@
         "status":  "completed",
         "total_chapters":  100,
         "description":  "Itazura na Kiss is a popular Shoujo manga series by Kaoru Tada.",
-        "cover_url":  "https://example.com/covers/itazura-na-kiss.jpg"
+        "cover_url":  "https://example.com/covers/itazura-na-kiss.jpg",
+        "year":  1999,
+        "rating":  9.9,
+        "popularity":  610
     },
     {
         "id":  "boys-over-flowers",
@@ -612,7 +732,10 @@
         "status":  "completed",
         "total_chapters":  244,
         "description":  "Boys Over Flowers is a popular Shoujo manga series by Yoko Kamio.",
-        "cover_url":  "https://example.com/covers/boys-over-flowers.jpg"
+        "cover_url":  "https://example.com/covers/boys-over-flowers.jpg",
+        "year":  2000,
+        "rating":  6,
+        "popularity":  600
     },
     {
         "id":  "wolf-girl-and-black-prince",
@@ -627,7 +750,10 @@
         "status":  "completed",
         "total_chapters":  58,
         "description":  "Wolf Girl and Black Prince is a popular Shoujo manga series by Ayuko Hatta.",
-        "cover_url":  "https://example.com/covers/wolf-girl-and-black-prince.jpg"
+        "cover_url":  "https://example.com/covers/wolf-girl-and-black-prince.jpg",
+        "year":  2001,
+        "rating":  6.1,
+        "popularity":  590
     },
     {
         "id":  "say-i-love-you",
@@ -642,7 +768,10 @@
         "status":  "completed",
         "total_chapters":  72,
         "description":  "Say I Love You is a popular Shoujo manga series by Kanae Hazuki.",
-        "cover_url":  "https://example.com/covers/say-i-love-you.jpg"
+        "cover_url":  "https://example.com/covers/say-i-love-you.jpg",
+        "year":  2002,
+        "rating":  6.2,
+        "popularity":  580
     },
     {
         "id":  "my-little-monster",
@@ -657,7 +786,10 @@
         "status":  "completed",
         "total_chapters":  55,
         "description":  "My Little Monster is a popular Shoujo manga series by Robico.",
-        "cover_url":  "https://example.com/covers/my-little-monster.jpg"
+        "cover_url":  "https://example.com/covers/my-little-monster.jpg",
+        "year":  2003,
+        "rating":  6.3,
+        "popularity":  570
     },
     {
         "id":  "honey-lemon-soda",
@@ -672,7 +804,10 @@
         "status":  "ongoing",
         "total_chapters":  120,
         "description":  "Honey Lemon Soda is a popular Shoujo manga series by Mayu Murata.",
-        "cover_url":  "https://example.com/covers/honey-lemon-soda.jpg"
+        "cover_url":  "https://example.com/covers/honey-lemon-soda.jpg",
+        "year":  2004,
+        "rating":  6.4,
+        "popularity":  560
     },
     {
         "id":  "a-sign-of-affection",
@@ -687,7 +822,10 @@
         "status":  "ongoing",
         "total_chapters":  50,
         "description":  "A Sign of Affection is a popular Shoujo manga series by Suu Morishita.",
-        "cover_url":  "https://example.com/covers/a-sign-of-affection.jpg"
+        "cover_url":  "https://example.com/covers/a-sign-of-affection.jpg",
+        "year":  2005,
+        "rating":  6.5,
+        "popularity":  550
     },
     {
         "id":  "dawn-of-the-arcana",
@@ -702,7 +840,10 @@
         "status":  "completed",
         "total_chapters":  53,
         "description":  "Dawn of the Arcana is a popular Shoujo manga series by Rei Toma.",
-        "cover_url":  "https://example.com/covers/dawn-of-the-arcana.jpg"
+        "cover_url":  "https://example.com/covers/dawn-of-the-arcana.jpg",
+        "year":  2006,
+        "rating":  6.6,
+        "popularity":  540
     },
     {
         "id":  "kitchen-princess",
@@ -717,7 +858,10 @@
         "status":  "completed",
         "total_chapters":  47,
         "description":  "Kitchen Princess is a popular Shoujo manga series by Miyuki Kobayashi.",
-        "cover_url":  "https://example.com/covers/kitchen-princess.jpg"
+        "cover_url":  "https://example.com/covers/kitchen-princess.jpg",
+        "year":  2007,
+        "rating":  6.7,
+        "popularity":  530
     },
     {
         "id":  "beauty-pop",
@@ -732,7 +876,10 @@
         "status":  "completed",
         "total_chapters":  57,
         "description":  "Beauty Pop is a popular Shoujo manga series by Kiyoko Arai.",
-        "cover_url":  "https://example.com/covers/beauty-pop.jpg"
+        "cover_url":  "https://example.com/covers/beauty-pop.jpg",
+        "year":  2008,
+        "rating":  6.8,
+        "popularity":  520
     },
     {
         "id":  "fushigi-yuugi",
@@ -747,7 +894,10 @@
         "status":  "completed",
         "total_chapters":  113,
         "description":  "Fushigi Yuugi is a popular Shoujo manga series by Yuu Watase.",
-        "cover_url":  "https://example.com/covers/fushigi-yuugi.jpg"
+        "cover_url":  "https://example.com/covers/fushigi-yuugi.jpg",
+        "year":  2009,
+        "rating":  6.9,
+        "popularity":  510
     },
     {
         "id":  "strobe-edge",
@@ -762,7 +912,10 @@
         "status":  "completed",
         "total_chapters":  40,
         "description":  "Strobe Edge is a popular Shoujo manga series by Io Sakisaka.",
-        "cover_url":  "https://example.com/covers/strobe-edge.jpg"
+        "cover_url":  "https://example.com/covers/strobe-edge.jpg",
+        "year":  2010,
+        "rating":  7,
+        "popularity":  500
     },
     {
         "id":  "berserk",
@@ -777,7 +930,10 @@
         "status":  "ongoing",
         "total_chapters":  376,
         "description":  "Berserk is a popular Seinen manga series by Kentaro Miura.",
-        "cover_url":  "https://example.com/covers/berserk.jpg"
+        "cover_url":  "https://example.com/covers/berserk.jpg",
+        "year":  2011,
+        "rating":  7.1,
+        "popularity":  490
     },
     {
         "id":  "monster",
@@ -792,7 +948,10 @@
         "status":  "completed",
         "total_chapters":  162,
         "description":  "Monster is a popular Seinen manga series by Naoki Urasawa.",
-        "cover_url":  "https://example.com/covers/monster.jpg"
+        "cover_url":  "https://example.com/covers/monster.jpg",
+        "year":  2012,
+        "rating":  7.2,
+        "popularity":  480
     },
     {
         "id":  "vagabond",
@@ -807,7 +966,10 @@
         "status":  "hiatus",
         "total_chapters":  327,
         "description":  "Vagabond is a popular Seinen manga series by Takehiko Inoue.",
-        "cover_url":  "https://example.com/covers/vagabond.jpg"
+        "cover_url":  "https://example.com/covers/vagabond.jpg",
+        "year":  2013,
+        "rating":  7.3,
+        "popularity":  470
     },
     {
         "id":  "vinland-saga",
@@ -822,7 +984,10 @@
         "status":  "ongoing",
         "total_chapters":  215,
         "description":  "Vinland Saga is a popular Seinen manga series by Makoto Yukimura.",
-        "cover_url":  "https://example.com/covers/vinland-saga.jpg"
+        "cover_url":  "https://example.com/covers/vinland-saga.jpg",
+        "year":  2014,
+        "rating":  7.4,
+        "popularity":  460
     },
     {
         "id":  "kingdom",
@@ -837,7 +1002,10 @@
         "status":  "ongoing",
         "total_chapters":  800,
         "description":  "Kingdom is a popular Seinen manga series by Yasuhisa Hara.",
-        "cover_url":  "https://example.com/covers/kingdom.jpg"
+        "cover_url":  "https://example.com/covers/kingdom.jpg",
+        "year":  2015,
+        "rating":  7.5,
+        "popularity":  450
     },
     {
         "id":  "tokyo-ghoul",
@@ -852,7 +1020,10 @@
         "status":  "completed",
         "total_chapters":  179,
         "description":  "Tokyo Ghoul is a popular Seinen manga series by Sui Ishida.",
-        "cover_url":  "https://example.com/covers/tokyo-ghoul.jpg"
+        "cover_url":  "https://example.com/covers/tokyo-ghoul.jpg",
+        "year":  2016,
+        "rating":  7.6,
+        "popularity":  440
     },
     {
         "id":  "one-punch-man",
@@ -867,7 +1038,10 @@
         "status":  "ongoing",
         "total_chapters":  240,
         "description":  "One Punch Man is a popular Seinen manga series by ONE.",
-        "cover_url":  "https://example.com/covers/one-punch-man.jpg"
+        "cover_url":  "https://example.com/covers/one-punch-man.jpg",
+        "year":  2017,
+        "rating":  7.7,
+        "popularity":  430
     },
     {
         "id":  "kaguya-sama-love-is-war",
@@ -882,7 +1056,10 @@
         "status":  "completed",
         "total_chapters":  281,
         "description":  "Kaguya-sama: Love Is War is a popular Seinen manga series by Aka Akasaka.",
-        "cover_url":  "https://example.com/covers/kaguya-sama-love-is-war.jpg"
+        "cover_url":  "https://example.com/covers/kaguya-sama-love-is-war.jpg",
+        "year":  2018,
+        "rating":  7.8,
+        "popularity":  420
     },
     {
         "id":  "jojo-s-bizarre-adventure",
@@ -897,7 +1074,10 @@
         "status":  "ongoing",
         "total_chapters":  950,
         "description":  "JoJo\u0027s Bizarre Adventure is a popular Seinen manga series by Hirohiko Araki.",
-        "cover_url":  "https://example.com/covers/jojo-s-bizarre-adventure.jpg"
+        "cover_url":  "https://example.com/covers/jojo-s-bizarre-adventure.jpg",
+        "year":  2019,
+        "rating":  7.9,
+        "popularity":  410
     },
     {
         "id":  "akira",
@@ -912,7 +1092,10 @@
         "status":  "completed",
         "total_chapters":  120,
         "description":  "Akira is a popular Seinen manga series by Katsuhiro Otomo.",
-        "cover_url":  "https://example.com/covers/akira.jpg"
+        "cover_url":  "https://example.com/covers/akira.jpg",
+        "year":  1990,
+        "rating":  8,
+        "popularity":  400
     },
     {
         "id":  "ghost-in-the-shell",
@@ -927,7 +1110,10 @@
         "status":  "completed",
         "total_chapters":  70,
         "description":  "Ghost in the Shell is a popular Seinen manga series by Masamune Shirow.",
-        "cover_url":  "https://example.com/covers/ghost-in-the-shell.jpg"
+        "cover_url":  "https://example.com/covers/ghost-in-the-shell.jpg",
+        "year":  1991,
+        "rating":  8.1,
+        "popularity":  390
     },
     {
         "id":  "hellsing",
@@ -942,7 +1128,10 @@
         "status":  "completed",
         "total_chapters":  95,
         "description":  "Hellsing is a popular Seinen manga series by Kouta Hirano.",
-        "cover_url":  "https://example.com/covers/hellsing.jpg"
+        "cover_url":  "https://example.com/covers/hellsing.jpg",
+        "year":  1992,
+        "rating":  8.2,
+        "popularity":  380
     },
     {
         "id":  "parasyte",
@@ -957,7 +1146,10 @@
         "status":  "completed",
         "total_chapters":  64,
         "description":  "Parasyte is a popular Seinen manga series by Hitoshi Iwaaki.",
-        "cover_url":  "https://example.com/covers/parasyte.jpg"
+        "cover_url":  "https://example.com/covers/parasyte.jpg",
+        "year":  1993,
+        "rating":  8.3,
+        "popularity":  370
     },
     {
         "id":  "20th-century-boys",
@@ -972,7 +1164,10 @@
         "status":  "completed",
         "total_chapters":  249,
         "description":  "20th Century Boys is a popular Seinen manga series by Naoki Urasawa.",
-        "cover_url":  "https://example.com/covers/20th-century-boys.jpg"
+        "cover_url":  "https://example.com/covers/20th-century-boys.jpg",
+        "year":  1994,
+        "rating":  8.4,
+        "popularity":  360
     },
     {
         "id":  "pluto",
@@ -987,7 +1182,10 @@
         "status":  "completed",
         "total_chapters":  65,
         "description":  "Pluto is a popular Seinen manga series by Naoki Urasawa.",
-        "cover_url":  "https://example.com/covers/pluto.jpg"
+        "cover_url":  "https://example.com/covers/pluto.jpg",
+        "year":  1995,
+        "rating":  8.5,
+        "popularity":  350
     },
     {
         "id":  "golden-kamuy",
@@ -1002,7 +1200,10 @@
         "status":  "completed",
         "total_chapters":  314,
         "description":  "Golden Kamuy is a popular Seinen manga series by Satoru Noda.",
-        "cover_url":  "https://example.com/covers/golden-kamuy.jpg"
+        "cover_url":  "https://example.com/covers/golden-kamuy.jpg",
+        "year":  1996,
+        "rating":  8.6,
+        "popularity":  340
     },
     {
         "id":  "gantz",
@@ -1017,7 +1218,10 @@
         "status":  "completed",
         "total_chapters":  383,
         "description":  "Gantz is a popular Seinen manga series by Hiroya Oku.",
-        "cover_url":  "https://example.com/covers/gantz.jpg"
+        "cover_url":  "https://example.com/covers/gantz.jpg",
+        "year":  1997,
+        "rating":  8.7,
+        "popularity":  330
     },
     {
         "id":  "dorohedoro",
@@ -1032,7 +1236,10 @@
         "status":  "completed",
         "total_chapters":  190,
         "description":  "Dorohedoro is a popular Seinen manga series by Q Hayashida.",
-        "cover_url":  "https://example.com/covers/dorohedoro.jpg"
+        "cover_url":  "https://example.com/covers/dorohedoro.jpg",
+        "year":  1998,
+        "rating":  8.8,
+        "popularity":  320
     },
     {
         "id":  "blame",
@@ -1047,7 +1254,10 @@
         "status":  "completed",
         "total_chapters":  66,
         "description":  "Blame! is a popular Seinen manga series by Tsutomu Nihei.",
-        "cover_url":  "https://example.com/covers/blame.jpg"
+        "cover_url":  "https://example.com/covers/blame.jpg",
+        "year":  1999,
+        "rating":  8.9,
+        "popularity":  310
     },
     {
         "id":  "ajin-demi-human",
@@ -1062,7 +1272,10 @@
         "status":  "completed",
         "total_chapters":  86,
         "description":  "Ajin: Demi-Human is a popular Seinen manga series by Gamon Sakurai.",
-        "cover_url":  "https://example.com/covers/ajin-demi-human.jpg"
+        "cover_url":  "https://example.com/covers/ajin-demi-human.jpg",
+        "year":  2000,
+        "rating":  9,
+        "popularity":  300
     },
     {
         "id":  "terra-formars",
@@ -1077,7 +1290,10 @@
         "status":  "ongoing",
         "total_chapters":  240,
         "description":  "Terra Formars is a popular Seinen manga series by Yu Sasuga.",
-        "cover_url":  "https://example.com/covers/terra-formars.jpg"
+        "cover_url":  "https://example.com/covers/terra-formars.jpg",
+        "year":  2001,
+        "rating":  9.1,
+        "popularity":  290
     },
     {
         "id":  "prison-school",
@@ -1092,7 +1308,10 @@
         "status":  "completed",
         "total_chapters":  277,
         "description":  "Prison School is a popular Seinen manga series by Akira Hiramoto.",
-        "cover_url":  "https://example.com/covers/prison-school.jpg"
+        "cover_url":  "https://example.com/covers/prison-school.jpg",
+        "year":  2002,
+        "rating":  9.2,
+        "popularity":  280
     },
     {
         "id":  "march-comes-in-like-a-lion",
@@ -1107,7 +1326,10 @@
         "status":  "ongoing",
         "total_chapters":  210,
         "description":  "March Comes in Like a Lion is a popular Seinen manga series by Chica Umino.",
-        "cover_url":  "https://example.com/covers/march-comes-in-like-a-lion.jpg"
+        "cover_url":  "https://example.com/covers/march-comes-in-like-a-lion.jpg",
+        "year":  2003,
+        "rating":  9.3,
+        "popularity":  270
     },
     {
         "id":  "btooom",
@@ -1122,7 +1344,10 @@
         "status":  "completed",
         "total_chapters":  118,
         "description":  "Btooom! is a popular Seinen manga series by Junya Inoue.",
-        "cover_url":  "https://example.com/covers/btooom.jpg"
+        "cover_url":  "https://example.com/covers/btooom.jpg",
+        "year":  2004,
+        "rating":  9.4,
+        "popularity":  260
     },
     {
         "id":  "initial-d",
@@ -1137,7 +1362,10 @@
         "status":  "completed",
         "total_chapters":  719,
         "description":  "Initial D is a popular Seinen manga series by Shuichi Shigeno.",
-        "cover_url":  "https://example.com/covers/initial-d.jpg"
+        "cover_url":  "https://example.com/covers/initial-d.jpg",
+        "year":  2005,
+        "rating":  9.5,
+        "popularity":  250
     },
     {
         "id":  "nodame-cantabile",
@@ -1152,7 +1380,10 @@
         "status":  "completed",
         "total_chapters":  136,
         "description":  "Nodame Cantabile is a popular Josei manga series by Tomoko Ninomiya.",
-        "cover_url":  "https://example.com/covers/nodame-cantabile.jpg"
+        "cover_url":  "https://example.com/covers/nodame-cantabile.jpg",
+        "year":  2006,
+        "rating":  9.6,
+        "popularity":  240
     },
     {
         "id":  "chihayafuru",
@@ -1167,7 +1398,10 @@
         "status":  "completed",
         "total_chapters":  247,
         "description":  "Chihayafuru is a popular Josei manga series by Yuki Suetsugu.",
-        "cover_url":  "https://example.com/covers/chihayafuru.jpg"
+        "cover_url":  "https://example.com/covers/chihayafuru.jpg",
+        "year":  2007,
+        "rating":  9.7,
+        "popularity":  230
     },
     {
         "id":  "princess-jellyfish",
@@ -1182,7 +1416,10 @@
         "status":  "completed",
         "total_chapters":  84,
         "description":  "Princess Jellyfish is a popular Josei manga series by Akiko Higashimura.",
-        "cover_url":  "https://example.com/covers/princess-jellyfish.jpg"
+        "cover_url":  "https://example.com/covers/princess-jellyfish.jpg",
+        "year":  2008,
+        "rating":  9.8,
+        "popularity":  220
     },
     {
         "id":  "wotakoi-love-is-hard-for-otaku",
@@ -1197,7 +1434,10 @@
         "status":  "completed",
         "total_chapters":  86,
         "description":  "Wotakoi: Love is Hard for Otaku is a popular Josei manga series by Fujita.",
-        "cover_url":  "https://example.com/covers/wotakoi-love-is-hard-for-otaku.jpg"
+        "cover_url":  "https://example.com/covers/wotakoi-love-is-hard-for-otaku.jpg",
+        "year":  2009,
+        "rating":  9.9,
+        "popularity":  210
     },
     {
         "id":  "honey-and-clover",
@@ -1212,7 +1452,10 @@
         "status":  "completed",
         "total_chapters":  64,
         "description":  "Honey and Clover is a popular Josei manga series by Chica Umino.",
-        "cover_url":  "https://example.com/covers/honey-and-clover.jpg"
+        "cover_url":  "https://example.com/covers/honey-and-clover.jpg",
+        "year":  2010,
+        "rating":  6,
+        "popularity":  200
     },
     {
         "id":  "paradise-kiss",
@@ -1227,7 +1470,10 @@
         "status":  "completed",
         "total_chapters":  48,
         "description":  "Paradise Kiss is a popular Josei manga series by Ai Yazawa.",
-        "cover_url":  "https://example.com/covers/paradise-kiss.jpg"
+        "cover_url":  "https://example.com/covers/paradise-kiss.jpg",
+        "year":  2011,
+        "rating":  6.1,
+        "popularity":  190
     },
     {
         "id":  "nana",
@@ -1242,7 +1488,10 @@
         "status":  "hiatus",
         "total_chapters":  84,
         "description":  "Nana is a popular Josei manga series by Ai Yazawa.",
-        "cover_url":  "https://example.com/covers/nana.jpg"
+        "cover_url":  "https://example.com/covers/nana.jpg",
+        "year":  2012,
+        "rating":  6.2,
+        "popularity":  180
     },
     {
         "id":  "shouwa-genroku-rakugo-shinjuu",
@@ -1257,7 +1506,10 @@
         "status":  "completed",
         "total_chapters":  75,
         "description":  "Shouwa Genroku Rakugo Shinjuu is a popular Josei manga series by Haruko Kumota.",
-        "cover_url":  "https://example.com/covers/shouwa-genroku-rakugo-shinjuu.jpg"
+        "cover_url":  "https://example.com/covers/shouwa-genroku-rakugo-shinjuu.jpg",
+        "year":  2013,
+        "rating":  6.3,
+        "popularity":  170
     },
     {
         "id":  "ooku-the-inner-chambers",
@@ -1272,7 +1524,10 @@
         "status":  "completed",
         "total_chapters":  79,
         "description":  "Ooku: The Inner Chambers is a popular Josei manga series by Fumi Yoshinaga.",
-        "cover_url":  "https://example.com/covers/ooku-the-inner-chambers.jpg"
+        "cover_url":  "https://example.com/covers/ooku-the-inner-chambers.jpg",
+        "year":  2014,
+        "rating":  6.4,
+        "popularity":  160
     },
     {
         "id":  "tramps-like-us",
@@ -1287,7 +1542,10 @@
         "status":  "completed",
         "total_chapters":  82,
         "description":  "Tramps Like Us is a popular Josei manga series by Yayoi Ogawa.",
-        "cover_url":  "https://example.com/covers/tramps-like-us.jpg"
+        "cover_url":  "https://example.com/covers/tramps-like-us.jpg",
+        "year":  2015,
+        "rating":  6.5,
+        "popularity":  150
     },
     {
         "id":  "tokyo-tarareba-girls",
@@ -1302,7 +1560,10 @@
         "status":  "completed",
         "total_chapters":  54,
         "description":  "Tokyo Tarareba Girls is a popular Josei manga series by Akiko Higashimura.",
-        "cover_url":  "https://example.com/covers/tokyo-tarareba-girls.jpg"
+        "cover_url":  "https://example.com/covers/tokyo-tarareba-girls.jpg",
+        "year":  2016,
+        "rating":  6.6,
+        "popularity":  140
     },
     {
         "id":  "happy-mania",
@@ -1317,7 +1578,10 @@
         "status":  "completed",
         "total_chapters":  66,
         "description":  "Happy Mania is a popular Josei manga series by Moyoco Anno.",
-        "cover_url":  "https://example.com/covers/happy-mania.jpg"
+        "cover_url":  "https://example.com/covers/happy-mania.jpg",
+        "year":  2017,
+        "rating":  6.7,
+        "popularity":  130
     },
     {
         "id":  "piece-of-cake",
@@ -1332,7 +1596,10 @@
         "status":  "completed",
         "total_chapters":  25,
         "description":  "Piece of Cake is a popular Josei manga series by George Asakura.",
-        "cover_url":  "https://example.com/covers/piece-of-cake.jpg"
+        "cover_url":  "https://example.com/covers/piece-of-cake.jpg",
+        "year":  2018,
+        "rating":  6.8,
+        "popularity":  120
     },
     {
         "id":  "helter-skelter",
@@ -1347,7 +1614,10 @@
         "status":  "completed",
         "total_chapters":  9,
         "description":  "Helter Skelter is a popular Josei manga series by Kyoko Okazaki.",
-        "cover_url":  "https://example.com/covers/helter-skelter.jpg"
+        "cover_url":  "https://example.com/covers/helter-skelter.jpg",
+        "year":  2019,
+        "rating":  6.9,
+        "popularity":  110
     },
     {
         "id":  "blank-canvas",
@@ -1362,7 +1632,10 @@
         "status":  "completed",
         "total_chapters":  40,
         "description":  "Blank Canvas is a popular Josei manga series by Akiko Higashimura.",
-        "cover_url":  "https://example.com/covers/blank-canvas.jpg"
+        "cover_url":  "https://example.com/covers/blank-canvas.jpg",
+        "year":  1990,
+        "rating":  7,
+        "popularity":  100
     },
     {
         "id":  "river-s-edge",
@@ -1377,7 +1650,10 @@
         "status":  "completed",
         "total_chapters":  14,
         "description":  "River\u0027s Edge is a popular Josei manga series by Kyoko Okazaki.",
-        "cover_url":  "https://example.com/covers/river-s-edge.jpg"
+        "cover_url":  "https://example.com/covers/river-s-edge.jpg",
+        "year":  1991,
+        "rating":  7.1,
+        "popularity":  90
     },
     {
         "id":  "suppli",
@@ -1392,7 +1668,10 @@
         "status":  "completed",
         "total_chapters":  55,
         "description":  "Suppli is a popular Josei manga series by Mari Okazaki.",
-        "cover_url":  "https://example.com/covers/suppli.jpg"
+        "cover_url":  "https://example.com/covers/suppli.jpg",
+        "year":  1992,
+        "rating":  7.2,
+        "popularity":  80
     },
     {
         "id":  "gokusen",
@@ -1407,7 +1686,10 @@
         "status":  "completed",
         "total_chapters":  156,
         "description":  "Gokusen is a popular Josei manga series by Kozueko Morimoto.",
-        "cover_url":  "https://example.com/covers/gokusen.jpg"
+        "cover_url":  "https://example.com/covers/gokusen.jpg",
+        "year":  1993,
+        "rating":  7.3,
+        "popularity":  70
     },
     {
         "id":  "petshop-of-horrors",
@@ -1422,7 +1704,10 @@
         "status":  "completed",
         "total_chapters":  41,
         "description":  "Petshop of Horrors is a popular Josei manga series by Matsuri Akino.",
-        "cover_url":  "https://example.com/covers/petshop-of-horrors.jpg"
+        "cover_url":  "https://example.com/covers/petshop-of-horrors.jpg",
+        "year":  1994,
+        "rating":  7.4,
+        "popularity":  60
     },
     {
         "id":  "life-lessons-with-uramichi-oniisan",
@@ -1437,7 +1722,10 @@
         "status":  "ongoing",
         "total_chapters":  90,
         "description":  "Life Lessons with Uramichi Oniisan is a popular Josei manga series by Gaku Kuze.",
-        "cover_url":  "https://example.com/covers/life-lessons-with-uramichi-oniisan.jpg"
+        "cover_url":  "https://example.com/covers/life-lessons-with-uramichi-oniisan.jpg",
+        "year":  1995,
+        "rating":  7.5,
+        "popularity":  50
     },
     {
         "id":  "kakukaku-shikajika",
@@ -1452,7 +1740,10 @@
         "status":  "completed",
         "total_chapters":  34,
         "description":  "Kakukaku Shikajika is a popular Josei manga series by Akiko Higashimura.",
-        "cover_url":  "https://example.com/covers/kakukaku-shikajika.jpg"
+        "cover_url":  "https://example.com/covers/kakukaku-shikajika.jpg",
+        "year":  1996,
+        "rating":  7.6,
+        "popularity":  40
     },
     {
         "id":  "usotoki-rhetoric",
@@ -1467,7 +1758,10 @@
         "status":  "completed",
         "total_chapters":  50,
         "description":  "Usotoki Rhetoric is a popular Josei manga series by Miyako Ritsu.",
-        "cover_url":  "https://example.com/covers/usotoki-rhetoric.jpg"
+        "cover_url":  "https://example.com/covers/usotoki-rhetoric.jpg",
+        "year":  1997,
+        "rating":  7.7,
+        "popularity":  30
     },
     {
         "id":  "requiem-of-the-rose-king",
@@ -1482,7 +1776,10 @@
         "status":  "completed",
         "total_chapters":  102,
         "description":  "Requiem of the Rose King is a popular Josei manga series by Aya Kanno.",
-        "cover_url":  "https://example.com/covers/requiem-of-the-rose-king.jpg"
+        "cover_url":  "https://example.com/covers/requiem-of-the-rose-king.jpg",
+        "year":  1998,
+        "rating":  7.8,
+        "popularity":  20
     },
     {
         "id":  "something-s-wrong-with-us",
@@ -1497,7 +1794,10 @@
         "status":  "completed",
         "total_chapters":  105,
         "description":  "Something\u0027s Wrong With Us is a popular Josei manga series by Natsumi Ando.",
-        "cover_url":  "https://example.com/covers/something-s-wrong-with-us.jpg"
+        "cover_url":  "https://example.com/covers/something-s-wrong-with-us.jpg",
+        "year":  1999,
+        "rating":  7.9,
+        "popularity":  10
     },
     {
         "id":  "even-though-we-re-adults",
@@ -1512,7 +1812,9 @@
         "status":  "ongoing",
         "total_chapters":  70,
         "description":  "Even Though We\u0027re Adults is a popular Josei manga series by Takako Shimura.",
-        "cover_url":  "https://example.com/covers/even-though-we-re-adults.jpg"
+        "cover_url":  "https://example.com/covers/even-though-we-re-adults.jpg",
+        "year":  2000,
+        "rating":  8,
+        "popularity":  0
     }
 ]
-

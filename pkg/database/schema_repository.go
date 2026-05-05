@@ -25,10 +25,34 @@ func (s *Store) InitSchema(ctx context.Context) error {
 		author TEXT NOT NULL,
 		genres TEXT NOT NULL,
 		status TEXT NOT NULL,
+		year INTEGER NOT NULL DEFAULT 0,
+		rating REAL NOT NULL DEFAULT 0,
+		popularity INTEGER NOT NULL DEFAULT 0,
 		total_chapters INTEGER NOT NULL,
 		description TEXT NOT NULL,
 		cover_url TEXT NOT NULL
 	);
+	CREATE VIRTUAL TABLE IF NOT EXISTS manga_fts USING fts5(
+		title,
+		author,
+		description,
+		content='manga',
+		content_rowid='rowid'
+	);
+	CREATE TRIGGER IF NOT EXISTS manga_ai AFTER INSERT ON manga BEGIN
+		INSERT INTO manga_fts(rowid, title, author, description)
+		VALUES (new.rowid, new.title, new.author, new.description);
+	END;
+	CREATE TRIGGER IF NOT EXISTS manga_ad AFTER DELETE ON manga BEGIN
+		INSERT INTO manga_fts(manga_fts, rowid, title, author, description)
+		VALUES('delete', old.rowid, old.title, old.author, old.description);
+	END;
+	CREATE TRIGGER IF NOT EXISTS manga_au AFTER UPDATE ON manga BEGIN
+		INSERT INTO manga_fts(manga_fts, rowid, title, author, description)
+		VALUES('delete', old.rowid, old.title, old.author, old.description);
+		INSERT INTO manga_fts(rowid, title, author, description)
+		VALUES (new.rowid, new.title, new.author, new.description);
+	END;
 
 	CREATE TABLE IF NOT EXISTS user_progress (
 		user_id TEXT NOT NULL,
@@ -94,6 +118,12 @@ func (s *Store) InitSchema(ctx context.Context) error {
 		return err
 	}
 	if err := s.ensureUserProgressColumns(ctx); err != nil {
+		return err
+	}
+	if err := s.ensureMangaColumns(ctx); err != nil {
+		return err
+	}
+	if err := s.rebuildMangaFTS(ctx); err != nil {
 		return err
 	}
 
@@ -202,6 +232,68 @@ func (s *Store) ensureUserProgressColumns(ctx context.Context) error {
 	return nil
 }
 
+func (s *Store) ensureMangaColumns(ctx context.Context) error {
+	rows, err := s.db.QueryContext(ctx, `PRAGMA table_info(manga)`)
+	if err != nil {
+		return fmt.Errorf("inspect manga schema: %w", err)
+	}
+	defer rows.Close()
+
+	hasYear := false
+	hasRating := false
+	hasPopularity := false
+	for rows.Next() {
+		var (
+			cid        int
+			name       string
+			columnType string
+			notNull    int
+			defaultVal any
+			pk         int
+		)
+		if err := rows.Scan(&cid, &name, &columnType, &notNull, &defaultVal, &pk); err != nil {
+			return fmt.Errorf("scan manga schema: %w", err)
+		}
+		switch name {
+		case "year":
+			hasYear = true
+		case "rating":
+			hasRating = true
+		case "popularity":
+			hasPopularity = true
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return fmt.Errorf("iterate manga schema: %w", err)
+	}
+
+	if !hasYear {
+		if _, err := s.db.ExecContext(ctx, `ALTER TABLE manga ADD COLUMN year INTEGER NOT NULL DEFAULT 0`); err != nil {
+			return fmt.Errorf("add manga.year column: %w", err)
+		}
+	}
+	if !hasRating {
+		if _, err := s.db.ExecContext(ctx, `ALTER TABLE manga ADD COLUMN rating REAL NOT NULL DEFAULT 0`); err != nil {
+			return fmt.Errorf("add manga.rating column: %w", err)
+		}
+	}
+	if !hasPopularity {
+		if _, err := s.db.ExecContext(ctx, `ALTER TABLE manga ADD COLUMN popularity INTEGER NOT NULL DEFAULT 0`); err != nil {
+			return fmt.Errorf("add manga.popularity column: %w", err)
+		}
+	}
+
+	return nil
+}
+
+func (s *Store) rebuildMangaFTS(ctx context.Context) error {
+	_, err := s.db.ExecContext(ctx, `INSERT INTO manga_fts(manga_fts) VALUES('rebuild')`)
+	if err != nil {
+		return fmt.Errorf("rebuild manga fts: %w", err)
+	}
+	return nil
+}
+
 func (s *Store) SeedMangaFromJSON(ctx context.Context, path string) error {
 	var count int
 	if err := s.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM manga`).Scan(&count); err != nil {
@@ -238,13 +330,16 @@ func (s *Store) InsertManga(ctx context.Context, manga models.Manga) error {
 
 	_, err = s.db.ExecContext(
 		ctx,
-		`INSERT OR REPLACE INTO manga (id, title, author, genres, status, total_chapters, description, cover_url)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+		`INSERT OR REPLACE INTO manga (id, title, author, genres, status, year, rating, popularity, total_chapters, description, cover_url)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 		manga.ID,
 		manga.Title,
 		manga.Author,
 		string(genres),
 		manga.Status,
+		manga.Year,
+		manga.Rating,
+		manga.Popularity,
 		manga.TotalChapters,
 		manga.Description,
 		manga.CoverURL,
