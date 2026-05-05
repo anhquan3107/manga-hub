@@ -13,6 +13,9 @@ type MangaItem struct {
 	Author        string   `json:"author"`
 	Genres        []string `json:"genres"`
 	Status        string   `json:"status"`
+	Year          int      `json:"year"`
+	Rating        float64  `json:"rating"`
+	Popularity    int      `json:"popularity"`
 	TotalChapters int      `json:"total_chapters"`
 	Description   string   `json:"description"`
 	CoverURL      string   `json:"cover_url"`
@@ -65,7 +68,21 @@ func printMangaDetail(manga MangaItem) {
 		fmt.Println(" Genres: -")
 	}
 	fmt.Printf(" Status: %s\n", shared.NonEmpty(strings.Title(manga.Status), "-"))
-	fmt.Println(" Year: -")
+	if manga.Year > 0 {
+		fmt.Printf(" Year: %d\n", manga.Year)
+	} else {
+		fmt.Println(" Year: -")
+	}
+	if manga.Rating > 0 {
+		fmt.Printf(" Rating: %.1f\n", manga.Rating)
+	} else {
+		fmt.Println(" Rating: -")
+	}
+	if manga.Popularity > 0 {
+		fmt.Printf(" Popularity: %s\n", shared.FormatNumber(manga.Popularity))
+	} else {
+		fmt.Println(" Popularity: -")
+	}
 
 	fmt.Println("Progress:")
 	if manga.TotalChapters > 0 {

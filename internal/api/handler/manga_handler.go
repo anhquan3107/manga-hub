@@ -14,11 +14,34 @@ import (
 
 func (h *Handler) ListManga(c *gin.Context) {
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "20"))
+	yearMin, _ := strconv.Atoi(c.DefaultQuery("year_min", "0"))
+	yearMax, _ := strconv.Atoi(c.DefaultQuery("year_max", "0"))
+	ratingMin, _ := strconv.ParseFloat(c.DefaultQuery("rating_min", "0"), 64)
+
+	genresParam := strings.TrimSpace(c.Query("genres"))
+	genres := make([]string, 0)
+	if genresParam != "" {
+		for _, genre := range strings.Split(genresParam, ",") {
+			genre = strings.TrimSpace(genre)
+			if genre != "" {
+				genres = append(genres, genre)
+			}
+		}
+	}
+	if genre := strings.TrimSpace(c.Query("genre")); genre != "" {
+		genres = append(genres, genre)
+	}
+
 	items, err := h.mangaService.List(c.Request.Context(), models.MangaQuery{
-		Query:  c.Query("q"),
-		Genre:  c.Query("genre"),
-		Status: c.Query("status"),
-		Limit:  limit,
+		Query: c.Query("q"),
+		Filters: models.SearchFilters{
+			Genres:    genres,
+			Status:    c.Query("status"),
+			YearRange: [2]int{yearMin, yearMax},
+			Rating:    ratingMin,
+			SortBy:    c.Query("sort"),
+		},
+		Limit: limit,
 	})
 	if err != nil {
 		log.Printf("list manga error: %v", err)
