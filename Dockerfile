@@ -34,16 +34,6 @@ COPY --from=builder /app/bin/* /usr/local/bin/
 # Create data directory
 RUN mkdir -p /app/data
 
-# Default environment variables
-ENV HTTP_ADDR=:8080 \
-    TCP_ADDR=:9090 \
-    UDP_ADDR=:9091 \
-    GRPC_ADDR=:9092 \
-    DB_PATH=/app/data/mangahub.db \
-    SEED_FILE=/app/data/manga.sample.json \
-    JWT_SECRET=change-this-secret \
-    ALLOWED_ORIGIN=*
-
 # Copy seed data if exists
 COPY --from=builder /app/data/manga.sample.json /app/data/manga.sample.json
 
