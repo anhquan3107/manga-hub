@@ -11,6 +11,17 @@ import (
 	"mangahub/pkg/utils"
 )
 
+// Register godoc
+// @Summary Register account
+// @Description Creates a new user account and returns JWT token.
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param body body models.RegisterRequest true "Register payload"
+// @Success 201 {object} authResponse
+// @Failure 400 {object} errorResponse
+// @Failure 409 {object} errorResponse
+// @Router /auth/register [post]
 func (h *Handler) Register(c *gin.Context) {
 	var req models.RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -31,6 +42,17 @@ func (h *Handler) Register(c *gin.Context) {
 	utils.OK(c, http.StatusCreated, resp)
 }
 
+// Login godoc
+// @Summary Login
+// @Description Authenticates a user and returns JWT token.
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param body body models.LoginRequest true "Login payload"
+// @Success 200 {object} authResponse
+// @Failure 400 {object} errorResponse
+// @Failure 401 {object} errorResponse
+// @Router /auth/login [post]
 func (h *Handler) Login(c *gin.Context) {
 	var req models.LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -47,6 +69,15 @@ func (h *Handler) Login(c *gin.Context) {
 	utils.OK(c, http.StatusOK, resp)
 }
 
+// Logout godoc
+// @Summary Logout
+// @Description Revokes current JWT token.
+// @Tags auth
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} messageResponse
+// @Failure 401 {object} errorResponse
+// @Router /auth/logout [post]
 func (h *Handler) Logout(c *gin.Context) {
 	rawToken, ok := c.Get("token")
 	if !ok {
@@ -68,6 +99,18 @@ func (h *Handler) Logout(c *gin.Context) {
 	utils.OK(c, http.StatusOK, gin.H{"message": "logged out"})
 }
 
+// ChangePassword godoc
+// @Summary Change password
+// @Description Changes current user password and revokes current token.
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param body body models.ChangePasswordRequest true "Change password payload"
+// @Success 200 {object} messageResponse
+// @Failure 400 {object} errorResponse
+// @Failure 401 {object} errorResponse
+// @Router /auth/change-password [post]
 func (h *Handler) ChangePassword(c *gin.Context) {
 	var req models.ChangePasswordRequest
 	if err := c.ShouldBindJSON(&req); err != nil {

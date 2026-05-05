@@ -37,6 +37,14 @@ func (h *Handler) Chat(c *gin.Context) {
 }
 
 // RoomsUsers returns online users grouped by room.
+// @Summary List online room users
+// @Description Returns online users grouped by room.
+// @Tags chat
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} roomsUsersResponse
+// @Failure 401 {object} errorResponse
+// @Router /rooms/users [get]
 func (h *Handler) RoomsUsers(c *gin.Context) {
 	allRooms := h.hub.GetAllRoomUsers()
 	roomIDs := make([]string, 0, len(allRooms))
@@ -68,6 +76,16 @@ func (h *Handler) RoomsUsers(c *gin.Context) {
 }
 
 // RoomUsers returns the list of users currently connected to a room
+// @Summary List online users in room
+// @Description Returns users currently connected to the target room.
+// @Tags chat
+// @Produce json
+// @Security BearerAuth
+// @Param room path string true "Room ID"
+// @Success 200 {object} roomUsersResponse
+// @Failure 400 {object} errorResponse
+// @Failure 401 {object} errorResponse
+// @Router /rooms/{room}/users [get]
 func (h *Handler) RoomUsers(c *gin.Context) {
 	roomID := c.Param("room")
 	if strings.TrimSpace(roomID) == "" {
@@ -89,6 +107,18 @@ func (h *Handler) RoomUsers(c *gin.Context) {
 }
 
 // RoomHistory returns recent messages for a room.
+// @Summary Get room history
+// @Description Returns recent chat messages for a room.
+// @Tags chat
+// @Produce json
+// @Security BearerAuth
+// @Param room path string true "Room ID"
+// @Param limit query int false "Max messages (1-200)"
+// @Success 200 {object} roomHistoryResponse
+// @Failure 400 {object} errorResponse
+// @Failure 401 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /rooms/{room}/history [get]
 func (h *Handler) RoomHistory(c *gin.Context) {
 	roomID := c.Param("room")
 	if strings.TrimSpace(roomID) == "" {
@@ -123,6 +153,16 @@ func (h *Handler) RoomHistory(c *gin.Context) {
 	utils.OK(c, http.StatusOK, gin.H{"room": roomID, "limit": limit, "messages": messages})
 }
 
+// GetMe godoc
+// @Summary Get current user
+// @Description Returns profile of authenticated user.
+// @Tags users
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} models.User
+// @Failure 401 {object} errorResponse
+// @Failure 404 {object} errorResponse
+// @Router /users/me [get]
 func (h *Handler) GetMe(c *gin.Context) {
 	userID := currentUserID(c)
 	if userID == "" {
@@ -139,6 +179,20 @@ func (h *Handler) GetMe(c *gin.Context) {
 	utils.OK(c, http.StatusOK, user)
 }
 
+// AddToLibrary godoc
+// @Summary Add manga to library
+// @Description Adds or upserts a manga library entry for the authenticated user.
+// @Tags users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param body body models.AddLibraryRequest true "Add library payload"
+// @Success 201 {object} models.LibraryEntry
+// @Failure 400 {object} errorResponse
+// @Failure 401 {object} errorResponse
+// @Failure 404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /users/library [post]
 func (h *Handler) AddToLibrary(c *gin.Context) {
 	var req models.AddLibraryRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -159,6 +213,16 @@ func (h *Handler) AddToLibrary(c *gin.Context) {
 	utils.OK(c, http.StatusCreated, entry)
 }
 
+// GetLibrary godoc
+// @Summary Get user library
+// @Description Returns current user's library and grouped reading lists.
+// @Tags users
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} libraryResponse
+// @Failure 401 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /users/library [get]
 func (h *Handler) GetLibrary(c *gin.Context) {
 	items, err := h.userService.GetLibrary(c.Request.Context(), currentUserID(c))
 	if err != nil {
@@ -172,6 +236,18 @@ func (h *Handler) GetLibrary(c *gin.Context) {
 	})
 }
 
+// UpdateProgress godoc
+// @Summary Update reading progress
+// @Description Updates chapter/volume progress for a manga in user's library.
+// @Tags users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param body body models.UpdateProgressRequest true "Progress payload"
+// @Success 200 {object} progressUpdateResponse
+// @Failure 400 {object} errorResponse
+// @Failure 401 {object} errorResponse
+// @Router /users/progress [put]
 func (h *Handler) UpdateProgress(c *gin.Context) {
 	var req models.UpdateProgressRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -208,6 +284,17 @@ func (h *Handler) UpdateProgress(c *gin.Context) {
 	})
 }
 
+// GetProgressHistory godoc
+// @Summary Get progress history
+// @Description Returns progress update history for the authenticated user.
+// @Tags users
+// @Produce json
+// @Security BearerAuth
+// @Param manga_id query string false "Filter by manga ID"
+// @Success 200 {object} progressHistoryResponse
+// @Failure 401 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /users/progress/history [get]
 func (h *Handler) GetProgressHistory(c *gin.Context) {
 	mangaID := strings.TrimSpace(c.Query("manga_id"))
 	items, err := h.userService.GetProgressHistory(c.Request.Context(), currentUserID(c), mangaID)
@@ -219,6 +306,19 @@ func (h *Handler) GetProgressHistory(c *gin.Context) {
 	utils.OK(c, http.StatusOK, gin.H{"items": items})
 }
 
+// RemoveFromLibrary godoc
+// @Summary Remove from library
+// @Description Removes manga from the authenticated user's library.
+// @Tags users
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Manga ID"
+// @Success 200 {object} messageResponse
+// @Failure 400 {object} errorResponse
+// @Failure 401 {object} errorResponse
+// @Failure 404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /users/library/{id} [delete]
 func (h *Handler) RemoveFromLibrary(c *gin.Context) {
 	mangaID := c.Param("id")
 	if strings.TrimSpace(mangaID) == "" {
@@ -238,6 +338,21 @@ func (h *Handler) RemoveFromLibrary(c *gin.Context) {
 	utils.OK(c, http.StatusOK, gin.H{"message": "removed"})
 }
 
+// UpdateLibrary godoc
+// @Summary Update library entry
+// @Description Updates status/rating for a manga in authenticated user's library.
+// @Tags users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Manga ID"
+// @Param body body models.UpdateLibraryRequest true "Update library payload"
+// @Success 200 {object} models.LibraryEntry
+// @Failure 400 {object} errorResponse
+// @Failure 401 {object} errorResponse
+// @Failure 404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /users/library/{id} [put]
 func (h *Handler) UpdateLibrary(c *gin.Context) {
 	mangaID := c.Param("id")
 	if strings.TrimSpace(mangaID) == "" {
@@ -296,6 +411,19 @@ func buildReadingLists(items []models.LibraryEntry) gin.H {
 }
 
 // SendPM sends a private message to another user.
+// @Summary Send private message
+// @Description Sends a private message to another user.
+// @Tags chat
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param body body models.SendPMRequest true "Private message payload"
+// @Success 201 {object} messageResponse
+// @Failure 400 {object} errorResponse
+// @Failure 401 {object} errorResponse
+// @Failure 404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Router /users/pm [post]
 func (h *Handler) SendPM(c *gin.Context) {
 	if h.chatService == nil {
 		utils.Error(c, http.StatusServiceUnavailable, "chat service unavailable")

@@ -197,4 +197,10 @@ mangahub notify test --manga-id <manga_id>
 - The CLI is designed to work with the current session-scoped token storage so multiple terminals can stay authenticated independently
 - Environment-based configuration is supported through `.env` and `.env.example`
 
+## API Documentation
+
+Swagger UI is available when the API server is running:
+
+- `http://localhost:8080/swagger/index.html`
+
 

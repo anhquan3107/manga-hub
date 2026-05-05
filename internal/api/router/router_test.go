@@ -9,6 +9,7 @@ import (
 	"net/http/httptest"
 	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -453,6 +454,8 @@ func TestRESTAPIAdditionalCoverage(t *testing.T) {
 		t.Fatalf("expected 401 for revoked token after password change, got %d", oldTokenAfterPasswordChange.Code)
 	}
 
+	// JWT claims use second-level timestamps; wait to guarantee a new token value.
+	time.Sleep(1100 * time.Millisecond)
 	newToken := loginAndGetToken(t, router, "alice2", "newsecret123")
 	meWithNewToken := performJSONRequest(t, router, http.MethodGet, "/users/me", nil, newToken)
 	if meWithNewToken.Code != http.StatusOK {

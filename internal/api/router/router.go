@@ -2,6 +2,8 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	handler "mangahub/internal/api/handler"
 	"mangahub/internal/api/middleware"
@@ -34,6 +36,7 @@ func NewRouter(
 	})
 
 	router.GET("/health", h.Health)
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	router.POST("/auth/register", h.Register)
 	router.POST("/auth/login", h.Login)
 	router.POST("/auth/logout", auth.Middleware(authService), h.Logout)
