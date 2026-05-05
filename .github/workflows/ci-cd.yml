@@ -28,7 +28,7 @@ jobs:
         run: go mod verify
 
       - name: Run Tests
-        run: go test -v -race ./...
+        run: GOFLAGS=-tags=sqlite_fts5 go test -v -race ./...
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v6
