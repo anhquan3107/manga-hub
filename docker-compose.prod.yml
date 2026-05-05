@@ -1,0 +1,46 @@
+services:
+  http:
+    image: ghcr.io/anhquan3107/manga-hub:latest
+    command: api-server
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - mangahub-data:/app/data
+    restart: unless-stopped
+
+  tcp:
+    image: ghcr.io/anhquan3107/manga-hub:latest
+    command: tcp-server
+    env_file:
+      - .env
+    ports:
+      - "9090:9090"
+    volumes:
+      - mangahub-data:/app/data
+    restart: unless-stopped
+
+  udp:
+    image: ghcr.io/anhquan3107/manga-hub:latest
+    command: udp-server
+    env_file:
+      - .env
+    ports:
+      - "9091:9091/udp"
+    restart: unless-stopped
+
+  grpc:
+    image: ghcr.io/anhquan3107/manga-hub:latest
+    command: grpc-server
+    env_file:
+      - .env
+    ports:
+      - "9092:9092"
+    volumes:
+      - mangahub-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  mangahub-data:
+    driver: local
