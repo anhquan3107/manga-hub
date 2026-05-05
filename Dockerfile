@@ -3,6 +3,9 @@ FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
+# Enable SQLite FTS5 for full-text search support
+ENV GOFLAGS=-tags=sqlite_fts5
+
 # Install build dependencies
 RUN apk add --no-cache gcc musl-dev
 
