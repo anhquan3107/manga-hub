@@ -76,7 +76,10 @@ func HandleProgress(args []string) {
 		flags.IntVar(&volume, "volume", 0, "Volume number (optional)")
 		flags.StringVar(&notes, "notes", "", "Notes about this progress update")
 		flags.BoolVar(&force, "force", false, "Allow backwards progress updates")
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		if mangaID == "" || chapter == 0 {
 			fmt.Println("--manga-id and --chapter required")
@@ -145,7 +148,10 @@ func HandleProgress(args []string) {
 		var mangaID string
 		flags := flag.NewFlagSet("progress history", flag.ExitOnError)
 		flags.StringVar(&mangaID, "manga-id", "", "ID of manga (optional)")
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		u, _ := url.Parse(shared.APIURL("/users/progress/history"))
 		if mangaID != "" {
@@ -200,7 +206,10 @@ func HandleProgress(args []string) {
 		var userID string
 		flags := flag.NewFlagSet("progress sync", flag.ExitOnError)
 		flags.StringVar(&userID, "user-id", "", "Your user ID (from auth token)")
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		if userID == "" {
 			userID = "default-user"
