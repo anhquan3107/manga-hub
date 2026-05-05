@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	shared "mangahub/cmd/cli/commands/shared"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type historyMessage struct {
@@ -21,7 +23,7 @@ func chatRoomLabel(roomID string) string {
 	if roomID == "general" {
 		return "General Chat"
 	}
-	return fmt.Sprintf("%s Discussion", strings.Title(roomID))
+	return fmt.Sprintf("%s Discussion", cases.Title(language.English).String(roomID))
 }
 
 func fetchRoomHistory(roomID string, limit int) ([]historyMessage, error) {

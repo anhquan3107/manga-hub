@@ -16,6 +16,9 @@ import (
 	"time"
 
 	"mangahub/pkg/models"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 const (
@@ -365,7 +368,7 @@ func fetchMangaDexByDemographic(ctx context.Context, client *http.Client, demogr
 		}
 
 		tags := extractTagNames(item.Attributes)
-		tags = append(tags, strings.Title(demographic))
+		tags = append(tags, cases.Title(language.English).String(demographic))
 
 		results = append(results, models.Manga{
 			ID:            item.ID,
@@ -629,25 +632,6 @@ func uniqueNonEmpty(items []string) []string {
 		out = append(out, normalized)
 	}
 	return out
-}
-
-func slugify(input string) string {
-	input = strings.ToLower(strings.TrimSpace(input))
-	replacer := strings.NewReplacer(
-		" ", "-",
-		"_", "-",
-		"'", "",
-		"\"", "",
-		".", "",
-		",", "",
-		":", "",
-		";", "",
-		"/", "-",
-		"&", "and",
-		"(", "",
-		")", "",
-	)
-	return replacer.Replace(input)
 }
 
 func trimTo(input string, limit int) string {

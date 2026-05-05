@@ -37,8 +37,8 @@ func TestListMangaReturnsAllManga(t *testing.T) {
 		CoverURL:      "http://example.com/dn.jpg",
 	}
 
-	store.InsertManga(ctx, manga1)
-	store.InsertManga(ctx, manga2)
+	mustInsertManga(t, store, ctx, manga1)
+	mustInsertManga(t, store, ctx, manga2)
 
 	list, err := service.List(ctx, models.MangaQuery{})
 	if err != nil {
@@ -66,7 +66,7 @@ func TestGetByIDReturnsSpecificManga(t *testing.T) {
 		Description:   "Pirates seeking treasure",
 		CoverURL:      "http://example.com/op.jpg",
 	}
-	store.InsertManga(ctx, manga)
+	mustInsertManga(t, store, ctx, manga)
 
 	result, err := service.GetByID(ctx, "manga-1")
 	if err != nil {
@@ -241,4 +241,11 @@ func setupMangaTest(t *testing.T) (*database.Store, *Service) {
 
 	service := NewService(store)
 	return store, service
+}
+
+func mustInsertManga(t *testing.T, store *database.Store, ctx context.Context, manga models.Manga) {
+	t.Helper()
+	if err := store.InsertManga(ctx, manga); err != nil {
+		t.Fatalf("InsertManga returned error: %v", err)
+	}
 }

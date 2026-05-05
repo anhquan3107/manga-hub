@@ -42,7 +42,6 @@ type Session struct {
 var (
 	tcpConn       net.Conn
 	tcpAddr       = shared.TCPAddr()
-	sessionID     string
 	connectedAt   time.Time
 	lastHeartbeat time.Time
 	messagesSent  int
@@ -62,7 +61,10 @@ func HandleSync(args []string) {
 	case "connect":
 		var userID string
 		flags.StringVar(&userID, "user-id", "", "Your user ID (from auth token)")
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		if userID == "" {
 			userID = "default-user"
@@ -75,7 +77,10 @@ func HandleSync(args []string) {
 	case "disconnect":
 		var userID string
 		flags.StringVar(&userID, "user-id", "", "User ID")
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		if userID == "" {
 			fmt.Println("Please provide --user-id")
@@ -90,7 +95,10 @@ func HandleSync(args []string) {
 		fmt.Println("✓ Disconnect request sent")
 
 	case "status":
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		fmt.Println("TCP Sync Status:")
 
@@ -122,7 +130,14 @@ func HandleSync(args []string) {
 		data, err := os.ReadFile(".sync_session")
 		if err == nil {
 			var s Session
-			json.Unmarshal(data, &s)
+			if err := json.Unmarshal(data, &s); err != nil {
+				fmt.Println(" Session ID: (invalid session file)")
+				fmt.Println()
+				fmt.Println("Sync Statistics:")
+				fmt.Printf(" Messages sent: %d\n", messagesSent)
+				fmt.Printf(" Messages received: %d\n", messagesRecv)
+				return
+			}
 
 			fmt.Printf(" Session ID: %s\n", s.SessionID)
 
@@ -138,7 +153,10 @@ func HandleSync(args []string) {
 		fmt.Printf(" Messages received: %d\n", messagesRecv)
 
 	case "monitor":
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 		fmt.Println("Monitoring real-time progress updates... (Press CTRL+C to exit)")
 		if err := syncMonitor(); err != nil {
 			fmt.Printf("Monitoring error: %v\n", err)
@@ -162,7 +180,11 @@ func syncConnect(userID string) error {
 		Type:   "hello",
 		UserID: userID,
 	}
-	data, _ := json.Marshal(hello)
+	data, err := json.Marshal(hello)
+	if err != nil {
+		conn.Close()
+		return fmt.Errorf("failed to encode hello: %w", err)
+	}
 	if _, err := conn.Write(append(data, '\n')); err != nil {
 		conn.Close()
 		return fmt.Errorf("failed to send hello: %w", err)
@@ -187,13 +209,16 @@ func syncConnect(userID string) error {
 	}
 
 	tcpConn = conn
-	sessionID = resp.SessionID
 	connectedAt = time.Unix(resp.ConnectedAt, 0)
 	session := Session{
 		SessionID:   resp.SessionID,
 		ConnectedAt: resp.ConnectedAt,
 	}
-	data, _ = json.Marshal(session)
+	data, err = json.Marshal(session)
+	if err != nil {
+		conn.Close()
+		return fmt.Errorf("failed to encode session: %w", err)
+	}
 	_ = os.WriteFile(".sync_session", data, 0644)
 	lastHeartbeat = time.Now()
 	messagesRecv++
@@ -242,7 +267,10 @@ func syncPing() error {
 		RequestID: fmt.Sprintf("ping-%d", time.Now().Unix()),
 	}
 
-	data, _ := json.Marshal(ping)
+	data, err := json.Marshal(ping)
+	if err != nil {
+		return err
+	}
 	if _, err := tcpConn.Write(append(data, '\n')); err != nil {
 		return err
 	}
@@ -285,8 +313,13 @@ func syncMonitor() error {
 		Type:   "hello",
 		UserID: "monitor-user",
 	}
-	data, _ := json.Marshal(hello)
-	conn.Write(append(data, '\n'))
+	data, err := json.Marshal(hello)
+	if err != nil {
+		return err
+	}
+	if _, err := conn.Write(append(data, '\n')); err != nil {
+		return err
+	}
 
 	scanner := bufio.NewScanner(conn)
 
@@ -330,15 +363,23 @@ func syncDisconnect(userID string) error {
 		Type:   "hello",
 		UserID: userID,
 	}
-	data, _ := json.Marshal(hello)
-	conn.Write(append(data, '\n'))
+	data, err := json.Marshal(hello)
+	if err != nil {
+		return err
+	}
+	if _, err := conn.Write(append(data, '\n')); err != nil {
+		return err
+	}
 
 	// send disconnect message
 	msg := tcpMessage{
 		Type:   "disconnect",
 		UserID: userID,
 	}
-	data, _ = json.Marshal(msg)
+	data, err = json.Marshal(msg)
+	if err != nil {
+		return err
+	}
 	_, err = conn.Write(append(data, '\n'))
 	return err
 }

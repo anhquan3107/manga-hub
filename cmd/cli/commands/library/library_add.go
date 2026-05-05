@@ -17,7 +17,10 @@ func libraryAdd(args []string) {
 	flags.StringVar(&mangaID, "manga-id", "", "ID of manga to add")
 	flags.StringVar(&status, "status", "reading", "Status (reading/completed/plan-to-read/on-hold/dropped)")
 	flags.IntVar(&rating, "rating", 0, "Optional rating (1-10)")
-	flags.Parse(args)
+	if err := flags.Parse(args); err != nil {
+		fmt.Println("Error parsing flags:", err)
+		return
+	}
 
 	if mangaID == "" {
 		fmt.Println("--manga-id required")

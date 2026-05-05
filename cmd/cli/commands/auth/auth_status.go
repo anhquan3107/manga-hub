@@ -40,7 +40,9 @@ func handleStatus() {
 	req2.Header.Set("Authorization", "Bearer "+token)
 	resp2, err := http.DefaultClient.Do(req2)
 	if err == nil && resp2.StatusCode == 200 {
-		json.NewDecoder(resp2.Body).Decode(&userInfo)
+		if decodeErr := json.NewDecoder(resp2.Body).Decode(&userInfo); decodeErr != nil {
+			fmt.Println("⚠ Could not decode user info")
+		}
 		resp2.Body.Close()
 	}
 	fmt.Println("✓ Logged in")

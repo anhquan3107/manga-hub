@@ -16,7 +16,10 @@ func HandleAuth(args []string) {
 	var username, email string
 	flags.StringVar(&username, "username", "", "Your username")
 	flags.StringVar(&email, "email", "", "Email address")
-	flags.Parse(args[1:])
+	if err := flags.Parse(args[1:]); err != nil {
+		fmt.Println("Error parsing flags:", err)
+		return
+	}
 
 	switch subCmd {
 	case "register":

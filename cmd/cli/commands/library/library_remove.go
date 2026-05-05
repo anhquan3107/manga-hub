@@ -12,7 +12,10 @@ func libraryRemove(args []string) {
 	var mangaID string
 	flags := flag.NewFlagSet("library remove", flag.ExitOnError)
 	flags.StringVar(&mangaID, "manga-id", "", "ID of manga to remove")
-	flags.Parse(args)
+	if err := flags.Parse(args); err != nil {
+		fmt.Println("Error parsing flags:", err)
+		return
+	}
 
 	if mangaID == "" {
 		fmt.Println("--manga-id required")

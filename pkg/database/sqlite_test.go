@@ -34,7 +34,7 @@ func TestGetUserByID(t *testing.T) {
 	defer store.Close()
 
 	ctx := context.Background()
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
 
 	user, err := store.GetUserByID(ctx, "user-1")
 	if err != nil {
@@ -51,7 +51,7 @@ func TestGetUserByUsername(t *testing.T) {
 	defer store.Close()
 
 	ctx := context.Background()
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
 
 	user, err := store.GetUserByUsername(ctx, "alice")
 	if err != nil {
@@ -111,7 +111,7 @@ func TestListMangaReturnsAllRecords(t *testing.T) {
 			Author: "Author",
 			Status: "ongoing",
 		}
-		store.InsertManga(ctx, manga)
+		mustInsertManga(t, store, ctx, manga)
 	}
 
 	list, err := store.ListManga(ctx, models.MangaQuery{})
@@ -138,7 +138,7 @@ func TestUpdateMangaModifiesRecord(t *testing.T) {
 		Status:        "ongoing",
 		TotalChapters: 100,
 	}
-	store.InsertManga(ctx, manga)
+	mustInsertManga(t, store, ctx, manga)
 
 	// Update
 	updated := models.Manga{
@@ -174,7 +174,7 @@ func TestDeleteMangaRemovesRecord(t *testing.T) {
 		Author: "Author",
 		Status: "ongoing",
 	}
-	store.InsertManga(ctx, manga)
+	mustInsertManga(t, store, ctx, manga)
 
 	err := store.DeleteMangaByID(ctx, "manga-1")
 	if err != nil {
@@ -194,8 +194,8 @@ func TestUpsertLibraryEntryCreatesNewEntry(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Test",
 		Author: "Author",
@@ -226,8 +226,8 @@ func TestUpsertLibraryEntryUpdatesExisting(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Test",
 		Author: "Author",
@@ -235,7 +235,7 @@ func TestUpsertLibraryEntryUpdatesExisting(t *testing.T) {
 	})
 
 	// Initial upsert
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID:        "manga-1",
 		CurrentChapter: 5,
 		Status:         "reading",
@@ -263,25 +263,25 @@ func TestGetUserLibraryReturnsAllEntries(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Manga 1",
 		Author: "Author",
 		Status: "ongoing",
 	})
-	store.InsertManga(ctx, models.Manga{
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-2",
 		Title:  "Manga 2",
 		Author: "Author",
 		Status: "ongoing",
 	})
 
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID: "manga-1",
 		Status:  "reading",
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID: "manga-2",
 		Status:  "completed",
 	})
@@ -303,14 +303,14 @@ func TestGetLibraryEntry(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Test",
 		Author: "Author",
 		Status: "ongoing",
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID:        "manga-1",
 		Status:         "reading",
 		CurrentChapter: 15,
@@ -333,14 +333,14 @@ func TestDeleteLibraryEntry(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Test",
 		Author: "Author",
 		Status: "ongoing",
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID: "manga-1",
 		Status:  "reading",
 	})
@@ -365,8 +365,8 @@ func TestInsertProgressHistory(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup user and manga first
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Test",
 		Author: "Author",
@@ -394,8 +394,8 @@ func TestGetProgressHistory(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Test",
 		Author: "Author",
@@ -403,13 +403,13 @@ func TestGetProgressHistory(t *testing.T) {
 	})
 
 	// Insert history
-	store.InsertProgressHistory(ctx, models.ProgressHistoryEntry{
+	mustInsertProgressHistory(t, store, ctx, models.ProgressHistoryEntry{
 		UserID:          "user-1",
 		MangaID:         "manga-1",
 		PreviousChapter: 0,
 		CurrentChapter:  5,
 	})
-	store.InsertProgressHistory(ctx, models.ProgressHistoryEntry{
+	mustInsertProgressHistory(t, store, ctx, models.ProgressHistoryEntry{
 		UserID:          "user-1",
 		MangaID:         "manga-1",
 		PreviousChapter: 5,
@@ -441,4 +441,32 @@ func setupDatabaseTest(t *testing.T) *Store {
 	}
 
 	return store
+}
+
+func mustCreateUser(t *testing.T, store *Store, ctx context.Context, id, username, email, passwordHash string) {
+	t.Helper()
+	if _, err := store.CreateUser(ctx, id, username, email, passwordHash); err != nil {
+		t.Fatalf("CreateUser returned error: %v", err)
+	}
+}
+
+func mustInsertManga(t *testing.T, store *Store, ctx context.Context, manga models.Manga) {
+	t.Helper()
+	if err := store.InsertManga(ctx, manga); err != nil {
+		t.Fatalf("InsertManga returned error: %v", err)
+	}
+}
+
+func mustUpsertLibraryEntry(t *testing.T, store *Store, ctx context.Context, userID string, entry models.LibraryEntry) {
+	t.Helper()
+	if _, err := store.UpsertLibraryEntry(ctx, userID, entry); err != nil {
+		t.Fatalf("UpsertLibraryEntry returned error: %v", err)
+	}
+}
+
+func mustInsertProgressHistory(t *testing.T, store *Store, ctx context.Context, entry models.ProgressHistoryEntry) {
+	t.Helper()
+	if err := store.InsertProgressHistory(ctx, entry); err != nil {
+		t.Fatalf("InsertProgressHistory returned error: %v", err)
+	}
 }

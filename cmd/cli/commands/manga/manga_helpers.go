@@ -5,6 +5,9 @@ import (
 	"strings"
 
 	shared "mangahub/cmd/cli/commands/shared"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type MangaItem struct {
@@ -32,7 +35,7 @@ func printMangaTable(items []MangaItem, page, limit int, showFooter bool) {
 		id := shared.Truncate(item.ID, 18)
 		title := shared.Truncate(item.Title, 22)
 		author := shared.Truncate(item.Author, 12)
-		status := shared.Truncate(strings.Title(item.Status), 10)
+		status := shared.Truncate(cases.Title(language.English).String(item.Status), 10)
 		fmt.Printf("│ %-18s │ %-22s │ %-12s │ %-10s │ %8d │\n", id, title, author, status, item.TotalChapters)
 	}
 	fmt.Println("└────────────────────┴────────────────────────┴──────────────┴────────────┴──────────┘")
@@ -67,7 +70,7 @@ func printMangaDetail(manga MangaItem) {
 	} else {
 		fmt.Println(" Genres: -")
 	}
-	fmt.Printf(" Status: %s\n", shared.NonEmpty(strings.Title(manga.Status), "-"))
+	fmt.Printf(" Status: %s\n", shared.NonEmpty(cases.Title(language.English).String(manga.Status), "-"))
 	if manga.Year > 0 {
 		fmt.Printf(" Year: %d\n", manga.Year)
 	} else {

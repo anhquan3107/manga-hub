@@ -154,7 +154,9 @@ func readUDPMessage(t *testing.T, conn *net.UDPConn) udpTestMessage {
 	if err := conn.SetReadDeadline(time.Now().Add(2 * time.Second)); err != nil {
 		t.Fatalf("set read deadline: %v", err)
 	}
-	defer conn.SetReadDeadline(time.Time{})
+	defer func() {
+		_ = conn.SetReadDeadline(time.Time{})
+	}()
 
 	buf := make([]byte, 2048)
 	n, err := conn.Read(buf)

@@ -362,7 +362,9 @@ func readServerMessage(t *testing.T, conn net.Conn, reader *bufio.Reader) testSe
 	if err := conn.SetReadDeadline(time.Now().Add(2 * time.Second)); err != nil {
 		t.Fatalf("set read deadline: %v", err)
 	}
-	defer conn.SetReadDeadline(time.Time{})
+	defer func() {
+		_ = conn.SetReadDeadline(time.Time{})
+	}()
 
 	line, err := reader.ReadBytes('\n')
 	if err != nil {

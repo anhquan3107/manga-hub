@@ -8,6 +8,9 @@ import (
 	"strings"
 
 	shared "mangahub/cmd/cli/commands/shared"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func libraryList(args []string) {
@@ -96,7 +99,7 @@ func libraryList(args []string) {
 			continue
 		}
 		sortLibraryEntries(list, sortBy, order)
-		title := strings.Title(strings.ReplaceAll(section, "_", " "))
+		title := cases.Title(language.English).String(strings.ReplaceAll(section, "_", " "))
 		fmt.Printf("%s (%d):\n", title, len(list))
 		fmt.Println("┌──────────────────┬────────────────────────┬─────────┬────────────┬──────────┐")
 		fmt.Println("│ ID               │ Title                  │ Chapter │ Rating     │ Started  │")

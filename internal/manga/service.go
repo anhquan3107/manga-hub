@@ -24,19 +24,7 @@ func (s *Service) GetByID(ctx context.Context, mangaID string) (models.Manga, er
 }
 
 func (s *Service) Create(ctx context.Context, req models.CreateMangaRequest) (models.Manga, error) {
-	return s.store.CreateManga(ctx, models.Manga{
-		ID:            req.ID,
-		Title:         req.Title,
-		Author:        req.Author,
-		Genres:        req.Genres,
-		Status:        req.Status,
-		Year:          req.Year,
-		Rating:        req.Rating,
-		Popularity:    req.Popularity,
-		TotalChapters: req.TotalChapters,
-		Description:   req.Description,
-		CoverURL:      req.CoverURL,
-	})
+	return s.store.CreateManga(ctx, models.Manga(req))
 }
 
 func (s *Service) Update(ctx context.Context, mangaID string, req models.UpdateMangaRequest) (models.Manga, error) {

@@ -16,8 +16,8 @@ func TestAddToLibraryAddsValidManga(t *testing.T) {
 	ctx := context.Background()
 
 	// Create user and manga
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Test Manga",
 		Author: "Author",
@@ -51,7 +51,7 @@ func TestAddToLibraryFailsForNonexistentManga(t *testing.T) {
 	defer store.Close()
 
 	ctx := context.Background()
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
 
 	req := models.AddLibraryRequest{
 		MangaID: "nonexistent",
@@ -71,15 +71,15 @@ func TestUpdateProgressIncreasesChapter(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:            "manga-1",
 		Title:         "Test",
 		Author:        "Author",
 		Status:        "ongoing",
 		TotalChapters: 100,
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID:        "manga-1",
 		Status:         "reading",
 		CurrentChapter: 5,
@@ -112,15 +112,15 @@ func TestUpdateProgressFailsForDecreasingChapter(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:            "manga-1",
 		Title:         "Test",
 		Author:        "Author",
 		Status:        "ongoing",
 		TotalChapters: 100,
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID:        "manga-1",
 		Status:         "reading",
 		CurrentChapter: 10,
@@ -147,15 +147,15 @@ func TestUpdateProgressWithForceOverride(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:            "manga-1",
 		Title:         "Test",
 		Author:        "Author",
 		Status:        "ongoing",
 		TotalChapters: 100,
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID:        "manga-1",
 		Status:         "reading",
 		CurrentChapter: 10,
@@ -186,15 +186,15 @@ func TestUpdateProgressFailsExceedingTotalChapters(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup with limited chapters
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:            "manga-1",
 		Title:         "Test",
 		Author:        "Author",
 		Status:        "completed",
 		TotalChapters: 50,
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID:        "manga-1",
 		Status:         "reading",
 		CurrentChapter: 30,
@@ -220,25 +220,25 @@ func TestGetLibraryReturnsUsersManga(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Manga 1",
 		Author: "Author",
 		Status: "ongoing",
 	})
-	store.InsertManga(ctx, models.Manga{
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-2",
 		Title:  "Manga 2",
 		Author: "Author",
 		Status: "ongoing",
 	})
 
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID: "manga-1",
 		Status:  "reading",
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID: "manga-2",
 		Status:  "completed",
 	})
@@ -260,14 +260,14 @@ func TestRemoveFromLibraryDeletesEntry(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Test",
 		Author: "Author",
 		Status: "ongoing",
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID: "manga-1",
 		Status:  "reading",
 	})
@@ -294,14 +294,14 @@ func TestUpdateLibraryEntry(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:     "manga-1",
 		Title:  "Test",
 		Author: "Author",
 		Status: "ongoing",
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID: "manga-1",
 		Status:  "reading",
 		Rating:  0,
@@ -333,29 +333,33 @@ func TestGetProgressHistory(t *testing.T) {
 	ctx := context.Background()
 
 	// Setup
-	store.CreateUser(ctx, "user-1", "alice", "alice@example.com", "hash")
-	store.InsertManga(ctx, models.Manga{
+	mustCreateUser(t, store, ctx, "user-1", "alice", "alice@example.com", "hash")
+	mustInsertManga(t, store, ctx, models.Manga{
 		ID:            "manga-1",
 		Title:         "Test",
 		Author:        "Author",
 		Status:        "ongoing",
 		TotalChapters: 100,
 	})
-	store.UpsertLibraryEntry(ctx, "user-1", models.LibraryEntry{
+	mustUpsertLibraryEntry(t, store, ctx, "user-1", models.LibraryEntry{
 		MangaID:        "manga-1",
 		Status:         "reading",
 		CurrentChapter: 0,
 	})
 
 	// Update progress multiple times
-	service.UpdateProgress(ctx, "user-1", models.UpdateProgressRequest{
+	if _, err := service.UpdateProgress(ctx, "user-1", models.UpdateProgressRequest{
 		MangaID:        "manga-1",
 		CurrentChapter: 10,
-	})
-	service.UpdateProgress(ctx, "user-1", models.UpdateProgressRequest{
+	}); err != nil {
+		t.Fatalf("UpdateProgress returned error: %v", err)
+	}
+	if _, err := service.UpdateProgress(ctx, "user-1", models.UpdateProgressRequest{
 		MangaID:        "manga-1",
 		CurrentChapter: 20,
-	})
+	}); err != nil {
+		t.Fatalf("UpdateProgress returned error: %v", err)
+	}
 
 	history, err := service.GetProgressHistory(ctx, "user-1", "manga-1")
 	if err != nil {
@@ -382,4 +386,25 @@ func setupUserTest(t *testing.T) (*database.Store, *Service) {
 
 	service := NewService(store)
 	return store, service
+}
+
+func mustCreateUser(t *testing.T, store *database.Store, ctx context.Context, id, username, email, passwordHash string) {
+	t.Helper()
+	if _, err := store.CreateUser(ctx, id, username, email, passwordHash); err != nil {
+		t.Fatalf("CreateUser returned error: %v", err)
+	}
+}
+
+func mustInsertManga(t *testing.T, store *database.Store, ctx context.Context, manga models.Manga) {
+	t.Helper()
+	if err := store.InsertManga(ctx, manga); err != nil {
+		t.Fatalf("InsertManga returned error: %v", err)
+	}
+}
+
+func mustUpsertLibraryEntry(t *testing.T, store *database.Store, ctx context.Context, userID string, entry models.LibraryEntry) {
+	t.Helper()
+	if _, err := store.UpsertLibraryEntry(ctx, userID, entry); err != nil {
+		t.Fatalf("UpsertLibraryEntry returned error: %v", err)
+	}
 }

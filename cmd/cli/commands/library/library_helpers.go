@@ -1,11 +1,7 @@
 package library
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"sort"
-	"strconv"
 	"strings"
 
 	shared "mangahub/cmd/cli/commands/shared"
@@ -33,42 +29,6 @@ func normalizeLibraryStatus(status string) string {
 		return "plan_to_read"
 	default:
 		return "reading"
-	}
-}
-
-var allowedLibraryStatuses = []string{"reading", "completed", "plan-to-read", "on-hold", "dropped"}
-
-func promptStatusChoice(current string) string {
-	reader := bufio.NewReader(os.Stdin)
-	for {
-		fmt.Println("Allowed statuses:")
-		for i, s := range allowedLibraryStatuses {
-			fmt.Printf(" %d) %s\n", i+1, s)
-		}
-		fmt.Printf("Enter status (name or number) or empty to cancel [%s]: ", current)
-		input, _ := reader.ReadString('\n')
-		input = strings.TrimSpace(input)
-		if input == "" {
-			fmt.Println("Cancelled")
-			return ""
-		}
-		if n, err := strconv.Atoi(input); err == nil {
-			if n >= 1 && n <= len(allowedLibraryStatuses) {
-				return allowedLibraryStatuses[n-1]
-			}
-			fmt.Println("Invalid selection number")
-			continue
-		}
-		normalized := normalizeLibraryStatus(input)
-		if normalized == "plan_to_read" {
-			normalized = "plan-to-read"
-		}
-		for _, s := range allowedLibraryStatuses {
-			if s == normalized || s == input {
-				return s
-			}
-		}
-		fmt.Println("Invalid status; please choose from the list.")
 	}
 }
 
