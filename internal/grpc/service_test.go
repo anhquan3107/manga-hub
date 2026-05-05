@@ -164,7 +164,7 @@ func TestGRPCProgressUpdate(t *testing.T) {
 			t.Errorf("Expected current chapter 5, got %v", resp.Result)
 		}
 	})
-	
+
 	t.Run("UpdateProgress - Missing Args", func(t *testing.T) {
 		_, err := mangaClient.UpdateProgress(ctx, &pb.ProgressRequest{
 			UserId: "user-grpc-1",
@@ -207,15 +207,13 @@ func startTestGRPCServer(t *testing.T, ctx context.Context, mangaSvc *manga.Serv
 
 	server := New(addr, mangaSvc, userSvc)
 	go func() {
-		if err := server.Start(ctx); err != nil {
-			// Expected when gracefully stopped
-		}
+		_ = server.Start(ctx)
 	}()
 
 	// Wait briefly for server to start
 	time.Sleep(50 * time.Millisecond)
 
-	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		t.Fatalf("Failed to dial gRPC server: %v", err)
 	}
