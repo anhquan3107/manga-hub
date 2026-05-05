@@ -49,6 +49,13 @@ func New(deps Dependencies) *Handler {
 	}
 }
 
+// Health godoc
+// @Summary Health check
+// @Description Returns API server health status.
+// @Tags system
+// @Produce json
+// @Success 200 {object} healthResponse
+// @Router /health [get]
 func (h *Handler) Health(c *gin.Context) {
 	utils.OK(c, http.StatusOK, gin.H{"status": "ok"})
 }

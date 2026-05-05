@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	_ "mangahub/docs/swagger"
 	"mangahub/internal/api/router"
 	"mangahub/internal/auth"
 	"mangahub/internal/chat"
@@ -21,6 +22,15 @@ import (
 	"mangahub/internal/websocket"
 	"mangahub/pkg/database"
 )
+
+// @title MangaHub API
+// @version 1.0
+// @description MangaHub REST API documentation.
+// @BasePath /
+// @schemes http https
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 
 func main() {
 	cfg := config.Load()

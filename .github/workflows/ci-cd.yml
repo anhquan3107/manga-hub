@@ -27,6 +27,11 @@ jobs:
       - name: Verify dependencies
         run: go mod verify
 
+      - name: Verify Swagger docs are up to date
+        run: |
+          go run github.com/swaggo/swag/cmd/swag@v1.8.12 init -g cmd/api-server/main.go -o docs/swagger
+          git diff --exit-code -- docs/swagger/docs.go docs/swagger/swagger.json docs/swagger/swagger.yaml
+
       - name: Run Tests
         run: GOFLAGS=-tags=sqlite_fts5 go test -v -race ./...
 
