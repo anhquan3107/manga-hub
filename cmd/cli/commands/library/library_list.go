@@ -23,7 +23,10 @@ func libraryList(args []string) {
 	flags.StringVar(&sortBy, "sort-by", "", "Sort by (title,last-updated)")
 	flags.StringVar(&order, "order", "", "Order (asc,desc)")
 	flags.BoolVar(&verbose, "verbose", false, "Verbose output with descriptions")
-	flags.Parse(args)
+	if err := flags.Parse(args); err != nil {
+		fmt.Println("Error parsing flags:", err)
+		return
+	}
 
 	u := shared.APIURL("/users/library")
 	if statusFilter != "" || sortBy != "" || order != "" {

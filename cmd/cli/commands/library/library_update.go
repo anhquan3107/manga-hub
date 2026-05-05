@@ -17,7 +17,10 @@ func libraryUpdate(args []string) {
 	flags.StringVar(&mangaID, "manga-id", "", "ID of manga to update")
 	flags.StringVar(&status, "status", "", "New status (reading/completed/plan-to-read/on-hold/dropped)")
 	flags.IntVar(&rating, "rating", 0, "New rating (1-10, use 0 to skip)")
-	flags.Parse(args)
+	if err := flags.Parse(args); err != nil {
+		fmt.Println("Error parsing flags:", err)
+		return
+	}
 
 	if mangaID == "" {
 		fmt.Println("--manga-id required")

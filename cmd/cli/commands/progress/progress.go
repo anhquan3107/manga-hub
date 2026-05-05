@@ -223,7 +223,10 @@ func HandleProgress(args []string) {
 
 	case "sync-status":
 		flags := flag.NewFlagSet("progress sync-status", flag.ExitOnError)
-		flags.Parse(args[1:])
+		if err := flags.Parse(args[1:]); err != nil {
+			fmt.Println("Error parsing flags:", err)
+			return
+		}
 
 		if err := progressSyncStatus(); err != nil {
 			fmt.Printf("TCP sync server: ✗ %v\n", err)

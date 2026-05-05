@@ -34,7 +34,10 @@ func handleSearch(args []string) {
 		parseArgs = parseArgs[1:]
 	}
 
-	flags.Parse(parseArgs)
+	if err := flags.Parse(parseArgs); err != nil {
+		fmt.Println("Error parsing flags:", err)
+		return
+	}
 
 	if strings.TrimSpace(query) == "" {
 		fmt.Println("Usage: mangahub manga search <query> [--genres <a,b>] [--status <status>] [--year-min <n>] [--year-max <n>] [--rating-min <n>] [--sort <key>] [--limit <n>]")
@@ -118,7 +121,10 @@ func handleList(args []string) {
 	flags.IntVar(&limit, "limit", 20, "Number of results per page")
 	flags.IntVar(&page, "page", 1, "Page number for pagination")
 
-	flags.Parse(args)
+	if err := flags.Parse(args); err != nil {
+		fmt.Println("Error parsing flags:", err)
+		return
+	}
 
 	u, _ := url.Parse(shared.APIURL("/manga"))
 	q := u.Query()
