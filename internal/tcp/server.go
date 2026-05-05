@@ -109,6 +109,17 @@ func (s *Server) handleConn(ctx context.Context, c *client) {
 
 	log.Printf("tcp client connected: id=%s", c.id)
 
+	// Send initial greeting to client
+	greeting := serverMessage{
+		Type:      "connected",
+		Message:   "connected to tcp server",
+		Timestamp: time.Now().Unix(),
+	}
+	if err := s.send(c, greeting); err != nil {
+		log.Printf("tcp failed to send greeting to %s: %v", c.id, err)
+		return
+	}
+
 	scanner := bufio.NewScanner(c.conn)
 	scanner.Buffer(make([]byte, 0, 4096), 64*1024)
 	for scanner.Scan() {
@@ -158,8 +169,7 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 			}
 		}
 		return s.send(c, serverMessage{
-			Type:        "connected",
-			Message:     "connected successfully",
+			Type:        "hello_ack",
 			SessionID:   sessionID,
 			UserID:      c.userID,
 			Username:    username,

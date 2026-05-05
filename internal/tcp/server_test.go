@@ -305,6 +305,15 @@ func seedUserAndManga(t *testing.T, store *database.Store) {
 	if err != nil {
 		t.Fatalf("insert manga: %v", err)
 	}
+
+	// Add manga to user's library so progress updates work
+	_, err = store.UpsertLibraryEntry(context.Background(), "user-1", models.LibraryEntry{
+		MangaID: "manga-1",
+		Status:  "reading",
+	})
+	if err != nil {
+		t.Fatalf("add manga to library: %v", err)
+	}
 }
 
 func freeTCPAddr(t *testing.T) string {
