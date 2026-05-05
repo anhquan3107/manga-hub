@@ -59,3 +59,18 @@ type progressUpdateResponse struct {
 	Notes           string `json:"notes"`
 	Status          string `json:"status"`
 }
+
+// Keep Swagger schema-only types referenced so static analysis doesn't flag them as unused.
+var (
+	_ = errorResponse{}
+	_ = messageResponse{}
+	_ = healthResponse{}
+	_ = authResponse{}
+	_ = mangaListResponse{}
+	_ = libraryResponse{}
+	_ = roomsUsersResponse{}
+	_ = roomUsersResponse{}
+	_ = roomHistoryResponse{}
+	_ = progressHistoryResponse{}
+	_ = progressUpdateResponse{}
+)
