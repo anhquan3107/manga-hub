@@ -1,0 +1,1059 @@
+basePath: /
+definitions:
+  handler.authResponse:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
+  handler.errorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  handler.healthResponse:
+    properties:
+      status:
+        type: string
+    type: object
+  handler.libraryResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/models.LibraryEntry'
+        type: array
+      reading_lists: {}
+    type: object
+  handler.mangaListResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/models.Manga'
+        type: array
+    type: object
+  handler.messageResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  handler.progressHistoryResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/models.ProgressHistoryEntry'
+        type: array
+    type: object
+  handler.progressUpdateResponse:
+    properties:
+      current_chapter:
+        type: integer
+      current_volume:
+        type: integer
+      manga_id:
+        type: string
+      notes:
+        type: string
+      previous_chapter:
+        type: integer
+      previous_volume:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      total_chapters:
+        type: integer
+    type: object
+  handler.roomHistoryResponse:
+    properties:
+      limit:
+        type: integer
+      messages:
+        items:
+          $ref: '#/definitions/models.ChatMessage'
+        type: array
+      room:
+        type: string
+    type: object
+  handler.roomUsersResponse:
+    properties:
+      count:
+        type: integer
+      users: {}
+    type: object
+  handler.roomsUsersResponse:
+    properties:
+      rooms: {}
+      total_users:
+        type: integer
+    type: object
+  models.AddLibraryRequest:
+    properties:
+      current_chapter:
+        type: integer
+      current_volume:
+        type: integer
+      manga_id:
+        type: string
+      notes:
+        type: string
+      rating:
+        type: integer
+      status:
+        enum:
+        - reading
+        - completed
+        - plan-to-read
+        - on-hold
+        - dropped
+        type: string
+    required:
+    - manga_id
+    - status
+    type: object
+  models.ChangePasswordRequest:
+    properties:
+      current_password:
+        maxLength: 72
+        minLength: 6
+        type: string
+      new_password:
+        maxLength: 72
+        minLength: 6
+        type: string
+    required:
+    - current_password
+    - new_password
+    type: object
+  models.ChatMessage:
+    properties:
+      message:
+        type: string
+      timestamp:
+        type: integer
+      user_id:
+        type: string
+      username:
+        type: string
+    type: object
+  models.CreateMangaRequest:
+    properties:
+      author:
+        type: string
+      cover_url:
+        type: string
+      description:
+        type: string
+      genres:
+        items:
+          type: string
+        minItems: 1
+        type: array
+      id:
+        type: string
+      popularity:
+        minimum: 0
+        type: integer
+      rating:
+        maximum: 10
+        minimum: 0
+        type: number
+      status:
+        type: string
+      title:
+        type: string
+      total_chapters:
+        minimum: 0
+        type: integer
+      year:
+        minimum: 0
+        type: integer
+    required:
+    - author
+    - description
+    - genres
+    - id
+    - status
+    - title
+    type: object
+  models.LibraryEntry:
+    properties:
+      current_chapter:
+        type: integer
+      current_volume:
+        type: integer
+      manga_id:
+        type: string
+      notes:
+        type: string
+      rating:
+        type: integer
+      started_at:
+        type: string
+      status:
+        enum:
+        - reading
+        - completed
+        - plan-to-read
+        - on-hold
+        - dropped
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    required:
+    - manga_id
+    - status
+    type: object
+  models.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  models.Manga:
+    properties:
+      author:
+        type: string
+      cover_url:
+        type: string
+      description:
+        type: string
+      genres:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      popularity:
+        type: integer
+      rating:
+        type: number
+      status:
+        type: string
+      title:
+        type: string
+      total_chapters:
+        type: integer
+      year:
+        type: integer
+    type: object
+  models.ProgressHistoryEntry:
+    properties:
+      created_at:
+        type: string
+      current_chapter:
+        type: integer
+      current_volume:
+        type: integer
+      id:
+        type: integer
+      manga_id:
+        type: string
+      notes:
+        type: string
+      previous_chapter:
+        type: integer
+      previous_volume:
+        type: integer
+      user_id:
+        type: string
+    type: object
+  models.RegisterRequest:
+    properties:
+      email:
+        type: string
+      password:
+        maxLength: 72
+        minLength: 6
+        type: string
+      username:
+        maxLength: 32
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  models.SendPMRequest:
+    properties:
+      message:
+        type: string
+      recipient_username:
+        type: string
+    required:
+    - message
+    - recipient_username
+    type: object
+  models.UpdateLibraryRequest:
+    properties:
+      rating:
+        maximum: 10
+        minimum: 1
+        type: integer
+      status:
+        enum:
+        - reading
+        - completed
+        - plan-to-read
+        - on-hold
+        - dropped
+        type: string
+    type: object
+  models.UpdateMangaRequest:
+    properties:
+      author:
+        type: string
+      cover_url:
+        type: string
+      description:
+        type: string
+      genres:
+        items:
+          type: string
+        minItems: 1
+        type: array
+      popularity:
+        minimum: 0
+        type: integer
+      rating:
+        maximum: 10
+        minimum: 0
+        type: number
+      status:
+        type: string
+      title:
+        type: string
+      total_chapters:
+        minimum: 0
+        type: integer
+      year:
+        minimum: 0
+        type: integer
+    required:
+    - author
+    - description
+    - genres
+    - status
+    - title
+    type: object
+  models.UpdateProgressRequest:
+    properties:
+      current_chapter:
+        minimum: 0
+        type: integer
+      current_volume:
+        minimum: 0
+        type: integer
+      force:
+        type: boolean
+      manga_id:
+        type: string
+      notes:
+        type: string
+      status:
+        enum:
+        - reading
+        - completed
+        - plan-to-read
+        - on-hold
+        - dropped
+        type: string
+    required:
+    - current_chapter
+    - manga_id
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: MangaHub REST API documentation.
+  title: MangaHub API
+  version: "1.0"
+paths:
+  /auth/change-password:
+    post:
+      consumes:
+      - application/json
+      description: Changes current user password and revokes current token.
+      parameters:
+      - description: Change password payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.messageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Change password
+      tags:
+      - auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns JWT token.
+      parameters:
+      - description: Login payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.authResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Login
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      description: Revokes current JWT token.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.messageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Logout
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user account and returns JWT token.
+      parameters:
+      - description: Register payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.authResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Register account
+      tags:
+      - auth
+  /health:
+    get:
+      description: Returns API server health status.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.healthResponse'
+      summary: Health check
+      tags:
+      - system
+  /manga:
+    get:
+      description: Returns manga list with optional filters.
+      parameters:
+      - description: Search query
+        in: query
+        name: q
+        type: string
+      - description: Comma-separated genres
+        in: query
+        name: genres
+        type: string
+      - description: Single genre
+        in: query
+        name: genre
+        type: string
+      - description: Manga status
+        in: query
+        name: status
+        type: string
+      - description: Minimum year
+        in: query
+        name: year_min
+        type: integer
+      - description: Maximum year
+        in: query
+        name: year_max
+        type: integer
+      - description: Minimum rating
+        in: query
+        name: rating_min
+        type: number
+      - description: Sort field
+        in: query
+        name: sort
+        type: string
+      - description: Result limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.mangaListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: List manga
+      tags:
+      - manga
+    post:
+      consumes:
+      - application/json
+      description: Creates a new manga record.
+      parameters:
+      - description: Create manga payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateMangaRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Manga'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create manga
+      tags:
+      - manga
+  /manga/{id}:
+    delete:
+      description: Deletes a manga by ID.
+      parameters:
+      - description: Manga ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.messageResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete manga
+      tags:
+      - manga
+    get:
+      description: Returns manga details by ID.
+      parameters:
+      - description: Manga ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Manga'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Get manga
+      tags:
+      - manga
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing manga by ID.
+      parameters:
+      - description: Manga ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update manga payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateMangaRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Manga'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update manga
+      tags:
+      - manga
+  /rooms/{room}/history:
+    get:
+      description: Returns recent chat messages for a room.
+      parameters:
+      - description: Room ID
+        in: path
+        name: room
+        required: true
+        type: string
+      - description: Max messages (1-200)
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.roomHistoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get room history
+      tags:
+      - chat
+  /rooms/{room}/users:
+    get:
+      description: Returns users currently connected to the target room.
+      parameters:
+      - description: Room ID
+        in: path
+        name: room
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.roomUsersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: List online users in room
+      tags:
+      - chat
+  /rooms/users:
+    get:
+      description: Returns online users grouped by room.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.roomsUsersResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: List online room users
+      tags:
+      - chat
+  /users/library:
+    get:
+      description: Returns current user's library and grouped reading lists.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.libraryResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user library
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Adds or upserts a manga library entry for the authenticated user.
+      parameters:
+      - description: Add library payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddLibraryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LibraryEntry'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Add manga to library
+      tags:
+      - users
+  /users/library/{id}:
+    delete:
+      description: Removes manga from the authenticated user's library.
+      parameters:
+      - description: Manga ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.messageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Remove from library
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Updates status/rating for a manga in authenticated user's library.
+      parameters:
+      - description: Manga ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update library payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateLibraryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LibraryEntry'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update library entry
+      tags:
+      - users
+  /users/me:
+    get:
+      description: Returns profile of authenticated user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - users
+  /users/pm:
+    post:
+      consumes:
+      - application/json
+      description: Sends a private message to another user.
+      parameters:
+      - description: Private message payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SendPMRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.messageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Send private message
+      tags:
+      - chat
+  /users/progress:
+    put:
+      consumes:
+      - application/json
+      description: Updates chapter/volume progress for a manga in user's library.
+      parameters:
+      - description: Progress payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateProgressRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.progressUpdateResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update reading progress
+      tags:
+      - users
+  /users/progress/history:
+    get:
+      description: Returns progress update history for the authenticated user.
+      parameters:
+      - description: Filter by manga ID
+        in: query
+        name: manga_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.progressHistoryResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get progress history
+      tags:
+      - users
+schemes:
+- http
+- https
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
