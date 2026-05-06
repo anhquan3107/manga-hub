@@ -46,7 +46,7 @@ func New(deps Dependencies) *Handler {
 		authService:  deps.AuthService,
 		chatService:  deps.ChatService,
 		mangaService: deps.MangaService,
-		ReviewService: deps.ReviewService,
+		reviewService: deps.ReviewService,
 		userService:  deps.UserService,
 		hub:          deps.Hub,
 		broadcaster:  deps.Broadcaster,

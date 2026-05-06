@@ -7,15 +7,17 @@ WORKDIR /app
 ENV GOFLAGS=-tags=sqlite_fts5
 
 # Install build dependencies
-RUN apk add --no-cache gcc musl-dev
-
+RUN apk add --no-cache gcc musl-dev sqlite sqlite-dev
 # Copy go mod and sum files
 COPY go.mod go.sum ./
 RUN go mod download
 
+
 # Copy source code
 COPY . .
-
+# Generate Swagger docs for the api-server build
+RUN go install github.com/swaggo/swag/cmd/swag@v1.8.12
+RUN /go/bin/swag init -g cmd/api-server/main.go -o docs/swagger
 # Build all binaries
 RUN go build -o /app/bin/api-server ./cmd/api-server
 RUN go build -o /app/bin/udp-server ./cmd/udp-server
