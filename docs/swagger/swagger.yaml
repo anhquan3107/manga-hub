@@ -65,6 +65,13 @@ definitions:
       total_chapters:
         type: integer
     type: object
+  handler.reviewListResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/models.Review'
+        type: array
+    type: object
   handler.roomHistoryResponse:
     properties:
       limit:
@@ -177,6 +184,18 @@ definitions:
     - status
     - title
     type: object
+  models.CreateReviewRequest:
+    properties:
+      rating:
+        maximum: 10
+        minimum: 1
+        type: integer
+      text:
+        type: string
+    required:
+    - rating
+    - text
+    type: object
   models.LibraryEntry:
     properties:
       current_chapter:
@@ -283,6 +302,21 @@ definitions:
     - email
     - password
     - username
+    type: object
+  models.Review:
+    properties:
+      helpful:
+        type: integer
+      manga_id:
+        type: string
+      rating:
+        type: integer
+      text:
+        type: string
+      timestamp:
+        type: integer
+      user_id:
+        type: string
     type: object
   models.SendPMRequest:
     properties:
@@ -697,6 +731,152 @@ paths:
       summary: Update manga
       tags:
       - manga
+  /manga/{id}/reviews:
+    get:
+      description: Returns reviews for a manga.
+      parameters:
+      - description: Manga ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Max reviews (1-200)
+        in: query
+        name: limit
+        type: integer
+      - description: Sort by (recent, helpful)
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.reviewListResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: List manga reviews
+      tags:
+      - reviews
+    post:
+      consumes:
+      - application/json
+      description: Creates a new review or updates the existing one for the user.
+      parameters:
+      - description: Manga ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Review payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateReviewRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create or update a review
+      tags:
+      - reviews
+  /manga/{id}/reviews/{user_id}/helpful:
+    post:
+      description: Increments helpful votes for a review.
+      parameters:
+      - description: Manga ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Review author user ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Mark review as helpful
+      tags:
+      - reviews
+  /manga/{id}/reviews/me:
+    get:
+      description: Returns the authenticated user's review for a manga.
+      parameters:
+      - description: Manga ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Review'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get my review
+      tags:
+      - reviews
   /rooms/{room}/history:
     get:
       description: Returns recent chat messages for a room.
