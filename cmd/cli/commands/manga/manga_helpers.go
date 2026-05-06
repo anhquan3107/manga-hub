@@ -121,6 +121,6 @@ func printMangaDetail(manga MangaItem) {
 
 	fmt.Println("Actions:")
 	fmt.Printf(" Update Progress: mangahub progress update --manga-id %s --chapter <number>\n", shared.NonEmpty(manga.ID, "manga-id"))
-	fmt.Printf(" Rate/Review: mangahub library update --manga-id %s --rating <1-10>\n", shared.NonEmpty(manga.ID, "manga-id"))
+	fmt.Printf(" Rate/Review: mangahub review add --manga-id %s --rating <1-10> --text \"...\"\n", shared.NonEmpty(manga.ID, "manga-id"))
 	fmt.Printf(" Remove: mangahub library remove --manga-id %s\n", shared.NonEmpty(manga.ID, "manga-id"))
 }

@@ -8,14 +8,13 @@ ENV GOFLAGS=-tags=sqlite_fts5
 
 # Install build dependencies
 RUN apk add --no-cache gcc musl-dev
-
 # Copy go mod and sum files
 COPY go.mod go.sum ./
 RUN go mod download
 
+
 # Copy source code
 COPY . .
-
 # Build all binaries
 RUN go build -o /app/bin/api-server ./cmd/api-server
 RUN go build -o /app/bin/udp-server ./cmd/udp-server

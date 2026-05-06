@@ -10,6 +10,7 @@ import (
 	"mangahub/internal/auth"
 	"mangahub/internal/chat"
 	"mangahub/internal/manga"
+	"mangahub/internal/review"
 	"mangahub/internal/user"
 	chatws "mangahub/internal/websocket"
 	"mangahub/pkg/models"
@@ -24,6 +25,7 @@ type Dependencies struct {
 	AuthService  *auth.Service
 	ChatService  *chat.Service
 	MangaService *manga.Service
+	ReviewService *review.Service
 	UserService  *user.Service
 	Hub          *chatws.Hub
 	Broadcaster  ProgressBroadcaster
@@ -33,6 +35,7 @@ type Handler struct {
 	authService  *auth.Service
 	chatService  *chat.Service
 	mangaService *manga.Service
+	reviewService *review.Service
 	userService  *user.Service
 	hub          *chatws.Hub
 	broadcaster  ProgressBroadcaster
@@ -43,6 +46,7 @@ func New(deps Dependencies) *Handler {
 		authService:  deps.AuthService,
 		chatService:  deps.ChatService,
 		mangaService: deps.MangaService,
+		reviewService: deps.ReviewService,
 		userService:  deps.UserService,
 		hub:          deps.Hub,
 		broadcaster:  deps.Broadcaster,
