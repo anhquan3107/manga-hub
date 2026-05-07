@@ -46,7 +46,9 @@ func notifyTest(addr, client, mangaID string) error {
     }
 
     // wait for response
-    conn.SetReadDeadline(time.Now().Add(2 * time.Second))
+    if err := conn.SetReadDeadline(time.Now().Add(2 * time.Second)); err != nil {
+        return err
+    }
     buf := make([]byte, 1024)
     n, _, err := conn.ReadFromUDP(buf)
     if err == nil {
