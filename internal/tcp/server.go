@@ -214,6 +214,26 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 
 		if s.userService != nil {
 			if entry, err := s.userService.GetLibraryEntry(ctx, userID, strings.TrimSpace(msg.MangaID)); err == nil {
+				if msg.Chapter < entry.CurrentChapter {
+					resolution := "server_newer"
+					if strategy == "user_choice" {
+						resolution = "needs_user_choice"
+					}
+
+					return s.send(c, serverMessage{
+						Type:      "conflict",
+						RequestID: msg.RequestID,
+						Message:   "conflict detected",
+						Conflict: &models.ConflictResolution{
+							Strategy:   strategy,
+							Timestamp:  incomingTimestamp,
+							DeviceID:   strings.TrimSpace(msg.DeviceID),
+							Resolution: resolution,
+						},
+						Timestamp: time.Now().Unix(),
+					})
+				}
+
 				currentTS := entry.UpdatedAt.Unix()
 				if currentTS > incomingTimestamp {
 					resolution := "server_newer"
