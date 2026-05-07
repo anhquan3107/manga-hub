@@ -35,3 +35,10 @@ type SendPMRequest struct {
 	RecipientUsername string `json:"recipient_username" binding:"required"`
 	Message           string `json:"message" binding:"required"`
 }
+
+type ConflictResolution struct {
+	Strategy   string `json:"strategy"`
+	Timestamp  int64  `json:"timestamp"`
+	DeviceID   string `json:"device_id"`
+	Resolution string `json:"resolution"`
+}

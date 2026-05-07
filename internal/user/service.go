@@ -143,3 +143,7 @@ func (s *Service) GetUserByID(ctx context.Context, userID string) (models.User, 
 func (s *Service) GetUserByUsername(ctx context.Context, username string) (models.User, error) {
 	return s.store.GetUserByUsername(ctx, username)
 }
+
+func (s *Service) GetLibraryEntry(ctx context.Context, userID, mangaID string) (models.LibraryEntry, error) {
+	return s.store.GetLibraryEntry(ctx, userID, mangaID)
+}
