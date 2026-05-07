@@ -13,6 +13,7 @@ type udpClientMessage struct {
 type udpServerMessage struct {
     Type    string `json:"type"`
     Message string `json:"message,omitempty"`
+    Error   string `json:"error,omitempty"`
 }
 
 var (
