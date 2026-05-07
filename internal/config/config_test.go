@@ -1,21 +1,21 @@
 package config
 
 import (
-
 	"testing"
 )
 
 func TestLoadSuccess(t *testing.T) {
 	// Setup env vars for test
 	expectedVars := map[string]string{
-		"HTTP_ADDR":      ":8080",
-		"TCP_ADDR":       ":9090",
-		"UDP_ADDR":       ":9091",
-		"GRPC_ADDR":      ":9092",
-		"DB_PATH":        "./test.db",
-		"SEED_FILE":      "./test.json",
-		"JWT_SECRET":     "test-secret",
-		"ALLOWED_ORIGIN": "*",
+		"HTTP_ADDR":       ":8080",
+		"TCP_ADDR":        ":9090",
+		"UDP_ADDR":        ":9091",
+		"GRPC_ADDR":       ":9092",
+		"TCP_SERVER_ADDR": ":9093",
+		"DB_PATH":         "./test.db",
+		"SEED_FILE":       "./test.json",
+		"JWT_SECRET":      "test-secret",
+		"ALLOWED_ORIGIN":  "*",
 	}
 
 	for k, v := range expectedVars {
@@ -52,5 +52,5 @@ func TestLoadSuccess(t *testing.T) {
 	}
 }
 
-// We cannot easily test os.Exit(1) without complex subprocesses, 
+// We cannot easily test os.Exit(1) without complex subprocesses,
 // so we skip the failure case for mustEnv to keep the suite simple and fast.
