@@ -2,26 +2,7 @@ package commands
 
 import (
 	"time"
-
-	shared "mangahub/cmd/cli/commands/shared"
 )
-
-var progressTCPAddr = shared.TCPAddr()
-
-type progressTCPMessage struct {
-	Type      string `json:"type"`
-	RequestID string `json:"request_id,omitempty"`
-	UserID    string `json:"user_id,omitempty"`
-	MangaID   string `json:"manga_id,omitempty"`
-	Chapter   int    `json:"chapter,omitempty"`
-}
-
-type progressTCPResponse struct {
-	Type      string `json:"type"`
-	Message   string `json:"message,omitempty"`
-	Error     string `json:"error,omitempty"`
-	Timestamp int64  `json:"timestamp"`
-}
 
 type progressUpdateResponse struct {
 	MangaID         string    `json:"manga_id"`
