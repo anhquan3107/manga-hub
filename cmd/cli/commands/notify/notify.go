@@ -4,10 +4,10 @@ import (
 	"fmt"
 )
 
-// HandleNotify dispatches notify subcommands: subscribe, unsubscribe, preferences, test
+// HandleNotify dispatches notify subcommands: subscribe, unsubscribe, test
 func HandleNotify(args []string) error {
     if len(args) == 0 {
-        return fmt.Errorf("notify requires a subcommand: subscribe|unsubscribe|preferences|test")
+        return fmt.Errorf("notify requires a subcommand: subscribe|unsubscribe|test")
     }
 
     switch args[0] {
@@ -15,8 +15,6 @@ func HandleNotify(args []string) error {
         return handleNotifySubscribe(args[1:])
     case "unsubscribe":
         return handleNotifyUnsubscribe(args[1:])
-    case "preferences":
-        return handleNotifyPreferences(args[1:])
     case "test":
         return handleNotifyTest(args[1:])
     default:

@@ -58,7 +58,11 @@ func notifyTest(addr, client, mangaID string) error {
             fmt.Println("test OK:", resp.Message)
             return nil
         }
-        return fmt.Errorf("server response: %s", resp.Message)
+        serverErr := resp.Error
+        if serverErr == "" {
+            serverErr = resp.Message
+        }
+        return fmt.Errorf("server response: %s", serverErr)
     }
 
     return nil

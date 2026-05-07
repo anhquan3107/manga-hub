@@ -28,7 +28,9 @@ type registeredClient struct {
 
 type clientMessage struct {
 	Type      string `json:"type"`
+	// Accept both "client_id" (server tests) and "client" (CLI)
 	ClientID  string `json:"client_id,omitempty"`
+	Client    string `json:"client,omitempty"`
 	MangaID   string `json:"manga_id,omitempty"`
 	Message   string `json:"message,omitempty"`
 	Timestamp int64  `json:"timestamp,omitempty"`
@@ -88,8 +90,12 @@ func (s *Server) ListenAndServe(ctx context.Context) error {
 		}
 
 		switch strings.ToLower(strings.TrimSpace(msg.Type)) {
-		case "register":
+		case "register", "subscribe":
+			// CLI sends "client" while some tests send "client_id" — prefer either
 			clientID := strings.TrimSpace(msg.ClientID)
+			if clientID == "" {
+				clientID = strings.TrimSpace(msg.Client)
+			}
 			if clientID == "" {
 				clientID = clientAddr.String()
 			}
@@ -108,6 +114,9 @@ func (s *Server) ListenAndServe(ctx context.Context) error {
 			})
 		case "notify":
 			clientID := strings.TrimSpace(msg.ClientID)
+			if clientID == "" {
+				clientID = strings.TrimSpace(msg.Client)
+			}
 			if clientID == "" {
 				clientID = clientAddr.String()
 			}
@@ -137,6 +146,63 @@ func (s *Server) ListenAndServe(ctx context.Context) error {
 			if err := s.broadcast(conn, notification); err != nil {
 				log.Printf("udp broadcast error: %v", err)
 			}
+		case "unsubscribe", "unregister":
+			clientID := strings.TrimSpace(msg.ClientID)
+			if clientID == "" {
+				clientID = strings.TrimSpace(msg.Client)
+			}
+			if clientID == "" {
+				clientID = clientAddr.String()
+			}
+			// remove from registered clients
+			s.mu.Lock()
+			if _, ok := s.clients[clientID]; ok {
+				delete(s.clients, clientID)
+				s.mu.Unlock()
+				log.Printf("udp unregistered client %s", clientID)
+				_ = s.send(conn, clientAddr, serverMessage{
+					Type:      "unregister_ack",
+					ClientID:  clientID,
+					Message:   "client unregistered",
+					Timestamp: time.Now().Unix(),
+				})
+			} else {
+				s.mu.Unlock()
+				_ = s.send(conn, clientAddr, serverMessage{
+					Type:      "error",
+					ClientID:  clientID,
+					Error:     "client not registered",
+					Timestamp: time.Now().Unix(),
+				})
+			}
+		case "test":
+			clientID := strings.TrimSpace(msg.ClientID)
+			if clientID == "" {
+				clientID = strings.TrimSpace(msg.Client)
+			}
+			if clientID == "" {
+				clientID = clientAddr.String()
+			}
+
+			if !s.isRegistered(clientID) {
+				_ = s.send(conn, clientAddr, serverMessage{
+					Type:      "error",
+					ClientID:  clientID,
+					Error:     "client must be registered to test",
+					Timestamp: time.Now().Unix(),
+				})
+				log.Printf("udp test rejected for unregistered client %s", clientID)
+				continue
+			}
+
+			// respond with an OK so CLI can report success
+			_ = s.send(conn, clientAddr, serverMessage{
+				Type:      "ok",
+				ClientID:  clientID,
+				Message:   "test received",
+				Timestamp: time.Now().Unix(),
+			})
+			log.Printf("udp test passed for client %s", clientID)
 		default:
 			log.Printf("udp unknown message type: %s", msg.Type)
 		}

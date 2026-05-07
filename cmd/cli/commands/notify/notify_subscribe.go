@@ -56,7 +56,11 @@ func notifySubscribe(addr, client string) error {
         var resp udpServerMessage
         _ = json.Unmarshal(buf[:n], &resp)
         if resp.Type == "error" {
-            return fmt.Errorf("server error: %s", resp.Message)
+            serverErr := resp.Error
+            if serverErr == "" {
+                serverErr = resp.Message
+            }
+            return fmt.Errorf("server error: %s", serverErr)
         }
     }
 
@@ -108,44 +112,4 @@ func handleNotifyUnsubscribe(args []string) error {
     return nil
 }
 
-func handleNotifyPreferences(args []string) error {
-    fs := flag.NewFlagSet("preferences", flag.ContinueOnError)
-    addr := fs.String("addr", "127.0.0.1:9091", "UDP notify server address")
-    client := fs.String("client", "", "client id")
-    pref := fs.String("pref", "", "preference payload")
-    if err := fs.Parse(args); err != nil {
-        return err
-    }
 
-    cid := *client
-    if cid == "" {
-        cid = registeredClientID
-    }
-    if cid == "" {
-        return fmt.Errorf("no client id provided or registered")
-    }
-
-    if notifyUDPAddr == nil || notifyUDPAddr.String() != *addr {
-        a, err := net.ResolveUDPAddr("udp", *addr)
-        if err != nil {
-            return err
-        }
-        notifyUDPAddr = a
-    }
-
-    conn, err := net.DialUDP("udp", nil, notifyUDPAddr)
-    if err != nil {
-        return err
-    }
-    defer conn.Close()
-
-    // send a preferences message (simple payload)
-    m := map[string]string{"client": cid, "pref": *pref}
-    b, _ := json.Marshal(m)
-    if _, err := conn.Write(b); err != nil {
-        return err
-    }
-
-    fmt.Fprintln(os.Stdout, "preferences sent")
-    return nil
-}

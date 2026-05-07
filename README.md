@@ -60,7 +60,7 @@ mangahub library <add|list|remove|update>
 mangahub progress <update|history|sync|sync-status>
 mangahub chat <join|send|history>
 mangahub sync <connect|disconnect|status|monitor>
-mangahub notify <subscribe|unsubscribe|preferences|test>
+mangahub notify <subscribe|unsubscribe|test>
 ```
 
 ## Authentication
@@ -174,7 +174,6 @@ UDP notifications are handled through the `notify` command.
 ```bash
 mangahub notify subscribe --client-id <client_id>
 mangahub notify unsubscribe --client-id <client_id>
-mangahub notify preferences --client-id <client_id>
 mangahub notify test --manga-id <manga_id>
 ```
 

@@ -67,5 +67,5 @@ func printUsage() {
 	fmt.Println("  chat       Chat with community (join, send)")
 	fmt.Println("  grpc       Query manga and progress via gRPC")
 	fmt.Println("  sync       Manage TCP synchronization (connect, disconnect, status, monitor)")
-	fmt.Println("  notify     Manage UDP notifications (subscribe, unsubscribe, preferences, test)")
+	fmt.Println("  notify     Manage UDP notifications (subscribe, unsubscribe, test)")
 }
