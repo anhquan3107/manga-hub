@@ -32,30 +32,31 @@ type client struct {
 }
 
 type clientMessage struct {
-	Type      string `json:"type"`
-	RequestID string `json:"request_id,omitempty"`
-	UserID    string `json:"user_id,omitempty"`
-	MangaID   string `json:"manga_id,omitempty"`
-	Chapter   int    `json:"chapter,omitempty"`
-	Status    string `json:"status,omitempty"`
-	Timestamp int64  `json:"timestamp,omitempty"`
-	DeviceID  string `json:"device_id,omitempty"`
-	Strategy  string `json:"strategy,omitempty"`
+	Type      string                 `json:"type"`
+	RequestID string                 `json:"request_id,omitempty"`
+	UserID    string                 `json:"user_id,omitempty"`
+	MangaID   string                 `json:"manga_id,omitempty"`
+	Chapter   int                    `json:"chapter,omitempty"`
+	Status    string                 `json:"status,omitempty"`
+	Timestamp int64                  `json:"timestamp,omitempty"`
+	DeviceID  string                 `json:"device_id,omitempty"`
+	Strategy  string                 `json:"strategy,omitempty"`
+	Progress  *models.ProgressUpdate `json:"progress,omitempty"`
 }
 
 type serverMessage struct {
-	Type        string                 `json:"type"`
-	RequestID   string                 `json:"request_id,omitempty"`
-	Message     string                 `json:"message,omitempty"`
-	Error       string                 `json:"error,omitempty"`
-	Progress    *models.ProgressUpdate `json:"progress,omitempty"`
+	Type        string                     `json:"type"`
+	RequestID   string                     `json:"request_id,omitempty"`
+	Message     string                     `json:"message,omitempty"`
+	Error       string                     `json:"error,omitempty"`
+	Progress    *models.ProgressUpdate     `json:"progress,omitempty"`
 	Conflict    *models.ConflictResolution `json:"conflict,omitempty"`
-	SessionID   string                 `json:"session_id,omitempty"`
-	Username    string                 `json:"username,omitempty"`
-	UserID      string                 `json:"user_id,omitempty"`
-	Devices     int                    `json:"devices,omitempty"`
-	ConnectedAt int64                  `json:"connected_at,omitempty"`
-	Timestamp   int64                  `json:"timestamp"`
+	SessionID   string                     `json:"session_id,omitempty"`
+	Username    string                     `json:"username,omitempty"`
+	UserID      string                     `json:"user_id,omitempty"`
+	Devices     int                        `json:"devices,omitempty"`
+	ConnectedAt int64                      `json:"connected_at,omitempty"`
+	Timestamp   int64                      `json:"timestamp"`
 }
 
 func NewServer(addr string, userService *user.Service) *Server {
@@ -286,6 +287,22 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 
 		s.PublishProgress(update)
 		return s.send(c, serverMessage{Type: "ack", RequestID: msg.RequestID, Message: "progress updated", Progress: &update, Timestamp: time.Now().Unix()})
+	case "progress_broadcast":
+		// Relay progress broadcast from remote broadcaster to all connected clients
+		if msg.Progress == nil {
+			return errors.New("progress data is required for broadcast")
+		}
+		log.Printf("tcp relaying progress broadcast: manga=%s user=%s chapter=%d", msg.Progress.MangaID, msg.Progress.UserID, msg.Progress.Chapter)
+		s.broadcast(serverMessage{
+			Type:      "progress_broadcast",
+			Progress:  msg.Progress,
+			Timestamp: msg.Progress.Timestamp,
+		})
+		return s.send(c, serverMessage{
+			Type:      "ack",
+			Message:   "broadcast relayed",
+			Timestamp: time.Now().Unix(),
+		})
 	case "disconnect":
 		log.Printf("user %s requested disconnect", c.userID)
 		return s.send(c, serverMessage{

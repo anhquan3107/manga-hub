@@ -14,11 +14,9 @@ import (
 	"mangahub/internal/auth"
 	"mangahub/internal/chat"
 	"mangahub/internal/config"
-	grpcservice "mangahub/internal/grpc"
 	"mangahub/internal/manga"
 	"mangahub/internal/review"
 	"mangahub/internal/tcp"
-	"mangahub/internal/udp"
 	"mangahub/internal/user"
 	"mangahub/internal/websocket"
 	"mangahub/pkg/database"
@@ -56,32 +54,14 @@ func main() {
 	mangaService := manga.NewService(store)
 	reviewService := review.NewService(store)
 	userService := user.NewService(store)
-	tcpServer := tcp.NewServer(cfg.TCPAddr, userService)
-	grpcServer := grpcservice.New(cfg.GRPCAddr, mangaService, userService)
-	udpServer := udp.NewServer(cfg.UDPAddr)
+	broadcaster := tcp.NewRemoteBroadcaster(cfg.TCPServerAddr)
 	hub := websocket.NewHub()
 
 	go hub.Run(ctx)
-	go func() {
-		if err := tcpServer.ListenAndServe(ctx); err != nil {
-			log.Printf("tcp server error: %v", err)
-		}
-	}()
-	go func() {
-		log.Printf("grpc server listening on %s", cfg.GRPCAddr)
-		if err := grpcServer.Start(ctx); err != nil {
-			log.Printf("grpc server error: %v", err)
-		}
-	}()
-	go func() {
-		if err := udpServer.ListenAndServe(ctx); err != nil {
-			log.Printf("udp server error: %v", err)
-		}
-	}()
 
 	server := &http.Server{
 		Addr:    cfg.HTTPAddr,
-		Handler: router.NewRouter(cfg, authService, chatService, mangaService, reviewService, userService, hub, tcpServer),
+		Handler: router.NewRouter(cfg, authService, chatService, mangaService, reviewService, userService, hub, broadcaster),
 	}
 
 	go func() {
@@ -98,5 +78,4 @@ func main() {
 	if err := server.Shutdown(shutdownCtx); err != nil {
 		log.Printf("http shutdown error: %v", err)
 	}
-	grpcServer.Stop()
 }

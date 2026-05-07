@@ -2,9 +2,10 @@ package config
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
 	"os"
 	"strings"
+
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -12,6 +13,7 @@ type Config struct {
 	TCPAddr       string
 	UDPAddr       string
 	GRPCAddr      string
+	TCPServerAddr string
 	DatabasePath  string
 	SeedFile      string
 	JWTSecret     string
@@ -25,6 +27,7 @@ func Load() Config {
 		TCPAddr:       mustEnv("TCP_ADDR"),
 		UDPAddr:       mustEnv("UDP_ADDR"),
 		GRPCAddr:      mustEnv("GRPC_ADDR"),
+		TCPServerAddr: mustEnv("TCP_SERVER_ADDR"),
 		DatabasePath:  mustEnv("DB_PATH"),
 		SeedFile:      mustEnv("SEED_FILE"),
 		JWTSecret:     mustEnv("JWT_SECRET"),
@@ -40,4 +43,3 @@ func mustEnv(key string) string {
 	}
 	return value
 }
-
