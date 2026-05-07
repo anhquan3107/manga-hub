@@ -38,6 +38,9 @@ type clientMessage struct {
 	MangaID   string `json:"manga_id,omitempty"`
 	Chapter   int    `json:"chapter,omitempty"`
 	Status    string `json:"status,omitempty"`
+	Timestamp int64  `json:"timestamp,omitempty"`
+	DeviceID  string `json:"device_id,omitempty"`
+	Strategy  string `json:"strategy,omitempty"`
 }
 
 type serverMessage struct {
@@ -46,6 +49,7 @@ type serverMessage struct {
 	Message     string                 `json:"message,omitempty"`
 	Error       string                 `json:"error,omitempty"`
 	Progress    *models.ProgressUpdate `json:"progress,omitempty"`
+	Conflict    *models.ConflictResolution `json:"conflict,omitempty"`
 	SessionID   string                 `json:"session_id,omitempty"`
 	Username    string                 `json:"username,omitempty"`
 	UserID      string                 `json:"user_id,omitempty"`
@@ -196,6 +200,67 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 		}
 		if msg.Chapter < 0 {
 			return errors.New("chapter must be >= 0")
+		}
+
+		incomingTimestamp := msg.Timestamp
+		if incomingTimestamp == 0 {
+			incomingTimestamp = time.Now().Unix()
+		}
+
+		strategy := strings.ToLower(strings.TrimSpace(msg.Strategy))
+		if strategy == "" {
+			strategy = "last_write_wins"
+		}
+
+		if s.userService != nil {
+			if entry, err := s.userService.GetLibraryEntry(ctx, userID, strings.TrimSpace(msg.MangaID)); err == nil {
+				if msg.Chapter < entry.CurrentChapter {
+					resolution := "server_newer"
+					if strategy == "user_choice" {
+						resolution = "needs_user_choice"
+					}
+
+					return s.send(c, serverMessage{
+						Type:      "conflict",
+						RequestID: msg.RequestID,
+						Message:   "conflict detected",
+						Conflict: &models.ConflictResolution{
+							Strategy:   strategy,
+							Timestamp:  incomingTimestamp,
+							DeviceID:   strings.TrimSpace(msg.DeviceID),
+							Resolution: resolution,
+						},
+						Timestamp: time.Now().Unix(),
+					})
+				}
+
+				currentTS := entry.UpdatedAt.Unix()
+				if currentTS > incomingTimestamp {
+					resolution := "server_newer"
+					if strategy == "merge" && msg.Chapter > entry.CurrentChapter {
+						resolution = "merged_forward"
+					} else if strategy == "merge" {
+						resolution = "server_newer"
+					} else if strategy == "user_choice" {
+						resolution = "needs_user_choice"
+					}
+
+					if strategy != "merge" || resolution == "server_newer" || resolution == "needs_user_choice" {
+						return s.send(c, serverMessage{
+							Type:      "conflict",
+							RequestID: msg.RequestID,
+							Message:   "conflict detected",
+							Conflict: &models.ConflictResolution{
+								Strategy:   strategy,
+								Timestamp:  incomingTimestamp,
+								DeviceID:   strings.TrimSpace(msg.DeviceID),
+								Resolution: resolution,
+							},
+							Timestamp: time.Now().Unix(),
+						})
+					}
+				}
+			}
 		}
 
 		status := strings.TrimSpace(msg.Status)
