@@ -44,7 +44,10 @@ func main() {
 	case "sync":
 		synccmd.HandleSync(args)
 	case "notify":
-		notifycmd.HandleNotify(args)
+		if err := notifycmd.HandleNotify(args); err != nil {
+			fmt.Println("Error:", err)
+			os.Exit(1)
+		}
 	default:
 		fmt.Printf("Unknown command: %s\n", command)
 		printUsage()
