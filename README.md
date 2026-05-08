@@ -105,7 +105,10 @@ Clears the token for the current terminal session only.
 mangahub manga search "one piece"
 mangahub manga list
 mangahub manga info <manga_id>
+mangahub manga import --source mangadex --limit 100
 ```
+
+The import command pulls up to 100 manga entries from MangaDex using its public search/list endpoint, falls back to Jikan if MangaDex is unavailable, and writes the merged results back into the configured seed file. Restart the API server after importing so the new series are loaded into SQLite at startup.
 
 ## Library
 

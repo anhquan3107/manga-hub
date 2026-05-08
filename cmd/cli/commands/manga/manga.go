@@ -6,7 +6,7 @@ import (
 
 func HandleManga(args []string) {
 	if len(args) < 1 {
-		fmt.Println("Usage: mangahub manga <search|list|info> [flags]")
+		fmt.Println("Usage: mangahub manga <search|list|info|import> [flags]")
 		return
 	}
 
@@ -19,6 +19,8 @@ func HandleManga(args []string) {
 		handleList(args[1:])
 	case "info":
 		handleInfo(args[1:])
+	case "import":
+		handleImport(args[1:])
 	default:
 		fmt.Println("Unknown subcommand:", subCmd)
 	}

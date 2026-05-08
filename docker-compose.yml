@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - mangahub-data:/app/data
+      - ./data:/app/data
     restart: unless-stopped
 
   tcp:
@@ -18,7 +18,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - mangahub-data:/app/data
+      - ./data:/app/data
     restart: unless-stopped
 
   udp:
@@ -38,9 +38,5 @@ services:
     ports:
       - "9092:9092"
     volumes:
-      - mangahub-data:/app/data
+      - ./data:/app/data
     restart: unless-stopped
-
-volumes:
-  mangahub-data:
-    driver: local
