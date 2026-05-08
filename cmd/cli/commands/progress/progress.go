@@ -4,7 +4,7 @@ import "fmt"
 
 func HandleProgress(args []string) {
 	if len(args) < 1 {
-		fmt.Println("Usage: mangahub progress <update|history|sync|sync-status> [flags]")
+		fmt.Println("Usage: mangahub progress <update|history> [flags]")
 		return
 	}
 	subCmd := args[0]
@@ -14,12 +14,6 @@ func HandleProgress(args []string) {
 
 	case "history":
 		handleProgressHistory(args[1:])
-
-	case "sync":
-		handleProgressSync(args[1:])
-
-	case "sync-status":
-		handleProgressSyncStatus(args[1:])
 
 	default:
 		fmt.Println("Unknown subcommand:", subCmd)
