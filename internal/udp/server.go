@@ -203,6 +203,31 @@ func (s *Server) ListenAndServe(ctx context.Context) error {
 				Timestamp: time.Now().Unix(),
 			})
 			log.Printf("udp test passed for client %s", clientID)
+		case "test_broadcast":
+			notification := models.Notification{
+				Type:      "notification",
+				ClientID:  "server",
+				MangaID:   strings.TrimSpace(msg.MangaID),
+				Message:   "test broadcast received",
+				Timestamp: time.Now().Unix(),
+			}
+
+			if err := s.broadcast(conn, notification); err != nil {
+				log.Printf("udp test broadcast error: %v", err)
+				_ = s.send(conn, clientAddr, serverMessage{
+					Type:      "error",
+					Error:     err.Error(),
+					Timestamp: time.Now().Unix(),
+				})
+				continue
+			}
+
+			_ = s.send(conn, clientAddr, serverMessage{
+				Type:      "ok",
+				Message:   "broadcast sent to all registered clients",
+				Timestamp: time.Now().Unix(),
+			})
+			log.Printf("udp test broadcast sent for manga %s", strings.TrimSpace(msg.MangaID))
 		default:
 			log.Printf("udp unknown message type: %s", msg.Type)
 		}

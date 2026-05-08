@@ -21,8 +21,12 @@ func handleNotifyTest(args []string) error {
     if cid == "" {
         cid = registeredClientID
     }
+
     if cid == "" {
-        return fmt.Errorf("no client id provided or registered")
+        if *manga == "" {
+            return fmt.Errorf("manga id required when running broadcast test")
+        }
+        return notifyBroadcastTest(*addr, *manga)
     }
 
     return notifyTest(*addr, cid, *manga)
@@ -65,5 +69,47 @@ func notifyTest(addr, client, mangaID string) error {
         return fmt.Errorf("server response: %s", serverErr)
     }
 
+    return nil
+}
+
+func notifyBroadcastTest(addr, mangaID string) error {
+    udpAddr, err := net.ResolveUDPAddr("udp", addr)
+    if err != nil {
+        return err
+    }
+
+    conn, err := net.DialUDP("udp", nil, udpAddr)
+    if err != nil {
+        return err
+    }
+    defer conn.Close()
+
+    msg := udpClientMessage{Type: "test_broadcast", MangaID: mangaID}
+    b, _ := json.Marshal(msg)
+    if _, err := conn.Write(b); err != nil {
+        return err
+    }
+
+    if err := conn.SetReadDeadline(time.Now().Add(2 * time.Second)); err != nil {
+        return err
+    }
+
+    buf := make([]byte, 1024)
+    n, _, err := conn.ReadFromUDP(buf)
+    if err != nil {
+        return err
+    }
+
+    var resp udpServerMessage
+    _ = json.Unmarshal(buf[:n], &resp)
+    if resp.Type != "ok" {
+        serverErr := resp.Error
+        if serverErr == "" {
+            serverErr = resp.Message
+        }
+        return fmt.Errorf("server response: %s", serverErr)
+    }
+
+    fmt.Println("test OK:", resp.Message)
     return nil
 }
