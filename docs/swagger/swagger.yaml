@@ -536,7 +536,7 @@ paths:
       - auth
   /health:
     get:
-      description: Returns API server health status.
+      description: Returns health status of all services (HTTP, gRPC, TCP, UDP).
       produces:
       - application/json
       responses:
@@ -544,7 +544,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/handler.healthResponse'
-      summary: Health check
+      summary: Comprehensive health check
       tags:
       - system
   /manga:

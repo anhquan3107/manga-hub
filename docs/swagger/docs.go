@@ -192,14 +192,14 @@ const docTemplate = `{
         },
         "/health": {
             "get": {
-                "description": "Returns API server health status.",
+                "description": "Returns health status of all services (HTTP, gRPC, TCP, UDP).",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "system"
                 ],
-                "summary": "Health check",
+                "summary": "Comprehensive health check",
                 "responses": {
                     "200": {
                         "description": "OK",
