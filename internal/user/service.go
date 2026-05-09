@@ -4,8 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"strings"
-	"time"
 
 	"mangahub/internal/cache"
 	"mangahub/pkg/database"
@@ -17,21 +15,8 @@ type Service struct {
 	cache *cache.Client
 }
 
-const (
-	userCacheTTL        = 5 * time.Minute
-	userLookupCacheTTL  = 5 * time.Minute
-	userLibraryCacheTTL = 2 * time.Minute
-	userHistoryCacheTTL = 2 * time.Minute
-	userCacheVersionKey = "cache:v1:user:version"
-	userCacheNamespace  = "cache:v1:user"
-)
-
 func NewService(store *database.Store) *Service {
 	return &Service{store: store}
-}
-
-func (s *Service) SetCache(client *cache.Client) {
-	s.cache = client
 }
 
 func (s *Service) AddToLibrary(ctx context.Context, userID string, req models.AddLibraryRequest) (models.LibraryEntry, error) {
@@ -239,37 +224,4 @@ func (s *Service) GetLibraryEntry(ctx context.Context, userID, mangaID string) (
 	return s.store.GetLibraryEntry(ctx, userID, mangaID)
 }
 
-func (s *Service) invalidate(ctx context.Context) error {
-	if s.cache == nil {
-		return nil
-	}
-	_, err := s.cache.Incr(ctx, userCacheVersionKey)
-	return err
-}
-
-func (s *Service) version(ctx context.Context) int64 {
-	if s.cache == nil {
-		return 0
-	}
-	version, ok, err := s.cache.GetInt64(ctx, userCacheVersionKey)
-	if err != nil || !ok {
-		return 0
-	}
-	return version
-}
-
-func (s *Service) userKey(ctx context.Context, userID string) string {
-	return fmt.Sprintf("%s:detail:v%d:%s", userCacheNamespace, s.version(ctx), strings.TrimSpace(userID))
-}
-
-func (s *Service) usernameKey(username string) string {
-	return fmt.Sprintf("%s:username:%s", userCacheNamespace, strings.ToLower(strings.TrimSpace(username)))
-}
-
-func (s *Service) libraryKey(ctx context.Context, userID string) string {
-	return fmt.Sprintf("%s:library:v%d:%s", userCacheNamespace, s.version(ctx), strings.TrimSpace(userID))
-}
-
-func (s *Service) historyKey(ctx context.Context, userID, mangaID string) string {
-	return fmt.Sprintf("%s:history:v%d:%s:%s", userCacheNamespace, s.version(ctx), strings.TrimSpace(userID), strings.TrimSpace(mangaID))
-}
+// cache helpers moved to cache.go
