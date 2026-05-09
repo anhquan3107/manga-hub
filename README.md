@@ -211,19 +211,68 @@ Use the same command with `-race` when you want concurrency checking.
 
 ### Docker Compose
 
-Development:
+Use Docker Compose when you want to run the full MangaHub stack with one command. The Compose files start Redis plus the HTTP, TCP, UDP, and gRPC services, and they load settings from `.env`.
+
+#### 1. Prepare the environment file
+
+Copy the example file and adjust it if needed:
+
+```bash
+cp .env.example .env
+```
+
+Important values:
+
+- `HTTP_ADDR=:8080`
+- `TCP_ADDR=:9090`
+- `UDP_ADDR=:9091`
+- `GRPC_ADDR=:9092`
+- `TCP_SERVER_ADDR=:9093`
+- `DB_PATH=./data/mangahub.db`
+- `SEED_FILE=./data/manga.sample.json`
+- `REDIS_ADDR=redis:6379`
+
+#### 2. Start the development stack
 
 ```bash
 docker compose up --build
 ```
 
-Production:
+Development compose starts these containers:
+
+- `redis` - Redis cache at `redis:6379`
+- `http` - HTTP API on `http://localhost:8080`
+- `tcp` - TCP sync server on `localhost:9090`
+- `udp` - UDP notification server on `localhost:9091/udp`
+- `grpc` - gRPC server on `localhost:9092`
+
+Development uses the local `./data` directory as a bind mount, so SQLite data is saved on your machine.
+
+#### 3. Start the production stack
 
 ```bash
 docker compose -f docker-compose.prod.yml up --build
 ```
 
-Both compose files include the Redis service and the protocol servers.
+Production compose uses the published image and named volumes:
+
+- `mangahub-data` for SQLite files
+- `redis-data` for Redis persistence
+
+#### 4. Useful Docker commands
+
+```bash
+docker compose ps
+docker compose logs -f
+docker compose down
+```
+
+#### 5. Docker behavior notes
+
+- The API, TCP, UDP, and gRPC services all depend on Redis being available.
+- The API server reads the same `.env` file in both local and containerized setups.
+- If you change `SEED_FILE` or `DB_PATH`, update the mounted paths in Compose accordingly.
+- To rebuild after code changes, run `docker compose up --build` again.
 
 ## Architecture Overview
 
