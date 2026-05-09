@@ -114,17 +114,6 @@ func (s *Server) handleConn(ctx context.Context, c *client) {
 
 	log.Printf("tcp client connected: id=%s", c.id)
 
-	// Send initial greeting to client
-	greeting := serverMessage{
-		Type:      "connected",
-		Message:   "connected to tcp server",
-		Timestamp: time.Now().Unix(),
-	}
-	if err := s.send(c, greeting); err != nil {
-		log.Printf("tcp failed to send greeting to %s: %v", c.id, err)
-		return
-	}
-
 	scanner := bufio.NewScanner(c.conn)
 	scanner.Buffer(make([]byte, 0, 4096), 64*1024)
 	for scanner.Scan() {
@@ -184,6 +173,8 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 		})
 	case "ping":
 		return s.send(c, serverMessage{Type: "pong", RequestID: msg.RequestID, Timestamp: time.Now().Unix()})
+	case "health":
+		return s.send(c, serverMessage{Type: "health_ok", Message: "tcp server is healthy", Timestamp: time.Now().Unix()})
 	case "progress":
 		if s.userService == nil {
 			return errors.New("progress service is not configured")

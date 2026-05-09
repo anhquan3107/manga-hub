@@ -9,10 +9,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"mangahub/proto"
 	"mangahub/internal/manga"
 	"mangahub/internal/user"
 	"mangahub/pkg/models"
+	pb "mangahub/proto"
 )
 
 type Server struct {
@@ -39,6 +39,7 @@ func (s *Server) Start(ctx context.Context) error {
 	s.grpcServer = grpc.NewServer()
 	pb.RegisterMangaServiceServer(s.grpcServer, &mangaServer{manga: s.manga, user: s.user})
 	pb.RegisterUserServiceServer(s.grpcServer, &userServer{user: s.user})
+	pb.RegisterHealthServiceServer(s.grpcServer, &healthServer{})
 
 	go func() {
 		<-ctx.Done()
@@ -208,4 +209,12 @@ func mapUser(u models.User) *pb.User {
 		Email:     u.Email,
 		CreatedAt: u.CreatedAt.Format("2006-01-02T15:04:05Z"),
 	}
+}
+
+type healthServer struct {
+	pb.UnimplementedHealthServiceServer
+}
+
+func (s *healthServer) Check(ctx context.Context, req *pb.HealthCheckRequest) (*pb.HealthCheckReply, error) {
+	return &pb.HealthCheckReply{Status: "ok"}, nil
 }
