@@ -4,10 +4,11 @@ import (
 	"context"
 	"testing"
 
-	"github.com/alicebob/miniredis/v2"
 	"mangahub/internal/cache"
 	"mangahub/pkg/database"
 	"mangahub/pkg/models"
+
+	"github.com/alicebob/miniredis/v2"
 )
 
 func setupReviewTest(t *testing.T) (*database.Store, *Service) {

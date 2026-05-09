@@ -31,6 +31,18 @@ type client struct {
 	mu     sync.Mutex
 }
 
+func (c *client) setUserID(userID string) {
+	c.mu.Lock()
+	c.userID = userID
+	c.mu.Unlock()
+}
+
+func (c *client) getUserID() string {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	return c.userID
+}
+
 type clientMessage struct {
 	Type      string                 `json:"type"`
 	RequestID string                 `json:"request_id,omitempty"`
@@ -109,7 +121,7 @@ func (s *Server) handleConn(ctx context.Context, c *client) {
 		delete(s.clients, c.id)
 		s.mu.Unlock()
 		_ = c.conn.Close()
-		log.Printf("tcp client disconnected: id=%s user_id=%s", c.id, c.userID)
+		log.Printf("tcp client disconnected: id=%s user_id=%s", c.id, c.getUserID())
 	}()
 
 	log.Printf("tcp client connected: id=%s", c.id)
@@ -145,27 +157,34 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 			return errors.New("user_id is required for hello")
 		}
 
-		c.userID = strings.TrimSpace(msg.UserID)
+		c.setUserID(strings.TrimSpace(msg.UserID))
+		userID := c.getUserID()
 
 		sessionID := fmt.Sprintf("sess-%d", time.Now().UnixNano())
-		username := c.userID
+		username := userID
 		if s.userService != nil {
-			user, err := s.userService.GetUserByID(ctx, c.userID)
+			user, err := s.userService.GetUserByID(ctx, userID)
 			if err == nil {
 				username = user.Username
 			}
 		}
 		// count devices for this user
 		deviceCount := 0
+		s.mu.RLock()
+		clients := make([]*client, 0, len(s.clients))
 		for _, client := range s.clients {
-			if client.userID == c.userID {
+			clients = append(clients, client)
+		}
+		s.mu.RUnlock()
+		for _, client := range clients {
+			if client.getUserID() == userID {
 				deviceCount++
 			}
 		}
 		return s.send(c, serverMessage{
 			Type:        "hello_ack",
 			SessionID:   sessionID,
-			UserID:      c.userID,
+			UserID:      userID,
 			Username:    username,
 			Devices:     deviceCount,
 			ConnectedAt: time.Now().Unix(),
@@ -182,7 +201,7 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 
 		userID := strings.TrimSpace(msg.UserID)
 		if userID == "" {
-			userID = strings.TrimSpace(c.userID)
+			userID = c.getUserID()
 		}
 		if userID == "" {
 			return errors.New("user_id is required")
@@ -295,7 +314,7 @@ func (s *Server) handleMessage(ctx context.Context, c *client, msg clientMessage
 			Timestamp: time.Now().Unix(),
 		})
 	case "disconnect":
-		log.Printf("user %s requested disconnect", c.userID)
+		log.Printf("user %s requested disconnect", c.getUserID())
 		return s.send(c, serverMessage{
 			Type:      "ack",
 			Message:   "disconnected",
