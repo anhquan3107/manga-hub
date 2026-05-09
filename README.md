@@ -100,8 +100,6 @@ The implemented system includes SQLite persistence, Swagger API documentation, R
 - `mangahub progress update --manga-id <manga_id> --chapter <number>`
 - `mangahub progress update --manga-id <manga_id> --chapter <number> --volume <number>`
 - `mangahub progress history --manga-id <manga_id>`
-- `mangahub progress sync`
-- `mangahub progress sync-status`
 - `mangahub sync connect`
 - `mangahub sync connect --user-id <user_id>`
 - `mangahub sync disconnect --user-id <user_id>`
