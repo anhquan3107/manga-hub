@@ -1,208 +1,229 @@
 # MangaHub
 
-MangaHub is a Go-based manga platform with a CLI for authentication, manga browsing, library tracking, progress sync, chat, and notifications.
+## API Documentation
 
-## Quick Start
+MangaHub is a Go-based manga tracking system created for the IT096IU Network Programming term project. It demonstrates network application development through the five required communication protocols in one application:
 
-### 1. Build the CLI
+- HTTP for authentication, manga browsing, library management, reviews, and health checks
+- TCP for reading progress synchronization
+- UDP for notifications
+- WebSocket for realtime chat and room management
+- gRPC for internal service-to-service communication
 
-```bash
-go build -o build/mangahub ./cmd/cli/app
-```
+The implemented system includes SQLite persistence, Swagger API documentation, Redis caching for frequently accessed data, Docker Compose deployment, and a CLI for terminal-based interaction.
 
-### 2. Start the backend services
+### Main HTTP API
 
-The CLI talks to the API server and the realtime services. Start the server from the build directory:
+#### System
 
-```bash
-cd build
-./mangahub server start
-```
+- `GET /health`
+- `GET /swagger/*any`
 
-### 3. Configure Environment Variables
+#### Authentication
 
-Copy the example environment file and adjust values as needed:
+- `POST /auth/register`
+- `POST /auth/login`
+- `POST /auth/logout`
+- `POST /auth/change-password`
+
+#### Manga
+
+- `GET /manga`
+- `GET /manga/:id`
+- `POST /manga`
+- `PUT /manga/:id`
+- `DELETE /manga/:id`
+
+#### Reviews
+
+- `GET /manga/:id/reviews`
+- `POST /manga/:id/reviews`
+- `GET /manga/:id/reviews/me`
+- `POST /manga/:id/reviews/:user_id/helpful`
+
+#### User Library and Progress
+
+- `GET /users/me`
+- `GET /users/library`
+- `POST /users/library`
+- `PUT /users/library/:id`
+- `DELETE /users/library/:id`
+- `PUT /users/progress`
+- `GET /users/progress/history`
+- `POST /users/pm`
+
+#### Realtime Chat
+
+- `GET /ws/chat`
+- `GET /rooms/users`
+- `GET /rooms/:room/users`
+- `GET /rooms/:room/history`
+
+### gRPC Methods
+
+#### Manga Service
+
+- `GetManga`
+- `SearchManga`
+
+#### Progress Service
+
+- `UpdateProgress`
+
+### CLI Commands
+
+#### Authentication
+
+- `mangahub auth register`
+- `mangahub auth login`
+- `mangahub auth logout`
+- `mangahub auth status`
+- `mangahub auth change-password`
+
+#### Manga Management
+
+- `mangahub manga search`
+- `mangahub manga list`
+- `mangahub manga info`
+
+#### Library Operations
+
+- `mangahub library add`
+- `mangahub library list`
+- `mangahub library update`
+- `mangahub library remove`
+
+#### Progress Synchronization
+
+- `mangahub progress update`
+- `mangahub progress history`
+- `mangahub progress sync`
+- `mangahub progress sync-status`
+- `mangahub sync connect`
+- `mangahub sync disconnect`
+- `mangahub sync status`
+- `mangahub sync monitor`
+
+#### Notifications
+
+- `mangahub notify subscribe`
+- `mangahub notify unsubscribe`
+- `mangahub notify test`
+
+#### Chat
+
+- `mangahub chat join`
+- `mangahub chat send`
+- `mangahub chat history`
+
+## Setup Instructions
+
+### Prerequisites
+
+- Go 1.25 or later
+- SQLite
+- Docker and Docker Compose
+- Redis for the optional cache layer and the container stack
+
+### Local Setup
+
+1. Copy the environment template:
 
 ```bash
 cp .env.example .env
 ```
 
-The server reads `HTTP_ADDR`, `TCP_ADDR`, `UDP_ADDR`, `GRPC_ADDR`, `DB_PATH`, `SEED_FILE`, `JWT_SECRET`, and `ALLOWED_ORIGIN` from the environment. The CLI derives its API, WebSocket, TCP, UDP, and gRPC targets from `HTTP_ADDR`, so you only need to keep that server address in sync.
+2. Update values in `.env` if needed.
+3. Make sure the seed data file exists at the configured `SEED_FILE` path.
+4. Start the servers or run the project through Docker Compose.
 
-### 4. Run with Docker Compose
+### Environment Variables
 
-To run all services in containers:
+The application reads these variables:
+
+- `HTTP_ADDR`
+- `TCP_ADDR`
+- `UDP_ADDR`
+- `GRPC_ADDR`
+- `TCP_SERVER_ADDR`
+- `DB_PATH`
+- `SEED_FILE`
+- `JWT_SECRET`
+- `ALLOWED_ORIGIN`
+- `REDIS_ADDR`
+- `REDIS_PASSWORD`
+
+### Build
+
+```bash
+go build -o bin/api-server ./cmd/api-server
+go build -o bin/tcp-server ./cmd/tcp-server
+go build -o bin/udp-server ./cmd/udp-server
+go build -o bin/grpc-server ./cmd/grpc-server
+go build -o bin/mangahub ./cmd/cli/app
+```
+
+### Test
+
+```bash
+GOFLAGS=-tags=sqlite_fts5 go test -v ./...
+```
+
+Use the same command with `-race` when you want concurrency checking.
+
+### Docker Compose
+
+Development:
 
 ```bash
 docker compose up --build
 ```
 
-This starts:
-- **http**: API server on port 8080
-- **tcp**: Sync service on port 9090
-- **udp**: Notification service on port 9091
-- **grpc**: gRPC service on port 9092
-
-All services use a shared SQLite volume (`mangahub-data`) for data persistence.
-
-To run the CLI inside the container (optional):
+Production:
 
 ```bash
-docker compose --profile tools run --rm cli mangahub auth status
+docker compose -f docker-compose.prod.yml up --build
 ```
 
-## CLI Overview
+Both compose files include the Redis service and the protocol servers.
 
-```bash
-mangahub auth <register|login|logout|status|change-password>
-mangahub manga <search|list|info>
-mangahub library <add|list|remove|update>
-mangahub progress <update|history|sync|sync-status>
-mangahub chat <join|send|history>
-mangahub sync <connect|disconnect|status|monitor>
-mangahub notify <subscribe|unsubscribe|test>
-```
+## Architecture Overview
 
-## Authentication
+MangaHub is organized as a multi-service Go application with a shared SQLite data layer.
 
-Auth tokens are saved per terminal session under `~/.mangahub/<session_id>/token`, so two terminals can stay logged in as different users at the same time.
-
-### Register
-
-```bash
-mangahub auth register --username <username> --email <email>
-```
-
-The CLI prompts for password and confirmation.
-
-### Login
-
-```bash
-mangahub auth login --username <username>
-```
-
-The CLI prompts for the password and stores the returned token for the current terminal session.
-
-### Status
-
-```bash
-mangahub auth status
-```
-
-Shows the active session, token status, and current user information.
-
-### Logout
-
-```bash
-mangahub auth logout
-```
-
-Clears the token for the current terminal session only.
-
-## Manga
-
-```bash
-mangahub manga search "one piece"
-mangahub manga list
-mangahub manga info <manga_id>
-mangahub manga import --source mangadex --limit 100
-```
-
-The import command pulls up to 100 manga entries from MangaDex using its public search/list endpoint, falls back to Jikan if MangaDex is unavailable, and writes the merged results back into the configured seed file. Restart the API server after importing so the new series are loaded into SQLite at startup.
-
-## Library
-
-Requires login.
-
-```bash
-mangahub library add --manga-id <manga_id> --status reading
-mangahub library list
-mangahub library remove <manga_id>
-mangahub library update --manga-id <manga_id> --status completed --rating 9
-```
-
-## Progress
-
-Requires login.
-
-```bash
-mangahub progress update --manga-id <manga_id> --chapter 12
-mangahub progress history --manga-id <manga_id>
-mangahub progress sync --user-id <user_id>
-mangahub progress sync-status
-```
-
-The progress update command also broadcasts updates to the TCP sync service.
-
-## Chat
-
-Join a realtime room over WebSocket:
-
-```bash
-mangahub chat join
-```
-
-Inside chat:
-- Type any message and press Enter to send
-- Use `/users` to list online users
-- Use `/history` to show recent messages
-- Use `/manga <manga_id>` to switch rooms
-- Use `/pm <username> <message>` to send a private message
-- Use `/quit` to leave chat
-
-Examples:
-
-```bash
-mangahub chat send "hello everyone"
-mangahub chat history --limit 20
-```
-
-Private messages are stored in the database and pushed in realtime to connected recipients.
-
-## Sync
-
-TCP sync is available for progress coordination.
-
-```bash
-mangahub sync connect --user-id <user_id>
-mangahub sync disconnect --user-id <user_id>
-mangahub sync status
-mangahub sync monitor
-```
-
-## Notifications
-
-UDP notifications are handled through the `notify` command.
-
-```bash
-mangahub notify subscribe --client-id <client_id>
-mangahub notify unsubscribe --client-id <client_id>
-mangahub notify test --manga-id <manga_id>
-```
-
-## Project Structure
+### Service Layout
 
 - `cmd/api-server` - HTTP API entrypoint
-- `cmd/cli` - CLI entrypoint and commands
-- `internal/api` - HTTP handlers and routing
-- `internal/auth` - JWT auth service and middleware
-- `internal/chat` - chat business logic
-- `internal/websocket` - realtime chat hub and handler
-- `internal/user` - user and library services
-- `pkg/database` - SQLite repositories and schema setup
-- `pkg/models` - request and response models
+- `cmd/tcp-server` - TCP progress sync server
+- `cmd/udp-server` - UDP notification server
+- `cmd/grpc-server` - gRPC service entrypoint
+- `cmd/cli/app` - CLI entrypoint
 
-## Notes
+### Internal Packages
 
-- The API server uses SQLite by default at `./data/mangahub.db`
-- Seed manga data comes from `./data/manga.sample.json`
-- The CLI is designed to work with the current session-scoped token storage so multiple terminals can stay authenticated independently
-- Environment-based configuration is supported through `.env` and `.env.example`
+- `internal/api` - router, handlers, middleware
+- `internal/auth` - authentication service and middleware
+- `internal/manga` - manga business logic and caching
+- `internal/user` - user, library, and progress logic and caching
+- `internal/review` - review and rating logic and caching
+- `internal/tcp` - TCP synchronization server
+- `internal/udp` - UDP notification server
+- `internal/websocket` - WebSocket chat hub and handler
+- `internal/grpc` - gRPC service implementation
+- `internal/cache` - Redis client wrapper
+- `pkg/database` - SQLite store and repositories
+- `pkg/models` - shared models
+- `proto` - protobuf definitions and generated code
 
-## API Documentation
+### Request Flow
 
-Swagger UI is available when the API server is running:
+1. The HTTP API handles authentication, manga browsing, library updates, reviews, and health checks.
+2. The TCP server broadcasts reading progress updates to connected clients.
+3. The UDP server manages notification registration and broadcasts.
+4. The WebSocket server handles realtime chat rooms and private messaging.
+5. The gRPC server exposes internal manga and progress methods.
+6. Redis is used as an optional cache layer for frequently accessed read paths in manga, review, and user services.
 
-- `http://localhost:8080/swagger/index.html`
+### Data Storage
 
-
+The application stores data in SQLite with tables for users, manga, user progress, reviews, chat messages, and private messages. Seed manga data is loaded from `data/manga.sample.json` at startup.
