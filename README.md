@@ -74,47 +74,87 @@ The implemented system includes SQLite persistence, Swagger API documentation, R
 
 #### Authentication
 
-- `mangahub auth register`
-- `mangahub auth login`
+- `mangahub auth register --username <username> --email <email>`
+- `mangahub auth login --username <username>`
+- `mangahub auth login --email <email>`
 - `mangahub auth logout`
 - `mangahub auth status`
 - `mangahub auth change-password`
 
 #### Manga Management
 
-- `mangahub manga search`
+- `mangahub manga search <query>`
 - `mangahub manga list`
-- `mangahub manga info`
+- `mangahub manga info <manga_id>`
+- `mangahub manga import --source <mangadex|jikan> --limit <n> --seed-file <path>`
 
 #### Library Operations
 
-- `mangahub library add`
+- `mangahub library add --manga-id <manga_id> --status <reading|completed|plan-to-read|on-hold|dropped>`
 - `mangahub library list`
-- `mangahub library update`
-- `mangahub library remove`
+- `mangahub library update --manga-id <manga_id> --status <status> [--rating <1-10>]`
+- `mangahub library remove --manga-id <manga_id>`
 
 #### Progress Synchronization
 
-- `mangahub progress update`
-- `mangahub progress history`
+- `mangahub progress update --manga-id <manga_id> --chapter <number>`
+- `mangahub progress update --manga-id <manga_id> --chapter <number> --volume <number>`
+- `mangahub progress history --manga-id <manga_id>`
 - `mangahub progress sync`
 - `mangahub progress sync-status`
 - `mangahub sync connect`
-- `mangahub sync disconnect`
+- `mangahub sync connect --user-id <user_id>`
+- `mangahub sync disconnect --user-id <user_id>`
 - `mangahub sync status`
 - `mangahub sync monitor`
 
 #### Notifications
 
-- `mangahub notify subscribe`
-- `mangahub notify unsubscribe`
+- `mangahub notify subscribe --addr <udp_addr> --client <client_id>`
+- `mangahub notify unsubscribe --addr <udp_addr> --client <client_id>`
 - `mangahub notify test`
+
+#### Reviews
+
+- `mangahub review add --manga-id <manga_id> --rating <1-10> --text <text>`
+- `mangahub review list --manga-id <manga_id> [--limit <n>] [--sort recent|helpful]`
+- `mangahub review mine --manga-id <manga_id>`
+- `mangahub review helpful --manga-id <manga_id> --user-id <user_id>`
+
+#### gRPC
+
+- `mangahub grpc manga get --id <manga_id>`
+- `mangahub grpc manga search --query <text> [--limit <n>]`
+- `mangahub grpc progress update --manga-id <manga_id> --chapter <number>`
+- `mangahub grpc progress update --manga-id <manga_id> --chapter <number> --volume <number> [--user-id <user_id>] [--force] [--notes <text>]`
+- `mangahub grpc user get --user-id <user_id>`
+- `mangahub grpc user get --username <username>`
+- `mangahub grpc user library --user-id <user_id>`
+
+#### Server Management
+
+- `mangahub server start`
+- `mangahub server health`
+- `mangahub server status`
 
 #### Chat
 
 - `mangahub chat join`
-- `mangahub chat send`
+- `mangahub chat join --manga-id <manga_id>`
+- `mangahub chat send "<message>"`
+- `mangahub chat send "<message>" --manga-id <manga_id>`
 - `mangahub chat history`
+- `mangahub chat history --manga-id <manga_id> --limit <n>`
+
+#### Interactive Chat Commands
+
+- `/help` - show chat commands
+- `/users` - list online users
+- `/quit` - leave chat
+- `/pm <user> <message>` - send a private message
+- `/manga <manga_id>` - switch rooms
+- `/history` - show recent history
+- `/status` - show connection status
 
 ## Setup Instructions
 
