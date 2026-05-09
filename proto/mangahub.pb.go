@@ -917,6 +917,86 @@ func (x *LibraryResponse) GetError() string {
 	return ""
 }
 
+type HealthCheckRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HealthCheckRequest) Reset() {
+	*x = HealthCheckRequest{}
+	mi := &file_mangahub_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HealthCheckRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HealthCheckRequest) ProtoMessage() {}
+
+func (x *HealthCheckRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_mangahub_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HealthCheckRequest.ProtoReflect.Descriptor instead.
+func (*HealthCheckRequest) Descriptor() ([]byte, []int) {
+	return file_mangahub_proto_rawDescGZIP(), []int{14}
+}
+
+type HealthCheckReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HealthCheckReply) Reset() {
+	*x = HealthCheckReply{}
+	mi := &file_mangahub_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HealthCheckReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HealthCheckReply) ProtoMessage() {}
+
+func (x *HealthCheckReply) ProtoReflect() protoreflect.Message {
+	mi := &file_mangahub_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HealthCheckReply.ProtoReflect.Descriptor instead.
+func (*HealthCheckReply) Descriptor() ([]byte, []int) {
+	return file_mangahub_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *HealthCheckReply) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
 var File_mangahub_proto protoreflect.FileDescriptor
 
 const file_mangahub_proto_rawDesc = "" +
@@ -986,7 +1066,10 @@ const file_mangahub_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"Y\n" +
 	"\x0fLibraryResponse\x120\n" +
 	"\aentries\x18\x01 \x03(\v2\x16.mangahub.LibraryEntryR\aentries\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error2\xd9\x01\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\x14\n" +
+	"\x12HealthCheckRequest\"*\n" +
+	"\x10HealthCheckReply\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status2\xd9\x01\n" +
 	"\fMangaService\x12>\n" +
 	"\bGetManga\x12\x19.mangahub.GetMangaRequest\x1a\x17.mangahub.MangaResponse\x12@\n" +
 	"\vSearchManga\x12\x17.mangahub.SearchRequest\x1a\x18.mangahub.SearchResponse\x12G\n" +
@@ -994,7 +1077,9 @@ const file_mangahub_proto_rawDesc = "" +
 	"\vUserService\x12;\n" +
 	"\aGetUser\x12\x18.mangahub.GetUserRequest\x1a\x16.mangahub.UserResponse\x12D\n" +
 	"\n" +
-	"GetLibrary\x12\x1b.mangahub.GetLibraryRequest\x1a\x19.mangahub.LibraryResponseB\x1eZ\x1cmangahub/internal/grpc/pb;pbb\x06proto3"
+	"GetLibrary\x12\x1b.mangahub.GetLibraryRequest\x1a\x19.mangahub.LibraryResponse2R\n" +
+	"\rHealthService\x12A\n" +
+	"\x05Check\x12\x1c.mangahub.HealthCheckRequest\x1a\x1a.mangahub.HealthCheckReplyB\x13Z\x11mangahub/proto;pbb\x06proto3"
 
 var (
 	file_mangahub_proto_rawDescOnce sync.Once
@@ -1008,22 +1093,24 @@ func file_mangahub_proto_rawDescGZIP() []byte {
 	return file_mangahub_proto_rawDescData
 }
 
-var file_mangahub_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_mangahub_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_mangahub_proto_goTypes = []any{
-	(*Manga)(nil),             // 0: mangahub.Manga
-	(*LibraryEntry)(nil),      // 1: mangahub.LibraryEntry
-	(*ProgressResult)(nil),    // 2: mangahub.ProgressResult
-	(*GetMangaRequest)(nil),   // 3: mangahub.GetMangaRequest
-	(*MangaResponse)(nil),     // 4: mangahub.MangaResponse
-	(*SearchRequest)(nil),     // 5: mangahub.SearchRequest
-	(*SearchResponse)(nil),    // 6: mangahub.SearchResponse
-	(*ProgressRequest)(nil),   // 7: mangahub.ProgressRequest
-	(*ProgressResponse)(nil),  // 8: mangahub.ProgressResponse
-	(*User)(nil),              // 9: mangahub.User
-	(*GetUserRequest)(nil),    // 10: mangahub.GetUserRequest
-	(*UserResponse)(nil),      // 11: mangahub.UserResponse
-	(*GetLibraryRequest)(nil), // 12: mangahub.GetLibraryRequest
-	(*LibraryResponse)(nil),   // 13: mangahub.LibraryResponse
+	(*Manga)(nil),              // 0: mangahub.Manga
+	(*LibraryEntry)(nil),       // 1: mangahub.LibraryEntry
+	(*ProgressResult)(nil),     // 2: mangahub.ProgressResult
+	(*GetMangaRequest)(nil),    // 3: mangahub.GetMangaRequest
+	(*MangaResponse)(nil),      // 4: mangahub.MangaResponse
+	(*SearchRequest)(nil),      // 5: mangahub.SearchRequest
+	(*SearchResponse)(nil),     // 6: mangahub.SearchResponse
+	(*ProgressRequest)(nil),    // 7: mangahub.ProgressRequest
+	(*ProgressResponse)(nil),   // 8: mangahub.ProgressResponse
+	(*User)(nil),               // 9: mangahub.User
+	(*GetUserRequest)(nil),     // 10: mangahub.GetUserRequest
+	(*UserResponse)(nil),       // 11: mangahub.UserResponse
+	(*GetLibraryRequest)(nil),  // 12: mangahub.GetLibraryRequest
+	(*LibraryResponse)(nil),    // 13: mangahub.LibraryResponse
+	(*HealthCheckRequest)(nil), // 14: mangahub.HealthCheckRequest
+	(*HealthCheckReply)(nil),   // 15: mangahub.HealthCheckReply
 }
 var file_mangahub_proto_depIdxs = []int32{
 	1,  // 0: mangahub.ProgressResult.entry:type_name -> mangahub.LibraryEntry
@@ -1037,13 +1124,15 @@ var file_mangahub_proto_depIdxs = []int32{
 	7,  // 8: mangahub.MangaService.UpdateProgress:input_type -> mangahub.ProgressRequest
 	10, // 9: mangahub.UserService.GetUser:input_type -> mangahub.GetUserRequest
 	12, // 10: mangahub.UserService.GetLibrary:input_type -> mangahub.GetLibraryRequest
-	4,  // 11: mangahub.MangaService.GetManga:output_type -> mangahub.MangaResponse
-	6,  // 12: mangahub.MangaService.SearchManga:output_type -> mangahub.SearchResponse
-	8,  // 13: mangahub.MangaService.UpdateProgress:output_type -> mangahub.ProgressResponse
-	11, // 14: mangahub.UserService.GetUser:output_type -> mangahub.UserResponse
-	13, // 15: mangahub.UserService.GetLibrary:output_type -> mangahub.LibraryResponse
-	11, // [11:16] is the sub-list for method output_type
-	6,  // [6:11] is the sub-list for method input_type
+	14, // 11: mangahub.HealthService.Check:input_type -> mangahub.HealthCheckRequest
+	4,  // 12: mangahub.MangaService.GetManga:output_type -> mangahub.MangaResponse
+	6,  // 13: mangahub.MangaService.SearchManga:output_type -> mangahub.SearchResponse
+	8,  // 14: mangahub.MangaService.UpdateProgress:output_type -> mangahub.ProgressResponse
+	11, // 15: mangahub.UserService.GetUser:output_type -> mangahub.UserResponse
+	13, // 16: mangahub.UserService.GetLibrary:output_type -> mangahub.LibraryResponse
+	15, // 17: mangahub.HealthService.Check:output_type -> mangahub.HealthCheckReply
+	12, // [12:18] is the sub-list for method output_type
+	6,  // [6:12] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
 	6,  // [6:6] is the sub-list for extension extendee
 	0,  // [0:6] is the sub-list for field type_name
@@ -1060,9 +1149,9 @@ func file_mangahub_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_mangahub_proto_rawDesc), len(file_mangahub_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
-			NumServices:   2,
+			NumServices:   3,
 		},
 		GoTypes:           file_mangahub_proto_goTypes,
 		DependencyIndexes: file_mangahub_proto_depIdxs,

@@ -29,13 +29,14 @@ func NewRouter(
 	router := gin.New()
 	router.Use(gin.Logger(), gin.Recovery(), middleware.CORS(cfg.AllowedOrigin))
 	h := handler.New(handler.Dependencies{
-		AuthService:  authService,
-		ChatService:  chatService,
-		MangaService: mangaService,
+		AuthService:   authService,
+		ChatService:   chatService,
+		MangaService:  mangaService,
 		ReviewService: reviewService,
-		UserService:  userService,
-		Hub:          hub,
-		Broadcaster:  progressBroadcaster,
+		UserService:   userService,
+		Hub:           hub,
+		Broadcaster:   progressBroadcaster,
+		Config:        cfg,
 	})
 
 	router.GET("/health", h.Health)

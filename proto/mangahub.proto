@@ -95,6 +95,12 @@ message LibraryResponse {
   string error = 2;
 }
 
+message HealthCheckRequest {}
+
+message HealthCheckReply {
+  string status = 1;
+}
+
 service MangaService {
   rpc GetManga(GetMangaRequest) returns (MangaResponse);
   rpc SearchManga(SearchRequest) returns (SearchResponse);
@@ -104,4 +110,8 @@ service MangaService {
 service UserService {
   rpc GetUser(GetUserRequest) returns (UserResponse);
   rpc GetLibrary(GetLibraryRequest) returns (LibraryResponse);
+}
+
+service HealthService {
+  rpc Check(HealthCheckRequest) returns (HealthCheckReply);
 }

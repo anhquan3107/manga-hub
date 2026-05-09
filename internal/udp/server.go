@@ -27,7 +27,7 @@ type registeredClient struct {
 }
 
 type clientMessage struct {
-	Type      string `json:"type"`
+	Type string `json:"type"`
 	// Accept both "client_id" (server tests) and "client" (CLI)
 	ClientID  string `json:"client_id,omitempty"`
 	Client    string `json:"client,omitempty"`
@@ -146,6 +146,12 @@ func (s *Server) ListenAndServe(ctx context.Context) error {
 			if err := s.broadcast(conn, notification); err != nil {
 				log.Printf("udp broadcast error: %v", err)
 			}
+		case "health":
+			_ = s.send(conn, clientAddr, serverMessage{
+				Type:      "health_ok",
+				Message:   "udp server is healthy",
+				Timestamp: time.Now().Unix(),
+			})
 		case "unsubscribe", "unregister":
 			clientID := strings.TrimSpace(msg.ClientID)
 			if clientID == "" {
