@@ -173,7 +173,44 @@ cp .env.example .env
 
 2. Update values in `.env` if needed.
 3. Make sure the seed data file exists at the configured `SEED_FILE` path.
-4. Start the servers or run the project through Docker Compose.
+4. Install dependencies if needed:
+
+```bash
+go mod tidy
+```
+
+5. Create the output and data directories:
+
+```bash
+mkdir -p bin data
+```
+
+#### Build the local binaries
+
+```bash
+go build -o bin/api-server ./cmd/api-server
+go build -o bin/tcp-server ./cmd/tcp-server
+go build -o bin/udp-server ./cmd/udp-server
+go build -o bin/grpc-server ./cmd/grpc-server
+go build -o bin/mangahub ./cmd/cli/app
+```
+
+#### Start the app locally after build
+
+Run each server in a separate terminal:
+
+```bash
+./bin/api-server
+./bin/tcp-server
+./bin/udp-server
+./bin/grpc-server
+```
+
+If you want to use the CLI locally:
+
+```bash
+./bin/mangahub
+```
 
 ### Environment Variables
 
@@ -191,16 +228,6 @@ The application reads these variables:
 - `REDIS_ADDR`
 - `REDIS_PASSWORD`
 
-### Build
-
-```bash
-go build -o bin/api-server ./cmd/api-server
-go build -o bin/tcp-server ./cmd/tcp-server
-go build -o bin/udp-server ./cmd/udp-server
-go build -o bin/grpc-server ./cmd/grpc-server
-go build -o bin/mangahub ./cmd/cli/app
-```
-
 ### Test
 
 ```bash
@@ -212,6 +239,13 @@ Use the same command with `-race` when you want concurrency checking.
 ### Docker Compose
 
 Use Docker Compose when you want to run the full MangaHub stack with one command. The Compose files start Redis plus the HTTP, TCP, UDP, and gRPC services, and they load settings from `.env`.
+
+#### Quick start
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
 
 #### 1. Prepare the environment file
 
@@ -236,6 +270,21 @@ Important values:
 
 ```bash
 docker compose up --build
+```
+
+After the containers are up, the app is already running. Use these local URLs:
+
+- API: `http://localhost:8080`
+- Swagger: `http://localhost:8080/swagger/index.html`
+- TCP sync: `localhost:9090`
+- UDP notifications: `localhost:9091`
+- gRPC: `localhost:9092`
+
+If you want to use the CLI against the Docker stack, build the CLI first and then run the binary in another terminal:
+
+```bash
+go build -o bin/mangahub ./cmd/cli/app
+./bin/mangahub
 ```
 
 Development compose starts these containers:
