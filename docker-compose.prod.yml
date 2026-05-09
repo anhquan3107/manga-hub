@@ -1,9 +1,18 @@
 services:
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
   http:
     image: ghcr.io/anhquan3107/manga-hub:latest
     command: api-server
     env_file:
       - .env
+    depends_on:
+      - redis
     ports:
       - "8080:8080"
     volumes:
@@ -15,6 +24,8 @@ services:
     command: tcp-server
     env_file:
       - .env
+    depends_on:
+      - redis
     ports:
       - "9090:9090"
     volumes:
@@ -26,6 +37,8 @@ services:
     command: udp-server
     env_file:
       - .env
+    depends_on:
+      - redis
     ports:
       - "9091:9091/udp"
     restart: unless-stopped
@@ -35,6 +48,8 @@ services:
     command: grpc-server
     env_file:
       - .env
+    depends_on:
+      - redis
     ports:
       - "9092:9092"
     volumes:
@@ -43,4 +58,6 @@ services:
 
 volumes:
   mangahub-data:
+    driver: local
+  redis-data:
     driver: local

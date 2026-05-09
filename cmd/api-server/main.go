@@ -12,6 +12,7 @@ import (
 	_ "mangahub/docs/swagger"
 	"mangahub/internal/api/router"
 	"mangahub/internal/auth"
+	"mangahub/internal/cache"
 	"mangahub/internal/chat"
 	"mangahub/internal/config"
 	"mangahub/internal/manga"
@@ -49,11 +50,24 @@ func main() {
 		log.Fatalf("manga seed failed: %v", err)
 	}
 
+	var redisCache *cache.Client
+	if cfg.RedisAddr != "" {
+		redisCache, err = cache.NewRedis(cfg.RedisAddr, cfg.RedisPassword, cfg.RedisDB)
+		if err != nil {
+			log.Printf("redis cache disabled: %v", err)
+		} else {
+			defer redisCache.Close()
+		}
+	}
+
 	authService := auth.NewService(store, cfg.JWTSecret)
 	chatService := chat.NewService(store)
 	mangaService := manga.NewService(store)
 	reviewService := review.NewService(store)
 	userService := user.NewService(store)
+	mangaService.SetCache(redisCache)
+	reviewService.SetCache(redisCache)
+	userService.SetCache(redisCache)
 	broadcaster := tcp.NewRemoteBroadcaster(cfg.TCPServerAddr)
 	hub := websocket.NewHub()
 

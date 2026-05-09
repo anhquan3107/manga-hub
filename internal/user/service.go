@@ -4,17 +4,34 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
+	"time"
 
+	"mangahub/internal/cache"
 	"mangahub/pkg/database"
 	"mangahub/pkg/models"
 )
 
 type Service struct {
 	store *database.Store
+	cache *cache.Client
 }
+
+const (
+	userCacheTTL        = 5 * time.Minute
+	userLookupCacheTTL  = 5 * time.Minute
+	userLibraryCacheTTL = 2 * time.Minute
+	userHistoryCacheTTL = 2 * time.Minute
+	userCacheVersionKey = "cache:v1:user:version"
+	userCacheNamespace  = "cache:v1:user"
+)
 
 func NewService(store *database.Store) *Service {
 	return &Service{store: store}
+}
+
+func (s *Service) SetCache(client *cache.Client) {
+	s.cache = client
 }
 
 func (s *Service) AddToLibrary(ctx context.Context, userID string, req models.AddLibraryRequest) (models.LibraryEntry, error) {
@@ -79,6 +96,7 @@ func (s *Service) UpdateProgress(ctx context.Context, userID string, req models.
 	if err != nil {
 		return models.ProgressUpdateResult{}, err
 	}
+	_ = s.invalidate(ctx)
 
 	_ = s.store.InsertProgressHistory(ctx, models.ProgressHistoryEntry{
 		UserID:          userID,
@@ -100,11 +118,31 @@ func (s *Service) UpdateProgress(ctx context.Context, userID string, req models.
 }
 
 func (s *Service) GetLibrary(ctx context.Context, userID string) ([]models.LibraryEntry, error) {
-	return s.store.GetUserLibrary(ctx, userID)
+	if s.cache != nil {
+		var items []models.LibraryEntry
+		if ok, err := s.cache.GetJSON(ctx, s.libraryKey(ctx, userID), &items); err == nil && ok {
+			return items, nil
+		}
+	}
+
+	items, err := s.store.GetUserLibrary(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	if s.cache != nil {
+		_ = s.cache.SetJSON(ctx, s.libraryKey(ctx, userID), items, userLibraryCacheTTL)
+	}
+
+	return items, nil
 }
 
 func (s *Service) RemoveFromLibrary(ctx context.Context, userID, mangaID string) error {
-	return s.store.DeleteLibraryEntry(ctx, userID, mangaID)
+	if err := s.store.DeleteLibraryEntry(ctx, userID, mangaID); err != nil {
+		return err
+	}
+	_ = s.invalidate(ctx)
+	return nil
 }
 
 func (s *Service) UpdateLibrary(ctx context.Context, userID, mangaID string, req models.UpdateLibraryRequest) (models.LibraryEntry, error) {
@@ -126,24 +164,112 @@ func (s *Service) UpdateLibrary(ctx context.Context, userID, mangaID string, req
 			updated.Rating = req.Rating
 		}
 
-		return s.store.UpsertLibraryEntry(ctx, userID, updated)
+		entry, err := s.store.UpsertLibraryEntry(ctx, userID, updated)
+		if err != nil {
+			return models.LibraryEntry{}, err
+		}
+		_ = s.invalidate(ctx)
+		return entry, nil
 	}
 
 	return models.LibraryEntry{}, errors.New("library entry not found")
 }
 
 func (s *Service) GetProgressHistory(ctx context.Context, userID, mangaID string) ([]models.ProgressHistoryEntry, error) {
-	return s.store.GetProgressHistory(ctx, userID, mangaID)
+	if s.cache != nil {
+		var items []models.ProgressHistoryEntry
+		if ok, err := s.cache.GetJSON(ctx, s.historyKey(ctx, userID, mangaID), &items); err == nil && ok {
+			return items, nil
+		}
+	}
+
+	items, err := s.store.GetProgressHistory(ctx, userID, mangaID)
+	if err != nil {
+		return nil, err
+	}
+
+	if s.cache != nil {
+		_ = s.cache.SetJSON(ctx, s.historyKey(ctx, userID, mangaID), items, userHistoryCacheTTL)
+	}
+
+	return items, nil
 }
 
 func (s *Service) GetUserByID(ctx context.Context, userID string) (models.User, error) {
-	return s.store.GetUserByID(ctx, userID)
+	if s.cache != nil {
+		var item models.User
+		if ok, err := s.cache.GetJSON(ctx, s.userKey(ctx, userID), &item); err == nil && ok {
+			return item, nil
+		}
+	}
+
+	item, err := s.store.GetUserByID(ctx, userID)
+	if err != nil {
+		return models.User{}, err
+	}
+
+	if s.cache != nil {
+		_ = s.cache.SetJSON(ctx, s.userKey(ctx, userID), item, userCacheTTL)
+	}
+
+	return item, nil
 }
 
 func (s *Service) GetUserByUsername(ctx context.Context, username string) (models.User, error) {
-	return s.store.GetUserByUsername(ctx, username)
+	if s.cache != nil {
+		var item models.User
+		if ok, err := s.cache.GetJSON(ctx, s.usernameKey(username), &item); err == nil && ok {
+			return item, nil
+		}
+	}
+
+	item, err := s.store.GetUserByUsername(ctx, username)
+	if err != nil {
+		return models.User{}, err
+	}
+
+	if s.cache != nil {
+		_ = s.cache.SetJSON(ctx, s.usernameKey(username), item, userLookupCacheTTL)
+	}
+
+	return item, nil
 }
 
 func (s *Service) GetLibraryEntry(ctx context.Context, userID, mangaID string) (models.LibraryEntry, error) {
 	return s.store.GetLibraryEntry(ctx, userID, mangaID)
+}
+
+func (s *Service) invalidate(ctx context.Context) error {
+	if s.cache == nil {
+		return nil
+	}
+	_, err := s.cache.Incr(ctx, userCacheVersionKey)
+	return err
+}
+
+func (s *Service) version(ctx context.Context) int64 {
+	if s.cache == nil {
+		return 0
+	}
+	version, ok, err := s.cache.GetInt64(ctx, userCacheVersionKey)
+	if err != nil || !ok {
+		return 0
+	}
+	return version
+}
+
+func (s *Service) userKey(ctx context.Context, userID string) string {
+	return fmt.Sprintf("%s:detail:v%d:%s", userCacheNamespace, s.version(ctx), strings.TrimSpace(userID))
+}
+
+func (s *Service) usernameKey(username string) string {
+	return fmt.Sprintf("%s:username:%s", userCacheNamespace, strings.ToLower(strings.TrimSpace(username)))
+}
+
+func (s *Service) libraryKey(ctx context.Context, userID string) string {
+	return fmt.Sprintf("%s:library:v%d:%s", userCacheNamespace, s.version(ctx), strings.TrimSpace(userID))
+}
+
+func (s *Service) historyKey(ctx context.Context, userID, mangaID string) string {
+	return fmt.Sprintf("%s:history:v%d:%s:%s", userCacheNamespace, s.version(ctx), strings.TrimSpace(userID), strings.TrimSpace(mangaID))
 }
