@@ -53,4 +53,5 @@ type MangaQuery struct {
 	Query   string
 	Filters SearchFilters
 	Limit   int
+	Page    int
 }

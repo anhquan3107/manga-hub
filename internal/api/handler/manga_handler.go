@@ -31,6 +31,7 @@ import (
 // @Router /manga [get]
 func (h *Handler) ListManga(c *gin.Context) {
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "20"))
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	yearMin, _ := strconv.Atoi(c.DefaultQuery("year_min", "0"))
 	yearMax, _ := strconv.Atoi(c.DefaultQuery("year_max", "0"))
 	ratingMin, _ := strconv.ParseFloat(c.DefaultQuery("rating_min", "0"), 64)
@@ -59,6 +60,7 @@ func (h *Handler) ListManga(c *gin.Context) {
 			SortBy:    c.Query("sort"),
 		},
 		Limit: limit,
+		Page:  page,
 	})
 	if err != nil {
 		log.Printf("list manga error: %v", err)

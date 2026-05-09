@@ -4,7 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"mangahub/data/sources"
+	"mangahub/internal/data-collector/fetcher"
 	"os"
 	"strings"
 	"time"
@@ -32,7 +32,7 @@ func handleImport(args []string) {
 	ctx, cancel := context.WithTimeout(context.Background(), 90*time.Second)
 	defer cancel()
 
-	result, err := sources.Collect(ctx, sources.Options{
+	result, err := fetcher.Collect(ctx, fetcher.Options{
 		SeedFile: seedFile,
 		Source:   source,
 		Limit:    limit,

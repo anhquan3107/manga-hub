@@ -52,7 +52,13 @@ func (s *Store) ListManga(ctx context.Context, query models.MangaQuery) ([]model
 	if limit <= 0 || limit > 100 {
 		limit = 20
 	}
+	page := query.Page
+	if page <= 0 {
+		page = 1
+	}
+	offset := (page - 1) * limit
 	args = append(args, limit)
+	args = append(args, offset)
 	orderBy := buildMangaOrder(filters.SortBy)
 
 	rows, err := s.db.QueryContext(
@@ -62,7 +68,7 @@ func (s *Store) ListManga(ctx context.Context, query models.MangaQuery) ([]model
 			FROM %s
 			WHERE %s
 			ORDER BY %s
-			LIMIT ?`,
+			LIMIT ? OFFSET ?`,
 			from,
 			strings.Join(clauses, " AND "),
 			orderBy,
