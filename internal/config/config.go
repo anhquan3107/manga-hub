@@ -18,6 +18,9 @@ type Config struct {
 	SeedFile      string
 	JWTSecret     string
 	AllowedOrigin string
+	RedisAddr     string
+	RedisPassword string
+	RedisDB       int
 }
 
 func Load() Config {
@@ -32,7 +35,14 @@ func Load() Config {
 		SeedFile:      mustEnv("SEED_FILE"),
 		JWTSecret:     mustEnv("JWT_SECRET"),
 		AllowedOrigin: mustEnv("ALLOWED_ORIGIN"),
+		RedisAddr:     optionalEnv("REDIS_ADDR"),
+		RedisPassword: optionalEnv("REDIS_PASSWORD"),
+		RedisDB:       0,
 	}
+}
+
+func optionalEnv(key string) string {
+	return strings.TrimSpace(os.Getenv(key))
 }
 
 func mustEnv(key string) string {
