@@ -32,10 +32,3 @@ func trimTo(input string, limit int) string {
 	return input[:limit-3] + "..."
 }
 
-// titleCaseString converts a string to title case (first letter uppercase).
-func titleCaseString(s string) string {
-	if len(s) == 0 {
-		return s
-	}
-	return strings.ToUpper(s[:1]) + strings.ToLower(s[1:])
-}
