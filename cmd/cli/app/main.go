@@ -60,7 +60,7 @@ func printUsage() {
 	fmt.Println("Usage: mangahub <command> <subcommand> [flags]")
 	fmt.Println("\nCommands:")
 	fmt.Println("  auth       Manage authentication (register, login, logout, status)")
-	fmt.Println("  manga      Manage manga (search, info)")
+	fmt.Println("  manga      Manage manga (search, list, info, import)")
 	fmt.Println("  library    Manage your library (add, list, remove, update)")
 	fmt.Println("  progress   Manage your reading progress (update)")
 	fmt.Println("  review     Manage reviews (add, list, mine, helpful)")
