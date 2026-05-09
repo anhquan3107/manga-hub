@@ -2,9 +2,7 @@ package fetcher
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"os"
 	"sort"
 	"strings"
 
@@ -54,24 +52,6 @@ func Collect(ctx context.Context, opts Options) (Result, error) {
 		ExistingCount:  len(existing),
 		FinalCount:     len(merged),
 	}, nil
-}
-
-// loadSeed reads and parses the existing manga seed file from disk.
-func loadSeed(path string) ([]models.Manga, error) {
-	data, err := os.ReadFile(path)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return nil, nil
-		}
-		return nil, fmt.Errorf("read seed file: %w", err)
-	}
-
-	var mangaList []models.Manga
-	if err := json.Unmarshal(data, &mangaList); err != nil {
-		return nil, fmt.Errorf("parse seed file: %w", err)
-	}
-
-	return sanitizeMangaList(mangaList), nil
 }
 
 // fetchSeries determines the source and delegates to the appropriate fetcher.
