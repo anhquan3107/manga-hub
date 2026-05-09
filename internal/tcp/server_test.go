@@ -46,9 +46,6 @@ func TestTCPProgressFlowAndBroadcast(t *testing.T) {
 	defer connB.Close()
 	readerB := bufio.NewReader(connB)
 
-	_ = readServerMessage(t, connA, readerA) // connected
-	_ = readServerMessage(t, connB, readerB) // connected
-
 	writeJSONLine(t, connA, map[string]any{
 		"type":    "hello",
 		"user_id": "user-1",
@@ -112,7 +109,6 @@ func TestTCPReturnsErrorForInvalidProgress(t *testing.T) {
 	conn := dialWithRetry(t, addr)
 	defer conn.Close()
 	reader := bufio.NewReader(conn)
-	_ = readServerMessage(t, conn, reader) // connected
 
 	writeJSONLine(t, conn, map[string]any{
 		"type":     "progress",
@@ -143,7 +139,6 @@ func TestTCPPingReturnsPong(t *testing.T) {
 	conn := dialWithRetry(t, addr)
 	defer conn.Close()
 	reader := bufio.NewReader(conn)
-	_ = readServerMessage(t, conn, reader) // connected
 
 	writeJSONLine(t, conn, map[string]any{
 		"type":       "ping",
@@ -173,7 +168,6 @@ func TestTCPUnsupportedMessageTypeReturnsError(t *testing.T) {
 	conn := dialWithRetry(t, addr)
 	defer conn.Close()
 	reader := bufio.NewReader(conn)
-	_ = readServerMessage(t, conn, reader) // connected
 
 	writeJSONLine(t, conn, map[string]any{
 		"type":       "status",
@@ -208,7 +202,6 @@ func TestTCPProgressWithInlineUserIDWithoutHello(t *testing.T) {
 	conn := dialWithRetry(t, addr)
 	defer conn.Close()
 	reader := bufio.NewReader(conn)
-	_ = readServerMessage(t, conn, reader) // connected
 
 	writeJSONLine(t, conn, map[string]any{
 		"type":       "progress",
@@ -245,12 +238,12 @@ func TestPublishProgressBroadcastsToAllClients(t *testing.T) {
 	connA := dialWithRetry(t, addr)
 	defer connA.Close()
 	readerA := bufio.NewReader(connA)
-	_ = readServerMessage(t, connA, readerA) // connected
 
 	connB := dialWithRetry(t, addr)
 	defer connB.Close()
 	readerB := bufio.NewReader(connB)
-	_ = readServerMessage(t, connB, readerB) // connected
+
+	waitForTCPClientCount(t, server, 2)
 
 	server.PublishProgress(models.ProgressUpdate{
 		UserID:  "user-1",
@@ -388,4 +381,24 @@ func readUntilType(t *testing.T, conn net.Conn, reader *bufio.Reader, expectedTy
 	}
 	t.Fatalf("did not receive %s message", expectedType)
 	return testServerMessage{}
+}
+
+func waitForTCPClientCount(t *testing.T, server *Server, expected int) {
+	t.Helper()
+
+	deadline := time.Now().Add(2 * time.Second)
+	for time.Now().Before(deadline) {
+		server.mu.RLock()
+		count := len(server.clients)
+		server.mu.RUnlock()
+		if count >= expected {
+			return
+		}
+		time.Sleep(10 * time.Millisecond)
+	}
+
+	server.mu.RLock()
+	count := len(server.clients)
+	server.mu.RUnlock()
+	t.Fatalf("expected at least %d connected tcp clients, got %d", expected, count)
 }
