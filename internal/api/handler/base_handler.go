@@ -14,6 +14,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"mangahub/internal/auth"
 	"mangahub/internal/chat"
@@ -91,7 +92,7 @@ func (h *Handler) checkGRPC() gin.H {
 	defer cancel()
 
 	grpcAddr := strings.TrimPrefix(h.config.GRPCAddr, "tcp://")
-	conn, err := grpc.DialContext(ctx, grpcAddr, grpc.WithInsecure())
+	conn, err := grpc.NewClient(grpcAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		result["status"] = "error"
 		result["error"] = err.Error()
@@ -139,7 +140,11 @@ func (h *Handler) checkTCP() gin.H {
 	data, _ := json.Marshal(healthMsg)
 	data = append(data, '\n')
 
-	conn.SetWriteDeadline(time.Now().Add(2 * time.Second))
+	if err := conn.SetWriteDeadline(time.Now().Add(2 * time.Second)); err != nil {
+		result["status"] = "error"
+		result["error"] = err.Error()
+		return result
+	}
 	if _, err := conn.Write(data); err != nil {
 		result["status"] = "error"
 		result["error"] = err.Error()
@@ -198,7 +203,11 @@ func (h *Handler) checkUDP() gin.H {
 	healthMsg := map[string]string{"type": "health"}
 	data, _ := json.Marshal(healthMsg)
 
-	conn.SetWriteDeadline(time.Now().Add(2 * time.Second))
+	if err := conn.SetWriteDeadline(time.Now().Add(2 * time.Second)); err != nil {
+		result["status"] = "error"
+		result["error"] = err.Error()
+		return result
+	}
 	if _, err := conn.Write(data); err != nil {
 		result["status"] = "error"
 		result["error"] = err.Error()

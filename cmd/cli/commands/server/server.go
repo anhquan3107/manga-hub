@@ -67,7 +67,8 @@ func checkServerHealth() {
 	}
 
 	// Display the health status in a formatted table
-	fmt.Println("\n=== MangaHub Server Status ===\n")
+	fmt.Println("=== MangaHub Server Status ===")
+	fmt.Println()
 
 	// Overall status
 	status, ok := result["status"].(string)
@@ -101,6 +102,7 @@ func checkServerHealth() {
 
 	fmt.Println("\n=== Raw Response ===")
 	var buf bytes.Buffer
-	json.Indent(&buf, body, "", "  ")
-	fmt.Println(buf.String())
+	if err := json.Indent(&buf, body, "", "  "); err == nil {
+		fmt.Println(buf.String())
+	}
 }
