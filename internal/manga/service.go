@@ -94,5 +94,3 @@ func (s *Service) Delete(ctx context.Context, mangaID string) error {
 	_ = s.invalidate(ctx)
 	return nil
 }
-
-// cache helpers have been moved to cache.go

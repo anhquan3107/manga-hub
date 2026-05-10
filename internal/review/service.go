@@ -99,5 +99,3 @@ func ValidateReviewRating(rating int) error {
 	}
 	return nil
 }
-
-// cache helpers moved to cache.go

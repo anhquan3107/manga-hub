@@ -223,5 +223,3 @@ func (s *Service) GetUserByUsername(ctx context.Context, username string) (model
 func (s *Service) GetLibraryEntry(ctx context.Context, userID, mangaID string) (models.LibraryEntry, error) {
 	return s.store.GetLibraryEntry(ctx, userID, mangaID)
 }
-
-// cache helpers moved to cache.go
