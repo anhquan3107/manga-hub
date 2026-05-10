@@ -9,3 +9,5 @@ dist/
 build/
 docs/spec
 mangahub
+.sync_session
+.sync_session
