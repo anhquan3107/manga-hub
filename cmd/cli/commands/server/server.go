@@ -21,11 +21,11 @@ func HandleServer(args []string) {
 	sub := args[0]
 	switch sub {
 	case "start":
-		cmd := exec.Command("go", "run", "cmd/api-server/main.go")
+		cmd := exec.Command("go", "run", "./cmd/api-server")
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		cmd.Stdin = os.Stdin
-		cmd.Dir = ".."
+		cmd.Dir = "."
 		if err := cmd.Run(); err != nil {
 			fmt.Println("failed to start server:", err)
 		}
