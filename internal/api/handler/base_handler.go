@@ -91,8 +91,7 @@ func (h *Handler) checkGRPC() gin.H {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	grpcAddr := strings.TrimPrefix(h.config.GRPCAddr, "tcp://")
-	conn, err := grpc.NewClient(grpcAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(h.config.GRPCAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		result["status"] = "error"
 		result["error"] = err.Error()
@@ -127,7 +126,7 @@ func (h *Handler) checkTCP() gin.H {
 	_, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	conn, err := net.DialTimeout("tcp", h.config.TCPAddr, 2*time.Second)
+	conn, err := net.DialTimeout("tcp", h.config.TCPServerAddr, 2*time.Second)
 	if err != nil {
 		result["status"] = "error"
 		result["error"] = err.Error()

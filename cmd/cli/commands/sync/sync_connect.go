@@ -77,7 +77,7 @@ func syncConnect(userID string) error {
 			return fmt.Errorf("invalid response: %w", err)
 		}
 
-		if resp.Type == "connected" {
+		if resp.Type == "connected" { //greeting message discard but already removed the greeting
 			continue
 		}
 
