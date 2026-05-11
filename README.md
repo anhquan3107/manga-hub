@@ -140,7 +140,7 @@ The implemented system includes SQLite persistence, Swagger API documentation, R
 - `mangahub chat join`
 - `mangahub chat join --manga-id <manga_id>`
 - `mangahub chat send "<message>"`
-- `mangahub chat send "<message>" --manga-id <manga_id>`
+- `mangahub chat send --manga-id <manga_id> "<message>"`
 - `mangahub chat history`
 - `mangahub chat history --manga-id <manga_id> --limit <n>`
 
