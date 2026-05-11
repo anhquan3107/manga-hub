@@ -8,7 +8,7 @@ services:
 
   http:
     build: .
-    command: api-server
+    command: ["/usr/local/bin/api-server"]
     env_file:
       - .env
     depends_on:
@@ -21,7 +21,7 @@ services:
 
   tcp:
     build: .
-    command: tcp-server
+    command: ["/usr/local/bin/tcp-server"]
     env_file:
       - .env
     depends_on:
@@ -34,7 +34,7 @@ services:
 
   udp:
     build: .
-    command: udp-server
+    command: ["/usr/local/bin/udp-server"]
     env_file:
       - .env
     depends_on:
@@ -45,7 +45,7 @@ services:
 
   grpc:
     build: .
-    command: grpc-server
+    command: ["/usr/local/bin/grpc-server"]
     env_file:
       - .env
     depends_on:
